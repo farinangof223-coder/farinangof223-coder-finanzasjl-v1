@@ -1165,9 +1165,9 @@
     const MONTHLY_PAYMENT_PLATFORM_URL = 'https://www.paypal.com/ncp/payment/VDZ882VRYCCAU';
     const ANNUAL_PAYMENT_PLATFORM_URL = 'https://www.paypal.com/ncp/payment/COLOCA_AQUI_TU_LINK_ANUAL';
     const TRIAL_DAYS = 30;
-    const TRIAL_START_KEY = 'finanzas_jl_trial_start_v1';
-    const PREMIUM_PAID_KEY = 'finanzas_jl_premium_paid_v1';
-    const LAST_PAYMENT_REDIRECT_KEY = 'finanzas_jl_last_payment_redirect_v1';
+    const TRIAL_START_KEY = 'finanzas_jl_trial_start_v3';
+    const PREMIUM_PAID_KEY = 'finanzas_jl_premium_paid_v3';
+    const LAST_PAYMENT_REDIRECT_KEY = 'finanzas_jl_last_payment_redirect_v3';
 
     function initTrial() {
         if (!localStorage.getItem(TRIAL_START_KEY)) {
@@ -2990,7 +2990,9 @@
 
     initTrial();
     updatePremiumStatusUI();
-    redirectToPaymentIfExpired(false);
+    // No mostrar pantalla de pago automáticamente al abrir la app.
+    // Solo se pedirá pago cuando el usuario use una función Premium después de vencer los 30 días.
+    hidePaymentOverlay();
 
     applyLang();
     updateUI();
