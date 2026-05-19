@@ -764,6 +764,72 @@
             line-height: 1.7;
         }
 
+
+        .premium-plans {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 14px 0;
+        }
+
+        .premium-plan-card {
+            background: #ffffff;
+            border: 1px solid #e1e7ec;
+            border-radius: 14px;
+            padding: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .premium-plan-card.recommended {
+            border: 2px solid var(--warning);
+            position: relative;
+        }
+
+        .premium-plan-badge {
+            display: inline-block;
+            background: var(--warning);
+            color: #222;
+            border-radius: 999px;
+            padding: 4px 8px;
+            font-size: 0.68rem;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .premium-plan-title {
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .premium-plan-price {
+            font-weight: bold;
+            color: #222;
+            font-size: 0.86rem;
+            margin-bottom: 6px;
+        }
+
+        .premium-plan-note {
+            color: #666;
+            font-size: 0.75rem;
+            line-height: 1.35;
+            margin-bottom: 8px;
+            min-height: 42px;
+        }
+
+        .premium-plan-card .btn {
+            padding: 11px;
+            font-size: 0.82rem;
+            margin-top: 4px;
+        }
+
+        @media (max-width: 520px) {
+            .premium-plans {
+                grid-template-columns: 1fr;
+            }
+        }
+
         /* =========================
            IMPRESIÓN PROFESIONAL PDF
         ========================= */
@@ -823,18 +889,38 @@
     <div class="payment-card">
         <h2 id="payment-title">🔒 Plan Premium requerido</h2>
         <p id="payment-text">
-            Modo prueba de pago activo. Para seguir usando Excel profesional, recibos PDF y la función de copiar/pegar movimientos entre meses, activa el plan Premium.
+            Tu prueba gratis de 30 días finalizó. Para seguir usando Excel profesional, recibos PDF y la función de copiar/pegar movimientos entre meses, elige un plan Premium.
         </p>
         <div class="premium-feature-list">
             ✅ Descarga de Excel profesional<br>
             ✅ Descarga de recibos en PDF<br>
-            ✅ Copiar y pegar movimientos entre meses
+            ✅ Copiar y pegar movimientos entre meses<br>
+            💳 Cobro por suscripción mediante PayPal
         </div>
-        <button type="button" class="btn btn-premium" onclick="goToPaymentPlatform()">
-            💳 Ir a la plataforma de pago
-        </button>
+
+        <div class="premium-plans">
+            <div class="premium-plan-card">
+                <div class="premium-plan-title">Plan mensual</div>
+                <div class="premium-plan-price">Pago cada mes</div>
+                <div class="premium-plan-note">Ideal para probar Premium sin compromiso largo.</div>
+                <button type="button" class="btn btn-premium" onclick="goToPaymentPlatform('monthly')">
+                    💳 Activar mensual
+                </button>
+            </div>
+
+            <div class="premium-plan-card recommended">
+                <div class="premium-plan-badge">⭐ Recomendado</div>
+                <div class="premium-plan-title">Plan anual</div>
+                <div class="premium-plan-price">Pago una vez al año</div>
+                <div class="premium-plan-note">Mejor opción para ahorrar y mantener Premium todo el año.</div>
+                <button type="button" class="btn btn-premium" onclick="goToPaymentPlatform('annual')">
+                    💳 Activar anual
+                </button>
+            </div>
+        </div>
+
         <button type="button" class="btn" style="background:#777;" onclick="hidePaymentOverlay()">
-            Volver
+            Continuar con funciones gratis
         </button>
     </div>
 </div>
@@ -843,7 +929,7 @@
 <div id="scr-home" class="screen active">
     <div id="premium-status-card" class="premium-banner">
         <h3 id="premium-status-title">⭐ Prueba Premium activa</h3>
-        <p id="premium-status-text">Modo prueba: las funciones Premium llevan directamente a la pasarela de pago.</p>
+        <p id="premium-status-text">Tienes acceso gratis por 30 días a Excel profesional, recibos PDF y copiar/pegar movimientos entre meses. Después podrás elegir plan mensual o anual con PayPal.</p>
         <span id="premium-status-chip" class="premium-chip">Calculando días...</span>
     </div>
     <div id="install-card" class="card" style="display:none; text-align:center; border-left:5px solid var(--accent);">
@@ -902,7 +988,7 @@
         </div>
     </div>
 
-    <button id="txt-btn-excel" onclick="return forcePremiumPayment(event)" class="btn btn-excel premium-lock">
+    <button id="txt-btn-excel" onclick="exportarExcelFinal()" class="btn btn-excel premium-lock">
         📊 Descargar Reporte Profesional
     </button>
 </div>
@@ -1072,11 +1158,13 @@
     // =========================
     // PREMIUM / PRUEBA GRATIS 30 DÍAS
     // =========================
-    // Cambia esta URL por el enlace real de tu plataforma de pago
-    // Ejemplos: Wompi, Mercado Pago, PayU, Stripe, ePayco, etc.
-    const PAYMENT_PLATFORM_URL = 'https://payco.link/5c4dfa0e-420c-49a6-b205-e4a98ec48606';
-    const TRIAL_DAYS = 0;
-    const FORCE_PAYMENT_TEST_MODE = true;
+    // Enlaces de pago PayPal.
+    // IMPORTANTE: en PayPal deben estar configurados como suscripciones reales:
+    // - MONTHLY_PAYMENT_PLATFORM_URL = cobro mensual.
+    // - ANNUAL_PAYMENT_PLATFORM_URL = cobro anual.
+    const MONTHLY_PAYMENT_PLATFORM_URL = 'https://www.paypal.com/ncp/payment/VDZ882VRYCCAU';
+    const ANNUAL_PAYMENT_PLATFORM_URL = 'https://www.paypal.com/ncp/payment/COLOCA_AQUI_TU_LINK_ANUAL';
+    const TRIAL_DAYS = 30;
     const TRIAL_START_KEY = 'finanzas_jl_trial_start_v1';
     const PREMIUM_PAID_KEY = 'finanzas_jl_premium_paid_v1';
     const LAST_PAYMENT_REDIRECT_KEY = 'finanzas_jl_last_payment_redirect_v1';
@@ -1121,8 +1209,8 @@
         if (info.isPaid) {
             title.innerText = currentLang === 'es' ? '⭐ Plan Premium activo' : '⭐ Premium plan active';
             text.innerText = currentLang === 'es'
-                ? 'Tienes acceso completo a las funciones Premium de Finanzas JL.'
-                : 'You have full access to Finanzas JL Premium features.';
+                ? 'Tienes acceso completo a las funciones Premium de Finanzas JL. Plan Premium activo.'
+                : 'You have full access to Finanzas JL Premium features. Premium plan active.';
             chip.innerText = currentLang === 'es' ? 'Acceso completo' : 'Full access';
             card.style.borderLeftColor = 'var(--accent)';
             return;
@@ -1131,8 +1219,8 @@
         if (info.isTrialActive) {
             title.innerText = currentLang === 'es' ? '⭐ Prueba Premium activa' : '⭐ Premium trial active';
             text.innerText = currentLang === 'es'
-                ? 'Modo prueba: las funciones Premium llevan directamente a la pasarela de pago.'
-                : 'You have 30 days of free access to professional Excel, PDF receipts and issuer profile.';
+                ? 'Tienes acceso gratis por 30 días a Excel profesional, recibos PDF y copiar/pegar movimientos entre meses. Después podrás elegir plan mensual o anual con PayPal.'
+                : 'You have 30 days of free access to professional Excel, PDF receipts and copy/paste transactions between months. After that, you can choose a monthly or annual PayPal plan.';
             chip.innerText = currentLang === 'es'
                 ? `${info.daysLeft} día(s) restantes`
                 : `${info.daysLeft} day(s) left`;
@@ -1142,8 +1230,8 @@
 
         title.innerText = currentLang === 'es' ? '🔒 Prueba Premium vencida' : '🔒 Premium trial expired';
         text.innerText = currentLang === 'es'
-            ? 'Para seguir usando Excel, PDF de recibos y copiar/pegar movimientos entre meses, activa el plan Premium.'
-            : 'To keep using Excel, PDF receipts and copy/paste transactions between months, activate Premium.';
+            ? 'Para seguir usando Excel, PDF de recibos y copiar/pegar movimientos entre meses, elige un plan Premium mensual o anual con PayPal.'
+            : 'To keep using Excel, PDF receipts and copy/paste transactions between months, choose a monthly or annual Premium plan with PayPal.';
         chip.innerText = currentLang === 'es' ? 'Pago requerido' : 'Payment required';
         card.style.borderLeftColor = 'var(--danger)';
     }
@@ -1159,8 +1247,8 @@
 
         if (text) {
             text.innerText = currentLang === 'es'
-                ? 'Modo prueba de pago activo. Para seguir usando Excel profesional, recibos PDF y la función de copiar/pegar movimientos entre meses, activa el plan Premium.'
-                : 'Your 30-day free trial has ended. To keep using professional Excel, PDF receipts and issuer profile, activate Premium.';
+                ? 'Tu prueba gratis de 30 días finalizó. Para seguir usando Excel profesional, recibos PDF y la función de copiar/pegar movimientos entre meses, elige un plan Premium mensual o anual con PayPal.'
+                : 'Your 30-day free trial has ended. To keep using professional Excel, PDF receipts and copy/paste transactions between months, choose a monthly or annual Premium plan with PayPal.';
         }
 
         if (overlay) {
@@ -1175,19 +1263,19 @@
         }
     }
 
-    function goToPaymentPlatform() {
-        // Redirección directa a ePayco. assign funciona mejor que href en algunos navegadores móviles.
-        window.location.assign(PAYMENT_PLATFORM_URL);
-    }
+    function goToPaymentPlatform(plan = 'monthly') {
+        const isAnnual = plan === 'annual';
+        const targetUrl = isAnnual ? ANNUAL_PAYMENT_PLATFORM_URL : MONTHLY_PAYMENT_PLATFORM_URL;
 
-    function forcePremiumPayment(event) {
-        // Modo de prueba: cualquier botón Premium debe ir directo al pago.
-        if (event) {
-            event.preventDefault();
-            event.stopPropagation();
+        if (isAnnual && targetUrl.includes('COLOCA_AQUI_TU_LINK_ANUAL')) {
+            alert(currentLang === 'es'
+                ? 'Falta configurar el enlace de PayPal para la suscripción anual. Crea el link anual en PayPal y reemplázalo en ANNUAL_PAYMENT_PLATFORM_URL.'
+                : 'The PayPal annual subscription link is missing. Create the annual link in PayPal and replace it in ANNUAL_PAYMENT_PLATFORM_URL.');
+            return;
         }
-        window.location.assign(PAYMENT_PLATFORM_URL);
-        return false;
+
+        localStorage.setItem(LAST_PAYMENT_REDIRECT_KEY, plan);
+        window.location.href = targetUrl;
     }
 
     function redirectToPaymentIfExpired(force = false) {
@@ -1207,20 +1295,13 @@
     }
 
     function requirePremium(featureName) {
-        // MODO PRUEBA DE PAGO DIRECTO:
-        // Cualquier función Premium lleva inmediatamente a ePayco.
-        if (FORCE_PAYMENT_TEST_MODE) {
-            window.location.assign(PAYMENT_PLATFORM_URL);
-            return false;
-        }
-
         const info = getTrialInfo();
 
         if (info.hasPremiumAccess) {
             return true;
         }
 
-        window.location.assign(PAYMENT_PLATFORM_URL);
+        showPaymentOverlay();
         return false;
     }
 
@@ -2181,7 +2262,7 @@
                                     >
                                 </div>
 
-                                <button onclick="return forcePremiumPayment(event)" class="btn btn-primary month-copy-btn">
+                                <button onclick="copyMonthRecords('${monthKey}')" class="btn btn-primary month-copy-btn">
                                     ⭐ ${t.copyMonth}
                                 </button>
                             </div>
@@ -2217,7 +2298,7 @@
                             <small style="color:#666;">${d.desc || ''}</small><br>
                             <button class="btn-edit" onclick="editItem(${originalIndex})">✏️</button>
                             <button class="btn-delete" onclick="deleteItem(${originalIndex})">🗑️</button>
-                            <button class="btn-edit" onclick="return forcePremiumPayment(event)" title="${t.receiptView}">📄</button>
+                            <button class="btn-edit" onclick="descargarReciboPDF(${originalIndex})" title="${t.receiptView}">📄</button>
                         </div>
                     </div>
                 `;
