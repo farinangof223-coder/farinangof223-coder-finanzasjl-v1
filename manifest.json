@@ -1,6 +1,6 @@
 {
-  "name": "FINANZAS JL",
-  "short_name": "FINANZAS JL",
+  "name": "Finanzas JL",
+  "short_name": "Finanzas JL",
   "description": "Control de ingresos, gastos y recibos de caja para persona natural",
   "start_url": "./index.html",
   "display": "standalone",
