@@ -1,6 +1,6 @@
 {
-  "name": "Mi Finanzas - Persona Natural",
-  "short_name": "Mi Finanzas",
+  "name": "FINANZAS JL",
+  "short_name": "FINANZAS JL",
   "description": "Control de ingresos, gastos y recibos de caja para persona natural",
   "start_url": "./index.html",
   "display": "standalone",
