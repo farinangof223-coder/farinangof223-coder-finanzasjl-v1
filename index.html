@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#1F4E79">
-    <title>Finanzas JL</title>
+    <title>FINANZAS JL</title>
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="icons/icon-192.png">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -678,6 +678,120 @@
 
 
 
+
+        /* =========================
+           FIREBASE AUTH / ADMIN
+        ========================= */
+
+        .auth-card {
+            border-left: 5px solid var(--primary);
+        }
+
+        .auth-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .auth-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        .btn-secondary {
+            background: #475569;
+        }
+
+        .btn-success {
+            background: var(--accent);
+        }
+
+        .btn-warning {
+            background: #B7950B;
+        }
+
+        .btn-light {
+            background: #eef2f7;
+            color: #334155;
+        }
+
+        .auth-status {
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 12px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            color: #334155;
+            font-size: 0.86rem;
+            line-height: 1.4;
+        }
+
+        .activation-box {
+            display: none;
+            margin-top: 12px;
+            padding: 12px;
+            border-radius: 14px;
+            background: #fffdf2;
+            border: 1px solid #fde68a;
+        }
+
+        .activation-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .admin-panel {
+            display: none;
+            margin-top: 12px;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 12px;
+        }
+
+        .admin-user-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 12px;
+            margin-top: 10px;
+            font-size: 0.86rem;
+        }
+
+        .admin-user-card b {
+            color: var(--primary);
+        }
+
+        .admin-user-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .payment-confirm-btn {
+            border: 1px solid #dbeafe;
+            border-radius: 999px;
+            padding: 9px 12px;
+            color: var(--primary);
+            background: #eff6ff;
+            font-weight: 900;
+            font-size: 0.74rem;
+            line-height: 1;
+            cursor: pointer;
+            flex: 1;
+            min-width: 110px;
+        }
+
+        @media (max-width: 520px) {
+            .auth-actions,
+            .activation-actions,
+            .admin-user-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+
         /* =========================
            PREMIUM / PRUEBA GRATIS
         ========================= */
@@ -1041,6 +1155,9 @@
                         <button type="button" class="payment-pill-btn payment-paypal" onclick="goToPaymentPlatform('paypal_monthly')">
                             PayPal mensual
                         </button>
+                        <button type="button" class="payment-confirm-btn" onclick="solicitarActivacionPremium('mensual')">
+                            Ya pagué
+                        </button>
                     </div>
                 </div>
 
@@ -1051,6 +1168,9 @@
                     <div class="premium-buttons-row">
                         <button type="button" class="payment-pill-btn payment-epayco" onclick="goToPaymentPlatform('epayco_monthly')">
                             ePayco mensual
+                        </button>
+                        <button type="button" class="payment-confirm-btn" onclick="solicitarActivacionPremium('mensual')">
+                            Ya pagué
                         </button>
                     </div>
                 </div>
@@ -1067,6 +1187,9 @@
                         <button type="button" class="payment-pill-btn payment-paypal" onclick="goToPaymentPlatform('paypal_annual')">
                             PayPal anual
                         </button>
+                        <button type="button" class="payment-confirm-btn" onclick="solicitarActivacionPremium('anual')">
+                            Ya pagué
+                        </button>
                     </div>
                 </div>
 
@@ -1079,6 +1202,9 @@
                         <button type="button" class="payment-pill-btn payment-epayco" onclick="goToPaymentPlatform('epayco_annual')">
                             ePayco anual
                         </button>
+                        <button type="button" class="payment-confirm-btn" onclick="solicitarActivacionPremium('anual')">
+                            Ya pagué
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1088,7 +1214,7 @@
             </button>
 
             <div class="payment-safe-note">
-                Serás enviado a la plataforma de pago seleccionada. Después del pago, podrás activar Premium en la app.
+                Serás enviado a la plataforma de pago seleccionada. Después del pago, vuelve a la app y toca “Ya pagué” para que tu cuenta quede pendiente de activación.
             </div>
         </div>
     </div>
@@ -1224,6 +1350,67 @@
 
 <!-- VISTA PERFIL / EMISOR -->
 <div id="scr-profile" class="screen">
+
+    <div class="card auth-card">
+        <h3 style="color:var(--primary); margin-bottom:8px;">🔐 Acceso de usuario</h3>
+        <p style="font-size:0.85rem; color:#666; line-height:1.4; margin-bottom:12px;">
+            Inicia sesión para que tu plan Premium pueda activarse manualmente desde el panel administrador.
+        </p>
+
+        <div id="auth-form-area">
+            <div class="auth-grid">
+                <div class="form-group">
+                    <label>Correo electrónico</label>
+                    <input type="email" id="auth-email" placeholder="correo@ejemplo.com" autocomplete="email">
+                </div>
+
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="auth-password" placeholder="Mínimo 6 caracteres" autocomplete="current-password">
+                </div>
+            </div>
+
+            <div class="auth-actions">
+                <button type="button" class="btn btn-primary" onclick="registrarUsuarioFinanzas()">Crear cuenta</button>
+                <button type="button" class="btn btn-secondary" onclick="iniciarSesionFinanzas()">Iniciar sesión</button>
+            </div>
+        </div>
+
+        <div id="auth-status" class="auth-status">
+            No has iniciado sesión.
+        </div>
+
+        <button type="button" id="auth-logout-btn" class="btn btn-light" style="display:none;" onclick="cerrarSesionFinanzas()">
+            Cerrar sesión
+        </button>
+
+        <div id="activation-box" class="activation-box">
+            <h4 style="color:#111827; margin-bottom:6px;">⚡ Activación Premium</h4>
+            <p style="font-size:0.82rem; color:#555; line-height:1.4; margin-bottom:10px;">
+                Después de pagar, toca el plan que compraste. Tu solicitud quedará pendiente y el administrador la activará con un clic.
+            </p>
+            <div class="activation-actions">
+                <button type="button" class="btn btn-primary" onclick="solicitarActivacionPremium('mensual')">
+                    Ya pagué mensual
+                </button>
+                <button type="button" class="btn btn-success" onclick="solicitarActivacionPremium('anual')">
+                    Ya pagué anual
+                </button>
+            </div>
+        </div>
+
+        <div id="admin-panel" class="admin-panel">
+            <h3 style="color:var(--primary); margin-bottom:8px;">🛠 Panel administrador</h3>
+            <p style="font-size:0.82rem; color:#666; line-height:1.4;">
+                Aquí puedes activar Premium manualmente después de verificar el pago en PayPal o ePayco.
+            </p>
+            <button type="button" class="btn btn-primary" onclick="cargarUsuariosPendientes()">
+                Ver usuarios pendientes
+            </button>
+            <div id="admin-users-list"></div>
+        </div>
+    </div>
+
     <div class="card">
         <h3 id="txt-profile-title" style="color:var(--primary); margin-bottom:12px;">👤 Datos del emisor</h3>
 
@@ -1233,7 +1420,7 @@
 
         <div class="form-group">
             <label id="lbl-profile-name">Nombre / Razón social</label>
-            <input type="text" id="profile-name" placeholder="Ej: Tu Nombre o Empresa">
+            <input type="text" id="profile-name" placeholder="Ej: Juan Riascos">
         </div>
 
         <div class="form-group">
@@ -1309,6 +1496,395 @@
     </button>
 </nav>
 
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
+
+    import {
+        getAuth,
+        createUserWithEmailAndPassword,
+        signInWithEmailAndPassword,
+        signOut,
+        onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+    import {
+        getFirestore,
+        doc,
+        setDoc,
+        getDoc,
+        updateDoc,
+        serverTimestamp,
+        collection,
+        query,
+        where,
+        getDocs
+    } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBiBCAUpFcD9LfyRXwVleeBieVzCLgNpmQ",
+        authDomain: "finanzas-jl-d379d.firebaseapp.com",
+        projectId: "finanzas-jl-d379d",
+        storageBucket: "finanzas-jl-d379d.firebasestorage.app",
+        messagingSenderId: "868129664622",
+        appId: "1:868129664622:web:379f73e12f066c9cd5c07f",
+        measurementId: "G-JSQ7P75MPK"
+    };
+
+    const firebaseApp = initializeApp(firebaseConfig);
+    getAnalytics(firebaseApp);
+
+    const firebaseAuth = getAuth(firebaseApp);
+    const firestore = getFirestore(firebaseApp);
+    const ADMIN_EMAIL = "mifinanzaspro@gmail.com";
+
+    window.finanzasFirebaseState = {
+        authReady: false,
+        user: null,
+        userData: null,
+        premiumActivo: false,
+        estadoPago: "sin_sesion",
+        isAdmin: false
+    };
+
+    function formatFirebaseDate(value) {
+        if (!value) return "";
+        if (value.toDate) return value.toDate().toLocaleDateString("es-CO");
+        const date = new Date(value);
+        return isNaN(date.getTime()) ? "" : date.toLocaleDateString("es-CO");
+    }
+
+    function isPremiumValid(data) {
+        if (!data || data.premiumActivo !== true) return false;
+
+        if (!data.fechaVencimiento) return true;
+
+        let vencimiento;
+        if (data.fechaVencimiento.toDate) {
+            vencimiento = data.fechaVencimiento.toDate();
+        } else {
+            vencimiento = new Date(data.fechaVencimiento);
+        }
+
+        if (isNaN(vencimiento.getTime())) return true;
+
+        const endOfDay = new Date(vencimiento);
+        endOfDay.setHours(23, 59, 59, 999);
+
+        return endOfDay.getTime() >= Date.now();
+    }
+
+    function updateAuthUi() {
+        const state = window.finanzasFirebaseState;
+        const authForm = document.getElementById("auth-form-area");
+        const status = document.getElementById("auth-status");
+        const logoutBtn = document.getElementById("auth-logout-btn");
+        const activationBox = document.getElementById("activation-box");
+        const adminPanel = document.getElementById("admin-panel");
+
+        if (!status) return;
+
+        if (!state.user) {
+            if (authForm) authForm.style.display = "block";
+            if (logoutBtn) logoutBtn.style.display = "none";
+            if (activationBox) activationBox.style.display = "none";
+            if (adminPanel) adminPanel.style.display = "none";
+
+            status.innerHTML = "No has iniciado sesión.";
+            return;
+        }
+
+        const data = state.userData || {};
+        const vencimiento = formatFirebaseDate(data.fechaVencimiento);
+        const plan = data.planActivo || data.planSolicitado || "gratis";
+
+        if (authForm) authForm.style.display = "none";
+        if (logoutBtn) logoutBtn.style.display = "block";
+        if (activationBox) activationBox.style.display = state.isAdmin ? "none" : "block";
+        if (adminPanel) adminPanel.style.display = state.isAdmin ? "block" : "none";
+
+        let estadoTexto = "Plan gratis";
+        if (state.premiumActivo) {
+            estadoTexto = `⭐ Premium activo${vencimiento ? " hasta " + vencimiento : ""}`;
+        } else if (data.solicitudActivacion === true) {
+            estadoTexto = `⏳ Solicitud pendiente de activación (${data.planSolicitado || "plan"})`;
+        }
+
+        status.innerHTML = `
+            <b>Sesión:</b> ${state.user.email}<br>
+            <b>Estado:</b> ${estadoTexto}<br>
+            <b>Plan:</b> ${plan}
+            ${state.isAdmin ? "<br><b>Modo administrador activo</b>" : ""}
+        `;
+    }
+
+    async function ensureUserDocument(user) {
+        const userRef = doc(firestore, "usuarios", user.uid);
+        const snap = await getDoc(userRef);
+
+        if (!snap.exists()) {
+            await setDoc(userRef, {
+                email: user.email,
+                premiumActivo: false,
+                estadoPago: "gratis",
+                planActivo: "gratis",
+                trialUsado: false,
+                solicitudActivacion: false,
+                planSolicitado: "",
+                fechaRegistro: serverTimestamp(),
+                fechaActivacion: null,
+                fechaVencimiento: null
+            });
+            const createdSnap = await getDoc(userRef);
+            return createdSnap.data();
+        }
+
+        return snap.data();
+    }
+
+    async function refreshCurrentUserData() {
+        const user = firebaseAuth.currentUser;
+        if (!user) return;
+
+        const data = await ensureUserDocument(user);
+        const premium = isPremiumValid(data);
+
+        window.finanzasFirebaseState = {
+            authReady: true,
+            user,
+            userData: data,
+            premiumActivo: premium,
+            estadoPago: data.estadoPago || "gratis",
+            isAdmin: user.email === ADMIN_EMAIL
+        };
+
+        if (premium) {
+            localStorage.setItem("finanzas_jl_premium_paid_v3", "true");
+        } else {
+            localStorage.removeItem("finanzas_jl_premium_paid_v3");
+        }
+
+        updateAuthUi();
+
+        if (typeof window.updatePremiumStatusUI === "function") {
+            window.updatePremiumStatusUI();
+        }
+    }
+
+    window.registrarUsuarioFinanzas = async function() {
+        const email = document.getElementById("auth-email")?.value.trim();
+        const password = document.getElementById("auth-password")?.value.trim();
+
+        if (!email || !password) {
+            alert("Escribe correo y contraseña.");
+            return;
+        }
+
+        if (password.length < 6) {
+            alert("La contraseña debe tener mínimo 6 caracteres.");
+            return;
+        }
+
+        try {
+            const cred = await createUserWithEmailAndPassword(firebaseAuth, email, password);
+            await ensureUserDocument(cred.user);
+            alert("Cuenta creada correctamente.");
+        } catch (error) {
+            alert("Error al crear cuenta: " + error.message);
+        }
+    };
+
+    window.iniciarSesionFinanzas = async function() {
+        const email = document.getElementById("auth-email")?.value.trim();
+        const password = document.getElementById("auth-password")?.value.trim();
+
+        if (!email || !password) {
+            alert("Escribe correo y contraseña.");
+            return;
+        }
+
+        try {
+            await signInWithEmailAndPassword(firebaseAuth, email, password);
+            alert("Sesión iniciada.");
+        } catch (error) {
+            alert("Error al iniciar sesión: " + error.message);
+        }
+    };
+
+    window.cerrarSesionFinanzas = async function() {
+        await signOut(firebaseAuth);
+        alert("Sesión cerrada.");
+    };
+
+    window.solicitarActivacionPremium = async function(plan = "mensual") {
+        const user = firebaseAuth.currentUser;
+
+        if (!user) {
+            alert("Primero debes crear cuenta o iniciar sesión en la sección Perfil.");
+            const profileBtn = Array.from(document.querySelectorAll(".nav-item")).find(btn => btn.innerText.includes("Perfil"));
+            if (typeof window.nav === "function") {
+                window.nav("scr-profile", profileBtn || null);
+            }
+            return;
+        }
+
+        try {
+            const userRef = doc(firestore, "usuarios", user.uid);
+            await updateDoc(userRef, {
+                solicitudActivacion: true,
+                planSolicitado: plan,
+                fechaSolicitudActivacion: serverTimestamp()
+            });
+
+            await refreshCurrentUserData();
+            alert("Solicitud registrada. El administrador activará tu Premium después de verificar el pago.");
+        } catch (error) {
+            alert("No se pudo registrar la solicitud: " + error.message);
+        }
+    };
+
+    window.cargarUsuariosPendientes = async function() {
+        const state = window.finanzasFirebaseState;
+
+        if (!state.user || !state.isAdmin) {
+            alert("No tienes permiso de administrador.");
+            return;
+        }
+
+        const list = document.getElementById("admin-users-list");
+        if (list) list.innerHTML = "<p style='margin-top:10px; color:#666;'>Cargando usuarios...</p>";
+
+        try {
+            const q = query(
+                collection(firestore, "usuarios"),
+                where("solicitudActivacion", "==", true)
+            );
+
+            const snap = await getDocs(q);
+
+            if (!list) return;
+
+            if (snap.empty) {
+                list.innerHTML = "<p style='margin-top:10px; color:#666;'>No hay usuarios pendientes.</p>";
+                return;
+            }
+
+            let html = "";
+            snap.forEach(docSnap => {
+                const data = docSnap.data();
+                const uid = docSnap.id;
+                const plan = data.planSolicitado || "mensual";
+
+                html += `
+                    <div class="admin-user-card">
+                        <b>${data.email || "Sin correo"}</b><br>
+                        UID: <small>${uid}</small><br>
+                        Plan solicitado: <b>${plan}</b><br>
+                        Estado pago: ${data.estadoPago || "gratis"}<br>
+                        <div class="admin-user-actions">
+                            <button type="button" class="btn btn-success" onclick="activarUsuarioPremium('${uid}', '${plan}')">
+                                Activar ${plan}
+                            </button>
+                            <button type="button" class="btn btn-warning" onclick="desactivarSolicitudPremium('${uid}')">
+                                Rechazar / limpiar
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            list.innerHTML = html;
+        } catch (error) {
+            if (list) list.innerHTML = "<p style='margin-top:10px; color:#C00000;'>Error cargando usuarios.</p>";
+            alert("Error cargando usuarios: " + error.message);
+        }
+    };
+
+    window.activarUsuarioPremium = async function(uid, plan = "mensual") {
+        const state = window.finanzasFirebaseState;
+
+        if (!state.user || !state.isAdmin) {
+            alert("No tienes permiso de administrador.");
+            return;
+        }
+
+        const hoy = new Date();
+        const vencimiento = new Date(hoy);
+
+        if (plan === "anual") {
+            vencimiento.setFullYear(vencimiento.getFullYear() + 1);
+        } else {
+            vencimiento.setMonth(vencimiento.getMonth() + 1);
+        }
+
+        try {
+            await updateDoc(doc(firestore, "usuarios", uid), {
+                premiumActivo: true,
+                estadoPago: "activado",
+                planActivo: plan,
+                solicitudActivacion: false,
+                fechaActivacion: hoy.toISOString(),
+                fechaVencimiento: vencimiento.toISOString()
+            });
+
+            alert("Usuario activado correctamente.");
+            await window.cargarUsuariosPendientes();
+        } catch (error) {
+            alert("No se pudo activar: " + error.message);
+        }
+    };
+
+    window.desactivarSolicitudPremium = async function(uid) {
+        const state = window.finanzasFirebaseState;
+
+        if (!state.user || !state.isAdmin) {
+            alert("No tienes permiso de administrador.");
+            return;
+        }
+
+        try {
+            await updateDoc(doc(firestore, "usuarios", uid), {
+                solicitudActivacion: false,
+                estadoPago: "gratis",
+                planSolicitado: ""
+            });
+
+            alert("Solicitud actualizada.");
+            await window.cargarUsuariosPendientes();
+        } catch (error) {
+            alert("No se pudo actualizar: " + error.message);
+        }
+    };
+
+    onAuthStateChanged(firebaseAuth, async (user) => {
+        if (!user) {
+            window.finanzasFirebaseState = {
+                authReady: true,
+                user: null,
+                userData: null,
+                premiumActivo: false,
+                estadoPago: "sin_sesion",
+                isAdmin: false
+            };
+
+            localStorage.removeItem("finanzas_jl_premium_paid_v3");
+            updateAuthUi();
+
+            if (typeof window.updatePremiumStatusUI === "function") {
+                window.updatePremiumStatusUI();
+            }
+
+            return;
+        }
+
+        await refreshCurrentUserData();
+    });
+
+    window.addEventListener("load", updateAuthUi);
+</script>
+
+
 <script>
     let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
     let currentLang = localStorage.getItem('app_lang') || 'es';
@@ -1352,7 +1928,8 @@
         const trialEnd = new Date(trialStart.getTime() + TRIAL_DAYS * 24 * 60 * 60 * 1000);
         const remainingMs = trialEnd.getTime() - now.getTime();
         const daysLeft = Math.max(0, Math.ceil(remainingMs / (24 * 60 * 60 * 1000)));
-        const isPaid = localStorage.getItem(PREMIUM_PAID_KEY) === 'true';
+        const firebaseState = window.finanzasFirebaseState || {};
+        const isPaid = firebaseState.premiumActivo === true;
         const isTrialActive = remainingMs > 0;
 
         return {
@@ -1361,7 +1938,8 @@
             daysLeft,
             isPaid,
             isTrialActive,
-            hasPremiumAccess: isPaid || isTrialActive
+            hasPremiumAccess: isPaid || isTrialActive,
+            firebaseState
         };
     }
 
@@ -1376,11 +1954,18 @@
             return;
         }
 
-        // La burbuja solo aparece cuando el usuario ya activó el plan Premium.
-        // Durante la prueba gratis no se muestra el mensaje grande de “Prueba Premium activa”.
+        // La burbuja aparece si Premium está activo o si hay solicitud pendiente en Firebase.
         if (info.isPaid) {
             card.style.display = 'flex';
             title.innerText = currentLang === 'es' ? '⭐ Premium activo' : '⭐ Premium active';
+            text.innerText = '';
+            chip.innerText = '';
+            return;
+        }
+
+        if (info.firebaseState && info.firebaseState.userData && info.firebaseState.userData.solicitudActivacion === true) {
+            card.style.display = 'flex';
+            title.innerText = currentLang === 'es' ? '⏳ Activación pendiente' : '⏳ Activation pending';
             text.innerText = '';
             chip.innerText = '';
             return;
@@ -1438,7 +2023,7 @@
         }
 
         localStorage.setItem(LAST_PAYMENT_REDIRECT_KEY, plan);
-        window.location.href = targetUrl;
+        window.open(targetUrl, '_blank');
     }
 
     function redirectToPaymentIfExpired(force = false) {
@@ -1471,9 +2056,9 @@
     // Usar esta función después de confirmar manualmente un pago.
     // En una versión con backend, esta marca debe venir desde la pasarela de pago.
     function activatePremiumManually() {
-        localStorage.setItem(PREMIUM_PAID_KEY, 'true');
-        updatePremiumStatusUI();
-        alert(currentLang === 'es' ? 'Plan Premium activado.' : 'Premium plan activated.');
+        alert(currentLang === 'es'
+            ? 'La activación manual ahora se realiza desde Firebase en Perfil > Panel administrador.'
+            : 'Manual activation is now done from Firebase in Profile > Admin panel.');
     }
 
     function loadProfileForm() {
