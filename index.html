@@ -1546,7 +1546,6 @@
         premiumActivo: false,
         trialActivo: false,
         hasPremiumAccess: false,
-        diasTrial: 0,
         estadoPago: "sin_sesion",
         isAdmin: false
     };
@@ -1583,6 +1582,8 @@
         return error && error.message ? error.message : "Error desconocido.";
     }
 
+    const FIREBASE_TRIAL_DAYS = 30;
+
     function formatFirebaseDate(value) {
         if (!value) return "";
         if (value.toDate) return value.toDate().toLocaleDateString("es-CO");
@@ -1590,35 +1591,30 @@
         return isNaN(date.getTime()) ? "" : date.toLocaleDateString("es-CO");
     }
 
-    function toJsDate(value) {
+    function getDateFromFirebaseValue(value) {
         if (!value) return null;
         if (value.toDate) return value.toDate();
         const date = new Date(value);
         return isNaN(date.getTime()) ? null : date;
     }
 
-    function getTrialStatus(data) {
-        if (!data) {
-            return { trialActivo: false, diasTrial: 0, fechaVencimientoTrial: null };
-        }
+    function addDaysToDate(date, days) {
+        const result = new Date(date);
+        result.setDate(result.getDate() + days);
+        return result;
+    }
 
-        const trialEnd = toJsDate(data.fechaVencimientoTrial);
+    function isTrialValid(data) {
+        if (!data) return false;
+        if (data.estadoPago !== "trial" && data.planActivo !== "trial") return false;
 
-        if (!trialEnd) {
-            return { trialActivo: false, diasTrial: 0, fechaVencimientoTrial: null };
-        }
+        const vencimientoTrial = getDateFromFirebaseValue(data.fechaVencimientoTrial);
+        if (!vencimientoTrial) return false;
 
-        const endOfDay = new Date(trialEnd);
+        const endOfDay = new Date(vencimientoTrial);
         endOfDay.setHours(23, 59, 59, 999);
 
-        const remainingMs = endOfDay.getTime() - Date.now();
-        const diasTrial = Math.max(0, Math.ceil(remainingMs / (24 * 60 * 60 * 1000)));
-
-        return {
-            trialActivo: data.estadoPago === "trial" && remainingMs >= 0,
-            diasTrial,
-            fechaVencimientoTrial: trialEnd
-        };
+        return endOfDay.getTime() >= Date.now();
     }
 
     function isPremiumValid(data) {
@@ -1626,9 +1622,14 @@
 
         if (!data.fechaVencimiento) return true;
 
-        const vencimiento = toJsDate(data.fechaVencimiento);
+        let vencimiento;
+        if (data.fechaVencimiento.toDate) {
+            vencimiento = data.fechaVencimiento.toDate();
+        } else {
+            vencimiento = new Date(data.fechaVencimiento);
+        }
 
-        if (!vencimiento) return true;
+        if (isNaN(vencimiento.getTime())) return true;
 
         const endOfDay = new Date(vencimiento);
         endOfDay.setHours(23, 59, 59, 999);
@@ -1652,29 +1653,29 @@
             if (activationBox) activationBox.style.display = "none";
             if (adminPanel) adminPanel.style.display = "none";
 
-            status.innerHTML = "No has iniciado sesión. Crea una cuenta para iniciar la prueba gratis de 30 días.";
+            status.innerHTML = "No has iniciado sesión.";
             return;
         }
 
         const data = state.userData || {};
         const vencimiento = formatFirebaseDate(data.fechaVencimiento);
-        const trialHasta = formatFirebaseDate(data.fechaVencimientoTrial);
-        const plan = data.planActivo || data.planSolicitado || "trial";
+        const vencimientoTrial = formatFirebaseDate(data.fechaVencimientoTrial);
+        const plan = data.planActivo || data.planSolicitado || "gratis";
 
         if (authForm) authForm.style.display = "none";
         if (logoutBtn) logoutBtn.style.display = "block";
         if (activationBox) activationBox.style.display = state.isAdmin ? "none" : "block";
         if (adminPanel) adminPanel.style.display = state.isAdmin ? "block" : "none";
 
-        let estadoTexto = "Plan gratis";
+        let estadoTexto = "Plan gratis básico";
         if (state.premiumActivo) {
             estadoTexto = `⭐ Premium activo${vencimiento ? " hasta " + vencimiento : ""}`;
+        } else if (state.trialActivo) {
+            estadoTexto = `🎁 Prueba Premium activa${vencimientoTrial ? " hasta " + vencimientoTrial : ""}`;
         } else if (data.solicitudActivacion === true) {
             estadoTexto = `⏳ Solicitud pendiente de activación (${data.planSolicitado || "plan"})`;
-        } else if (state.trialActivo) {
-            estadoTexto = `🎁 Prueba gratis activa: ${state.diasTrial} día(s) restante(s)${trialHasta ? " · vence " + trialHasta : ""}`;
-        } else if (data.estadoPago === "trial") {
-            estadoTexto = "🔒 Prueba gratis finalizada";
+        } else if (data.trialUsado === true) {
+            estadoTexto = "🔒 Prueba gratis finalizada. Usa las funciones básicas o solicita Premium.";
         }
 
         status.innerHTML = `
@@ -1693,11 +1694,8 @@
             return snap.data();
         }
 
-        // Al crear la cuenta, la prueba gratis queda guardada en Firebase.
-        // Así no se reinicia por borrar caché, reinstalar la app o cambiar de celular.
-        const trialEnd = new Date();
-        trialEnd.setDate(trialEnd.getDate() + 30);
-
+        // Evita que el botón Crear cuenta y onAuthStateChanged intenten crear
+        // el mismo documento al mismo tiempo.
         if (!userDocCreationPromises[user.uid]) {
             userDocCreationPromises[user.uid] = setDoc(userRef, {
                 email: user.email,
@@ -1708,9 +1706,9 @@
                 solicitudActivacion: false,
                 planSolicitado: "",
                 fechaRegistro: serverTimestamp(),
-                fechaVencimientoTrial: trialEnd.toISOString(),
                 fechaActivacion: null,
-                fechaVencimiento: null
+                fechaVencimiento: null,
+                fechaVencimientoTrial: addDaysToDate(new Date(), FIREBASE_TRIAL_DAYS).toISOString()
             });
         }
 
@@ -1726,7 +1724,7 @@
             trialUsado: true,
             solicitudActivacion: false,
             planSolicitado: "",
-            fechaVencimientoTrial: trialEnd.toISOString()
+            fechaVencimientoTrial: addDaysToDate(new Date(), FIREBASE_TRIAL_DAYS).toISOString()
         };
     }
 
@@ -1736,22 +1734,21 @@
 
         const data = await ensureUserDocument(user);
         const premium = isPremiumValid(data);
-        const trialStatus = getTrialStatus(data);
-        const access = premium || trialStatus.trialActivo;
+        const trial = isTrialValid(data);
+        const hasPremiumAccess = premium || trial;
 
         window.finanzasFirebaseState = {
             authReady: true,
             user,
             userData: data,
             premiumActivo: premium,
-            trialActivo: trialStatus.trialActivo,
-            hasPremiumAccess: access,
-            diasTrial: trialStatus.diasTrial,
-            estadoPago: data.estadoPago || "trial",
+            trialActivo: trial,
+            hasPremiumAccess,
+            estadoPago: data.estadoPago || "gratis",
             isAdmin: user.email === ADMIN_EMAIL
         };
 
-        if (access) {
+        if (premium) {
             localStorage.setItem("finanzas_jl_premium_paid_v3", "true");
         } else {
             localStorage.removeItem("finanzas_jl_premium_paid_v3");
@@ -1920,7 +1917,9 @@
                 planActivo: plan,
                 solicitudActivacion: false,
                 fechaActivacion: hoy.toISOString(),
-                fechaVencimiento: vencimiento.toISOString()
+                fechaVencimiento: vencimiento.toISOString(),
+                trialUsado: true,
+                fechaVencimientoTrial: null
             });
 
             alert("Usuario activado correctamente.");
@@ -1961,7 +1960,6 @@
                 premiumActivo: false,
                 trialActivo: false,
                 hasPremiumAccess: false,
-                diasTrial: 0,
                 estadoPago: "sin_sesion",
                 isAdmin: false
             };
@@ -2019,25 +2017,33 @@
         }
     }
 
+    function parseFirebaseClientDate(value) {
+        if (!value) return null;
+        if (value.toDate) return value.toDate();
+        const date = new Date(value);
+        return isNaN(date.getTime()) ? null : date;
+    }
+
     function getTrialInfo() {
         const firebaseState = window.finanzasFirebaseState || {};
         const data = firebaseState.userData || {};
-        const trialEnd = data.fechaVencimientoTrial
-            ? (data.fechaVencimientoTrial.toDate ? data.fechaVencimientoTrial.toDate() : new Date(data.fechaVencimientoTrial))
-            : null;
-
-        const daysLeft = firebaseState.diasTrial || 0;
+        const isLoggedIn = !!firebaseState.user;
         const isPaid = firebaseState.premiumActivo === true;
         const isTrialActive = firebaseState.trialActivo === true;
-        const hasPremiumAccess = firebaseState.hasPremiumAccess === true || isPaid || isTrialActive;
+        const trialEnd = parseFirebaseClientDate(data.fechaVencimientoTrial);
+        const now = new Date();
+        const daysLeft = trialEnd
+            ? Math.max(0, Math.ceil((trialEnd.getTime() - now.getTime()) / (24 * 60 * 60 * 1000)))
+            : 0;
 
         return {
-            trialStart: data.fechaRegistro || null,
+            trialStart: parseFirebaseClientDate(data.fechaRegistro),
             trialEnd,
             daysLeft,
             isPaid,
             isTrialActive,
-            hasPremiumAccess,
+            isLoggedIn,
+            hasPremiumAccess: isPaid || isTrialActive,
             firebaseState
         };
     }
@@ -2053,6 +2059,7 @@
             return;
         }
 
+        // La burbuja aparece si Premium está activo, si hay trial activo o si hay solicitud pendiente en Firebase.
         if (info.isPaid) {
             card.style.display = 'flex';
             title.innerText = currentLang === 'es' ? '⭐ Premium activo' : '⭐ Premium active';
@@ -2061,19 +2068,19 @@
             return;
         }
 
-        if (info.firebaseState && info.firebaseState.userData && info.firebaseState.userData.solicitudActivacion === true) {
+        if (info.isTrialActive) {
             card.style.display = 'flex';
-            title.innerText = currentLang === 'es' ? '⏳ Activación pendiente' : '⏳ Activation pending';
+            title.innerText = currentLang === 'es'
+                ? `🎁 Prueba Premium: ${info.daysLeft} día(s) restantes`
+                : `🎁 Premium trial: ${info.daysLeft} day(s) left`;
             text.innerText = '';
             chip.innerText = '';
             return;
         }
 
-        if (info.isTrialActive) {
+        if (info.firebaseState && info.firebaseState.userData && info.firebaseState.userData.solicitudActivacion === true) {
             card.style.display = 'flex';
-            title.innerText = currentLang === 'es'
-                ? `🎁 Prueba gratis: ${info.daysLeft} día(s)`
-                : `🎁 Free trial: ${info.daysLeft} day(s)`;
+            title.innerText = currentLang === 'es' ? '⏳ Activación pendiente' : '⏳ Activation pending';
             text.innerText = '';
             chip.innerText = '';
             return;
@@ -2152,29 +2159,20 @@
 
     function requirePremium(featureName) {
         const info = getTrialInfo();
-        const state = info.firebaseState || {};
-
-        if (!state.authReady) {
-            alert(currentLang === 'es'
-                ? 'Espera unos segundos mientras se verifica tu cuenta.'
-                : 'Wait a few seconds while your account is verified.');
-            return false;
-        }
-
-        if (!state.user) {
-            alert(currentLang === 'es'
-                ? 'Primero debes crear una cuenta o iniciar sesión para usar la prueba gratis de 30 días.'
-                : 'First create an account or sign in to use the 30-day free trial.');
-
-            const profileBtn = Array.from(document.querySelectorAll(".nav-item")).find(btn => btn.innerText.includes("Perfil"));
-            if (typeof nav === "function") {
-                nav("scr-profile", profileBtn || null);
-            }
-            return false;
-        }
 
         if (info.hasPremiumAccess) {
             return true;
+        }
+
+        if (!info.isLoggedIn) {
+            alert(currentLang === 'es'
+                ? 'Para activar tus 30 días gratis Premium, primero crea una cuenta o inicia sesión en Perfil. Puedes seguir usando las funciones básicas sin registro.'
+                : 'To activate your 30-day Premium trial, first create an account or sign in from Profile. You can still use basic features without registration.'
+            );
+
+            const profileBtn = Array.from(document.querySelectorAll('.nav-item')).find(btn => btn.innerText.includes('Perfil') || btn.innerText.includes('Profile'));
+            nav('scr-profile', profileBtn || null);
+            return false;
         }
 
         showPaymentOverlay();
@@ -3864,7 +3862,6 @@
 
     localStorage.setItem('app_act_v11', 'true');
 
-    initTrial();
     updatePremiumStatusUI();
     // No mostrar pantalla de pago automáticamente al abrir la app.
     // Solo se pedirá pago cuando el usuario use una función Premium después de vencer los 30 días.
