@@ -1685,7 +1685,7 @@
         `;
     }
 
-    async async function ensureUserDocument(user) {
+    async function ensureUserDocument(user) {
         const userRef = doc(firestore, "usuarios", user.uid);
         const snap = await getDoc(userRef);
 
@@ -1730,7 +1730,7 @@
         };
     }
 
-    async async function refreshCurrentUserData() {
+    async function refreshCurrentUserData() {
         const user = firebaseAuth.currentUser;
         if (!user) return;
 
