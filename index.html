@@ -1548,6 +1548,38 @@
         isAdmin: false
     };
 
+    const userDocCreationPromises = {};
+
+    function getAuthFriendlyError(error) {
+        const code = error && error.code ? error.code : "";
+
+        if (code === "auth/email-already-in-use") {
+            return "Este correo ya tiene una cuenta. Usa Iniciar sesión.";
+        }
+
+        if (code === "auth/invalid-email") {
+            return "El correo no es válido. Revisa que esté bien escrito.";
+        }
+
+        if (code === "auth/weak-password") {
+            return "La contraseña es muy débil. Usa mínimo 6 caracteres.";
+        }
+
+        if (code === "auth/wrong-password" || code === "auth/invalid-credential") {
+            return "Correo o contraseña incorrectos.";
+        }
+
+        if (code === "auth/user-not-found") {
+            return "No existe una cuenta con ese correo. Presiona Crear cuenta.";
+        }
+
+        if (code === "permission-denied" || code === "firestore/permission-denied") {
+            return "La cuenta se creó, pero Firestore bloqueó la creación del perfil. Revisa las reglas de Firestore.";
+        }
+
+        return error && error.message ? error.message : "Error desconocido.";
+    }
+
     function formatFirebaseDate(value) {
         if (!value) return "";
         if (value.toDate) return value.toDate().toLocaleDateString("es-CO");
@@ -1623,8 +1655,14 @@
         const userRef = doc(firestore, "usuarios", user.uid);
         const snap = await getDoc(userRef);
 
-        if (!snap.exists()) {
-            await setDoc(userRef, {
+        if (snap.exists()) {
+            return snap.data();
+        }
+
+        // Evita que el botón Crear cuenta y onAuthStateChanged intenten crear
+        // el mismo documento al mismo tiempo.
+        if (!userDocCreationPromises[user.uid]) {
+            userDocCreationPromises[user.uid] = setDoc(userRef, {
                 email: user.email,
                 premiumActivo: false,
                 estadoPago: "gratis",
@@ -1636,11 +1674,21 @@
                 fechaActivacion: null,
                 fechaVencimiento: null
             });
-            const createdSnap = await getDoc(userRef);
-            return createdSnap.data();
         }
 
-        return snap.data();
+        await userDocCreationPromises[user.uid];
+        delete userDocCreationPromises[user.uid];
+
+        const createdSnap = await getDoc(userRef);
+        return createdSnap.exists() ? createdSnap.data() : {
+            email: user.email,
+            premiumActivo: false,
+            estadoPago: "gratis",
+            planActivo: "gratis",
+            trialUsado: false,
+            solicitudActivacion: false,
+            planSolicitado: ""
+        };
     }
 
     async function refreshCurrentUserData() {
@@ -1673,8 +1721,10 @@
     }
 
     window.registrarUsuarioFinanzas = async function() {
-        const email = document.getElementById("auth-email")?.value.trim();
-        const password = document.getElementById("auth-password")?.value.trim();
+        const emailInput = document.getElementById("auth-email");
+        const passwordInput = document.getElementById("auth-password");
+        const email = emailInput?.value.trim();
+        const password = passwordInput?.value.trim();
 
         if (!email || !password) {
             alert("Escribe correo y contraseña.");
@@ -1689,9 +1739,10 @@
         try {
             const cred = await createUserWithEmailAndPassword(firebaseAuth, email, password);
             await ensureUserDocument(cred.user);
-            alert("Cuenta creada correctamente.");
+            await refreshCurrentUserData();
+            alert("Cuenta creada correctamente. Ya puedes solicitar activación Premium cuando pagues.");
         } catch (error) {
-            alert("Error al crear cuenta: " + error.message);
+            alert("Error al crear cuenta: " + getAuthFriendlyError(error));
         }
     };
 
@@ -1708,7 +1759,7 @@
             await signInWithEmailAndPassword(firebaseAuth, email, password);
             alert("Sesión iniciada.");
         } catch (error) {
-            alert("Error al iniciar sesión: " + error.message);
+            alert("Error al iniciar sesión: " + getAuthFriendlyError(error));
         }
     };
 
