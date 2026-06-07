@@ -1,24 +1,4 @@
-{
-  "name": "Finanzas JL",
-  "short_name": "Finanzas JL",
-  "description": "Control de ingresos, gastos y recibos de caja para persona natural",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#F2F2F2",
-  "theme_color": "#1F4E79",
-  "orientation": "portrait",
-  "icons": [
-    {
-      "src": "icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ]
-}
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Política de privacidad - Finanzas JL</title><link rel="stylesheet" href="../css/styles.css"></head>
+<body><div class="header"><h1>Política de privacidad</h1></div><main class="screen active"><div class="card"><p>Documento base para la versión 2. Personaliza este texto antes de publicar comercialmente.</p><p>Finanzas JL almacena datos financieros ingresados por el usuario en el dispositivo y puede usar Firebase para cuenta, prueba gratis y estado Premium.</p><p><a href="../index.html">Volver</a></p></div></main></body></html>

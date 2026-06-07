@@ -1,40 +1,4 @@
-const CACHE_NAME = 'finanzas-jl-v2';
-const APP_SHELL = [
-  './',
-  './index.html',
-  './manifest.json',
-  './icons/icon-192.png',
-  './icons/icon-512.png'
-];
-
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(APP_SHELL))
-      .catch(() => null)
-  );
-  self.skipWaiting();
-});
-
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(keys => Promise.all(
-      keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
-    ))
-  );
-  self.clients.claim();
-});
-
-self.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET') return;
-
-  event.respondWith(
-    caches.match(event.request).then(cached => {
-      return cached || fetch(event.request).then(response => {
-        const copy = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
-        return response;
-      }).catch(() => cached);
-    })
-  );
-});
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Términos de uso - Finanzas JL</title><link rel="stylesheet" href="../css/styles.css"></head>
+<body><div class="header"><h1>Términos de uso</h1></div><main class="screen active"><div class="card"><p>Documento base para la versión 2. Personaliza este texto antes de publicar comercialmente.</p><p>La app es una herramienta de organización financiera. El usuario es responsable de validar la información registrada y exportada.</p><p><a href="../index.html">Volver</a></p></div></main></body></html>
