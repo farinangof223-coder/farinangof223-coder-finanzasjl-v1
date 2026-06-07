@@ -409,6 +409,7 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             out: "Gastos",
             deu: "Deudas",
             rec: "Recibo",
+            receivableKpi: "Cartera por cobrar",
             net: "Saldo Neto",
             excel: "⭐ Descargar Reporte Profesional",
             ter: "Nombre / Razón social",
@@ -535,6 +536,7 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             out: "Expenses",
             deu: "Debts",
             rec: "Receipt",
+            receivableKpi: "Accounts receivable",
             net: "Balance",
             excel: "⭐ Download Professional Report",
             ter: "Name / Business name",
@@ -637,9 +639,9 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             backupImportOk: "Data imported successfully. The app will now refresh.",
             backupImportError: "The file could not be imported. Check that it is a valid backup.",
             loansTitle: "💸 Accounts receivable",
-            loansHelp: "Track money you lend to other people. Register the loan as “Receivable (Increase +)” and each payment as “Receivable (Decrease -)”.",
+            loansHelp: "Track money you lend to other people. Register the loan as “Accounts receivable (Increase +)” and each payment as “Accounts receivable (Decrease -)”.",
             loanHelperTitle: "💸 Register loan",
-            loanHelperHelp: "To lend money, use “Receivable (Increase +)”. When you receive a payment, use “Receivable (Decrease -)” with the same third-party name or ID.",
+            loanHelperHelp: "To lend money, use “Accounts receivable (Increase +)”. When you receive a payment, use “Accounts receivable (Decrease -)” with the same third-party name or ID.",
             loansEmpty: "No loans registered.",
             loansTotalLent: "Lent",
             loansTotalPaid: "Paid",
@@ -648,10 +650,10 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             thirdPartyLoanNoticeTitle: "Third-party status",
             thirdPartyLoanNoticeNoRecords: "This third party has no registered loans.",
             thirdPartyLoanNoticePaid: "This third party has no pending balance. Last loan paid.",
-            thirdPartyLoanNoticePending: "This third party has a pending receivable balance.",
+            thirdPartyLoanNoticePending: "This third party has a pending accounts receivable balance.",
             thirdPartyLoanNoticeLent: "Lent",
             thirdPartyLoanNoticePaidAmount: "Paid",
-            thirdPartyLoanNoticeBalance: "Pending"
+            thirdPartyLoanNoticeBalance: "Receivable balance"
         }
     };
 
@@ -734,6 +736,8 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
         localStorage.setItem('app_currency', currentCurrency);
         updateUI();
         renderHist();
+        renderLoansSummary();
+        renderThirdPartyLoanNotice();
 
         if (document.getElementById('scr-hist').classList.contains('active')) {
             renderHist();
@@ -751,7 +755,7 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
         document.getElementById('txt-kpi-in').innerText = t.in;
         document.getElementById('txt-kpi-out').innerText = t.out;
         document.getElementById('txt-kpi-deu').innerText = t.deu;
-        if (document.getElementById('txt-kpi-receivableeivable')) document.getElementById('txt-kpi-receivableeivable').innerText = t.receivableKpi;
+        if (document.getElementById('txt-kpi-receivable')) document.getElementById('txt-kpi-receivable').innerText = t.receivableKpi;
         document.getElementById('txt-kpi-net').innerText = t.net;
         document.getElementById('txt-btn-excel').innerText = t.excel;
         document.getElementById('lbl-excel-print-date').innerText = t.excelPrintDate;
@@ -822,6 +826,7 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             document.getElementById('edit-index').value === "-1" ? t.save : t.update;
 
         updatePremiumStatusUI();
+        renderLoansSummary();
         renderThirdPartyLoanNotice();
     }
 
