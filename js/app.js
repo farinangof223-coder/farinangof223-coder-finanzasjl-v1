@@ -435,6 +435,7 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             home: "Inicio",
             add: "Nuevo",
             hist: "Historial",
+            carteraNav: "Cartera",
             rec: "Recibo",
             profile: "Perfil",
             profileTitle: "👤 Datos del emisor",
@@ -512,6 +513,12 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             backupImportOk: "Datos importados correctamente. La app se actualizará ahora.",
             backupImportError: "No se pudo importar el archivo. Revisa que sea una copia de seguridad válida.",
             loansTitle: "💸 Cartera por cobrar",
+            carteraTitle: "💸 Cartera por cobrar",
+            carteraHelp: "Controla de forma independiente la plata que prestas a terceros. Esta sección no afecta ingresos ni gastos.",
+            carteraDetailTitle: "Detalle por tercero",
+            carteraTotalLent: "Total prestado",
+            carteraTotalPaid: "Total abonado",
+            carteraTotalBalance: "Saldo pendiente",
             loansHelp: "Controla la plata que prestas a terceros. Registra el préstamo como “Cartera por cobrar (Aumentar +)” y cada abono como “Cartera por cobrar (Disminuir -)”.",
             loanHelperTitle: "💸 Registrar préstamo",
             loanHelperHelp: "Para prestar dinero, usa “Cartera por cobrar (Aumentar +)”. Cuando recibas un pago o abono, usa “Cartera por cobrar (Disminuir -)” con el mismo nombre o identificación del tercero.",
@@ -562,6 +569,7 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             home: "Home",
             add: "Add",
             hist: "History",
+            carteraNav: "Receivables",
             rec: "Receipt",
             profile: "Profile",
             profileTitle: "👤 Issuer information",
@@ -639,6 +647,12 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             backupImportOk: "Data imported successfully. The app will now refresh.",
             backupImportError: "The file could not be imported. Check that it is a valid backup.",
             loansTitle: "💸 Accounts receivable",
+            carteraTitle: "💸 Accounts receivable",
+            carteraHelp: "Independently track money you lend to third parties. This section does not affect income or expenses.",
+            carteraDetailTitle: "Details by third party",
+            carteraTotalLent: "Total lent",
+            carteraTotalPaid: "Total paid",
+            carteraTotalBalance: "Pending balance",
             loansHelp: "Track money you lend to other people. Register the loan as “Accounts receivable (Increase +)” and each payment as “Accounts receivable (Decrease -)”.",
             loanHelperTitle: "💸 Register loan",
             loanHelperHelp: "To lend money, use “Accounts receivable (Increase +)”. When you receive a payment, use “Accounts receivable (Decrease -)” with the same third-party name or ID.",
@@ -780,6 +794,7 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
         document.getElementById('txt-nav-home').innerText = t.home;
         document.getElementById('txt-nav-add').innerText = t.add;
         document.getElementById('txt-nav-hist').innerText = t.hist;
+        if (document.getElementById('txt-nav-cartera')) document.getElementById('txt-nav-cartera').innerText = t.carteraNav;
         document.getElementById('txt-nav-profile').innerText = t.profile;
         document.getElementById('lbl-currency').innerText = t.lblCur;
         document.getElementById('lang-label').innerText = currentLang.toUpperCase();
@@ -811,6 +826,16 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
         }
 
 
+
+
+        if (document.getElementById('txt-cartera-title')) {
+            document.getElementById('txt-cartera-title').innerText = t.carteraTitle;
+            document.getElementById('txt-cartera-help').innerText = t.carteraHelp;
+            document.getElementById('txt-cartera-detail-title').innerText = t.carteraDetailTitle;
+            document.getElementById('txt-cartera-lent').innerText = t.carteraTotalLent;
+            document.getElementById('txt-cartera-paid').innerText = t.carteraTotalPaid;
+            document.getElementById('txt-cartera-balance').innerText = t.carteraTotalBalance;
+        }
 
         if (document.getElementById('txt-loans-title')) {
             document.getElementById('txt-loans-title').innerText = t.loansTitle;
@@ -886,6 +911,10 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
 
         if (id === 'scr-profile') {
             loadProfileForm();
+        }
+
+        if (id === 'scr-cartera') {
+            renderLoansSummary();
         }
 
         updateUI();
@@ -1120,7 +1149,23 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
         const loans = Object.values(loansMap)
             .sort((a, b) => Math.abs(b.balance) - Math.abs(a.balance));
 
+        const carteraTotalLent = loans.reduce((sum, loan) => sum + loan.lent, 0);
+        const carteraTotalPaid = loans.reduce((sum, loan) => sum + loan.paid, 0);
+        const carteraTotalBalance = loans.reduce((sum, loan) => sum + loan.balance, 0);
+
+        if (document.getElementById('cartera-total-lent')) {
+            document.getElementById('cartera-total-lent').innerText = formatMoney(carteraTotalLent);
+            document.getElementById('cartera-total-paid').innerText = formatMoney(carteraTotalPaid);
+            document.getElementById('cartera-total-balance').innerText = formatMoney(carteraTotalBalance);
+        }
+
         if (!loans.length) {
+            if (document.getElementById('cartera-total-lent')) {
+                document.getElementById('cartera-total-lent').innerText = formatMoney(0);
+                document.getElementById('cartera-total-paid').innerText = formatMoney(0);
+                document.getElementById('cartera-total-balance').innerText = formatMoney(0);
+            }
+
             container.innerHTML = `<div class="loans-empty">${t.loansEmpty}</div>`;
             return;
         }
@@ -1197,7 +1242,7 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
         if (document.getElementById('res-receivable')) {
             document.getElementById('res-receivable').innerText = formatMoney(r);
         }
-        document.getElementById('res-net').innerText = formatMoney(i - g - d + r);
+        document.getElementById('res-net').innerText = formatMoney(i - g - d);
         renderLoansSummary();
         renderThirdPartyLoanNotice();
     }

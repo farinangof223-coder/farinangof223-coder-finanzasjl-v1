@@ -1385,3 +1385,55 @@
                 grid-template-columns: 1fr;
             }
         }
+
+
+        /* =========================
+           VENTANA CARTERA INDEPENDIENTE
+        ========================= */
+
+        .cartera-header-card {
+            border-left: 5px solid #7C3AED;
+        }
+
+        .cartera-kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .cartera-kpi-card {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .cartera-kpi-card span {
+            display: block;
+            color: #6b7280;
+            font-size: 0.72rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .cartera-kpi-card strong {
+            color: #111827;
+            font-size: 1rem;
+            font-weight: 900;
+        }
+
+        .cartera-kpi-card.principal {
+            border-left: 5px solid #7C3AED;
+            background: #faf5ff;
+        }
+
+        .cartera-list-card {
+            margin-top: 12px;
+        }
+
+        @media (max-width: 520px) {
+            .cartera-kpi-grid {
+                grid-template-columns: 1fr;
+            }
+        }

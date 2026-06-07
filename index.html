@@ -160,13 +160,6 @@
             <div id="res-deuda" style="color:var(--warning); font-weight:bold;">$ 0</div>
         </div>
 
-        <div class="kpi-card" style="border-top-color:#7C3AED">
-            <div id="txt-kpi-receivable">Cartera por cobrar</div>
-            <div id="res-receivable" style="color:#7C3AED; font-weight:bold;">$ 0</div>
-        </div>
-    </div>
-
-    <div class="kpi-grid">
         <div class="kpi-card" style="border-top-color:var(--primary)">
             <div id="txt-kpi-net">Saldo Neto</div>
             <div id="res-net" style="color:var(--primary); font-weight:bold;">$ 0</div>
@@ -183,21 +176,6 @@
     <button id="txt-btn-excel" onclick="exportarExcelFinal()" class="btn btn-excel">
         ⭐ Descargar Reporte Profesional
     </button>
-
-    <div id="loans-accordion" class="card collapsible-card collapsed loans-card">
-        <button type="button" class="accordion-header" onclick="toggleAccordion('loans-accordion')" aria-expanded="false">
-            <span id="txt-loans-title" class="accordion-title">💸 Cartera por cobrar</span>
-            <span class="accordion-icon">⌄</span>
-        </button>
-
-        <div class="accordion-content">
-            <p id="txt-loans-help" class="loans-help">
-                Controla la plata que prestas a terceros. Registra el préstamo como “Cartera por cobrar (Aumentar +)” y cada abono como “Cartera por cobrar (Disminuir -)”.
-            </p>
-
-            <div id="loans-summary-list"></div>
-        </div>
-    </div>
 </div>
 
 <!-- VISTA AGREGAR / EDITAR -->
@@ -303,6 +281,37 @@
 <!-- VISTA HISTORIAL -->
 <div id="scr-hist" class="screen">
     <div id="hist-list"></div>
+</div>
+
+
+<!-- VISTA CARTERA -->
+<div id="scr-cartera" class="screen">
+    <div class="card cartera-header-card">
+        <h3 id="txt-cartera-title" style="color:var(--primary); margin-bottom:8px;">💸 Cartera por cobrar</h3>
+        <p id="txt-cartera-help" class="loans-help">
+            Controla de forma independiente la plata que prestas a terceros. Esta sección no afecta ingresos ni gastos.
+        </p>
+
+        <div class="cartera-kpi-grid">
+            <div class="cartera-kpi-card">
+                <span id="txt-cartera-lent">Total prestado</span>
+                <strong id="cartera-total-lent">$ 0</strong>
+            </div>
+            <div class="cartera-kpi-card">
+                <span id="txt-cartera-paid">Total abonado</span>
+                <strong id="cartera-total-paid">$ 0</strong>
+            </div>
+            <div class="cartera-kpi-card principal">
+                <span id="txt-cartera-balance">Saldo pendiente</span>
+                <strong id="cartera-total-balance">$ 0</strong>
+            </div>
+        </div>
+    </div>
+
+    <div class="card loans-card cartera-list-card">
+        <h3 id="txt-cartera-detail-title" style="color:var(--primary); margin-bottom:10px;">Detalle por tercero</h3>
+        <div id="loans-summary-list"></div>
+    </div>
 </div>
 
 <!-- VISTA PERFIL / EMISOR -->
@@ -484,6 +493,10 @@
 
     <button class="nav-item" onclick="nav('scr-hist', this)">
         📜<br><span id="txt-nav-hist">Historial</span>
+    </button>
+    <button class="nav-item" onclick="nav('scr-cartera', this)">
+        <span>💸</span>
+        <small id="txt-nav-cartera">Cartera</small>
     </button>
 
     <button class="nav-item" onclick="nav('scr-profile', this)">
