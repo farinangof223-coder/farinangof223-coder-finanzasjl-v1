@@ -408,6 +408,7 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             in: "Ingresos",
             out: "Gastos",
             deu: "Deudas",
+            rec: "Por cobrar",
             net: "Saldo Neto",
             excel: "⭐ Descargar Reporte Profesional",
             ter: "Nombre / Razón social",
@@ -424,6 +425,8 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             optOut: "Gasto (-)",
             optDeuUp: "Deuda (Aumentar +)",
             optDeuDown: "Deuda (Disminuir -)",
+            optRecUp: "Por cobrar (Aumentar +)",
+            optRecDown: "Por cobrar (Disminuir -)",
             sumar: "¿Sumar a los Ingresos Actuales?",
             afectar: "¿Descontar del Saldo Actual?",
             save: "✅ Guardar Registro",
@@ -468,6 +471,8 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             expenseName: "Gasto",
             debtUpName: "Deuda aumentada",
             debtDownName: "Deuda disminuida",
+            recUpName: "Por cobrar aumentado",
+            recDownName: "Por cobrar disminuido",
             reportTitle: "REPORTE GERENCIAL",
             generatedReport: "Fecha de impresión",
             excelPrintDate: "Mes del reporte Excel",
@@ -504,7 +509,23 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             backupInvalid: "El archivo seleccionado no parece ser una copia válida de FINANZAS JL.",
             backupImportConfirm: "Esto reemplazará los datos actuales de esta app por los datos del archivo importado. ¿Deseas continuar?",
             backupImportOk: "Datos importados correctamente. La app se actualizará ahora.",
-            backupImportError: "No se pudo importar el archivo. Revisa que sea una copia de seguridad válida."
+            backupImportError: "No se pudo importar el archivo. Revisa que sea una copia de seguridad válida.",
+            loansTitle: "💸 Préstamos a terceros",
+            loansHelp: "Controla la plata que prestas a otras personas. Registra el préstamo como “Por cobrar (Aumentar +)” y cada abono como “Por cobrar (Disminuir -)”.",
+            loanHelperTitle: "💸 Registrar préstamo",
+            loanHelperHelp: "Para prestar dinero, usa “Por cobrar (Aumentar +)”. Cuando recibas un pago o abono, usa “Por cobrar (Disminuir -)” con el mismo nombre o identificación del tercero.",
+            loansEmpty: "No hay préstamos registrados.",
+            loansTotalLent: "Prestado",
+            loansTotalPaid: "Abonado",
+            loansBalance: "Pendiente",
+            loansLastMove: "Último movimiento",
+            thirdPartyLoanNoticeTitle: "Estado del tercero",
+            thirdPartyLoanNoticeNoRecords: "Este tercero no tiene préstamos registrados.",
+            thirdPartyLoanNoticePaid: "Este tercero no tiene saldo pendiente. Último préstamo pagado.",
+            thirdPartyLoanNoticePending: "Este tercero tiene saldo pendiente por cobrar.",
+            thirdPartyLoanNoticeLent: "Prestado",
+            thirdPartyLoanNoticePaidAmount: "Abonado",
+            thirdPartyLoanNoticeBalance: "Pendiente"
         },
         en: {
             title: "FINANZAS JL",
@@ -513,6 +534,7 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             in: "Incomes",
             out: "Expenses",
             deu: "Debts",
+            rec: "Receivable",
             net: "Balance",
             excel: "⭐ Download Professional Report",
             ter: "Name / Business name",
@@ -529,6 +551,8 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             optOut: "Expense (-)",
             optDeuUp: "Debt (Increase +)",
             optDeuDown: "Debt (Decrease -)",
+            optRecUp: "Receivable (Increase +)",
+            optRecDown: "Receivable (Decrease -)",
             sumar: "Add to Current Incomes?",
             afectar: "Deduct from Current Balance?",
             save: "✅ Save Record",
@@ -573,6 +597,8 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             expenseName: "Expense",
             debtUpName: "Debt increased",
             debtDownName: "Debt decreased",
+            recUpName: "Receivable increased",
+            recDownName: "Receivable decreased",
             reportTitle: "MANAGEMENT REPORT",
             generatedReport: "Print date",
             excelPrintDate: "Excel report month",
@@ -609,7 +635,23 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             backupInvalid: "The selected file does not seem to be a valid FINANZAS JL backup.",
             backupImportConfirm: "This will replace the current data in this app with the imported file data. Do you want to continue?",
             backupImportOk: "Data imported successfully. The app will now refresh.",
-            backupImportError: "The file could not be imported. Check that it is a valid backup."
+            backupImportError: "The file could not be imported. Check that it is a valid backup.",
+            loansTitle: "💸 Third-party loans",
+            loansHelp: "Track money you lend to other people. Register the loan as “Receivable (Increase +)” and each payment as “Receivable (Decrease -)”.",
+            loanHelperTitle: "💸 Register loan",
+            loanHelperHelp: "To lend money, use “Receivable (Increase +)”. When you receive a payment, use “Receivable (Decrease -)” with the same third-party name or ID.",
+            loansEmpty: "No loans registered.",
+            loansTotalLent: "Lent",
+            loansTotalPaid: "Paid",
+            loansBalance: "Pending",
+            loansLastMove: "Last transaction",
+            thirdPartyLoanNoticeTitle: "Third-party status",
+            thirdPartyLoanNoticeNoRecords: "This third party has no registered loans.",
+            thirdPartyLoanNoticePaid: "This third party has no pending balance. Last loan paid.",
+            thirdPartyLoanNoticePending: "This third party has a pending receivable balance.",
+            thirdPartyLoanNoticeLent: "Lent",
+            thirdPartyLoanNoticePaidAmount: "Paid",
+            thirdPartyLoanNoticeBalance: "Pending"
         }
     };
 
@@ -709,6 +751,7 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
         document.getElementById('txt-kpi-in').innerText = t.in;
         document.getElementById('txt-kpi-out').innerText = t.out;
         document.getElementById('txt-kpi-deu').innerText = t.deu;
+        if (document.getElementById('txt-kpi-rec')) document.getElementById('txt-kpi-rec').innerText = t.rec;
         document.getElementById('txt-kpi-net').innerText = t.net;
         document.getElementById('txt-btn-excel').innerText = t.excel;
         document.getElementById('lbl-excel-print-date').innerText = t.excelPrintDate;
@@ -726,6 +769,8 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
         document.getElementById('opt-out').innerText = t.optOut;
         document.getElementById('opt-deu-up').innerText = t.optDeuUp;
         document.getElementById('opt-deu-down').innerText = t.optDeuDown;
+        if (document.getElementById('opt-rec-up')) document.getElementById('opt-rec-up').innerText = t.optRecUp;
+        if (document.getElementById('opt-rec-down')) document.getElementById('opt-rec-down').innerText = t.optRecDown;
         document.getElementById('lbl-sumar').innerText = t.sumar;
         document.getElementById('lbl-afectar').innerText = t.afectar;
         document.getElementById('txt-nav-home').innerText = t.home;
@@ -762,10 +807,22 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
         }
 
 
+
+        if (document.getElementById('txt-loans-title')) {
+            document.getElementById('txt-loans-title').innerText = t.loansTitle;
+            document.getElementById('txt-loans-help').innerText = t.loansHelp;
+        }
+
+        if (document.getElementById('txt-loan-helper-title')) {
+            document.getElementById('txt-loan-helper-title').innerText = t.loanHelperTitle;
+            document.getElementById('txt-loan-helper-help').innerText = t.loanHelperHelp;
+        }
+
         document.getElementById('btn-save').innerText =
             document.getElementById('edit-index').value === "-1" ? t.save : t.update;
 
         updatePremiumStatusUI();
+        renderThirdPartyLoanNotice();
     }
 
 
@@ -883,13 +940,231 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
 
         toggleAbonoLogic();
         setAccordionState('add-optional-accordion', false);
+        renderThirdPartyLoanNotice();
         applyLang();
     }
+
+
+    function getLoanPartyKey(item) {
+        const nit = String(item.nit || '').trim();
+        const ter = String(item.ter || '').trim();
+
+        if (nit && nit !== 'N/A') {
+            return `id:${nit.toLowerCase()}`;
+        }
+
+        return `name:${ter.toLowerCase() || 'sin_nombre'}`;
+    }
+
+
+    function normalizePartyValue(value) {
+        return String(value || '').trim().toLowerCase();
+    }
+
+    function getLoanStatsForCurrentForm() {
+        const terInput = document.getElementById('ter');
+        const nitInput = document.getElementById('nit');
+        const terValue = normalizePartyValue(terInput ? terInput.value : '');
+        const nitValue = normalizePartyValue(nitInput ? nitInput.value : '');
+
+        if (!terValue && !nitValue) {
+            return null;
+        }
+
+        const stats = {
+            ter: terInput ? terInput.value.trim() : '',
+            nit: nitInput ? nitInput.value.trim() : '',
+            lent: 0,
+            paid: 0,
+            balance: 0,
+            count: 0,
+            lastDate: '',
+            lastDesc: ''
+        };
+
+        db.forEach(item => {
+            if (item.type !== 'rec_up' && item.type !== 'rec_down') return;
+
+            const itemNit = normalizePartyValue(item.nit);
+            const itemTer = normalizePartyValue(item.ter);
+
+            const sameByNit = nitValue && itemNit && itemNit !== 'n/a' && itemNit === nitValue;
+            const sameByName = !nitValue && terValue && itemTer === terValue;
+
+            if (!sameByNit && !sameByName) return;
+
+            const amount = Number(item.amt) || 0;
+
+            if (item.type === 'rec_up') {
+                stats.lent += amount;
+                stats.balance += amount;
+            }
+
+            if (item.type === 'rec_down') {
+                stats.paid += amount;
+                stats.balance -= amount;
+            }
+
+            stats.count += 1;
+            stats.lastDate = item.date || stats.lastDate;
+            stats.lastDesc = item.desc || stats.lastDesc;
+        });
+
+        return stats;
+    }
+
+    function renderThirdPartyLoanNotice() {
+        const notice = document.getElementById('third-party-loan-notice');
+        if (!notice) return;
+
+        const t = translations[currentLang];
+        const stats = getLoanStatsForCurrentForm();
+
+        if (!stats) {
+            notice.style.display = 'none';
+            notice.innerHTML = '';
+            return;
+        }
+
+        const hasTypedValue = Boolean(normalizePartyValue(stats.nit) || normalizePartyValue(stats.ter));
+
+        if (!hasTypedValue) {
+            notice.style.display = 'none';
+            notice.innerHTML = '';
+            return;
+        }
+
+        notice.style.display = 'block';
+
+        if (!stats.count) {
+            notice.className = 'third-party-loan-notice neutral';
+            notice.innerHTML = `
+                <div class="third-party-loan-title">💸 ${t.thirdPartyLoanNoticeTitle}</div>
+                <div class="third-party-loan-message">${t.thirdPartyLoanNoticeNoRecords}</div>
+            `;
+            return;
+        }
+
+        const isPaid = stats.balance <= 0;
+        notice.className = `third-party-loan-notice ${isPaid ? 'paid' : 'pending'}`;
+        notice.innerHTML = `
+            <div class="third-party-loan-title">💸 ${t.thirdPartyLoanNoticeTitle}</div>
+            <div class="third-party-loan-message">
+                ${isPaid ? t.thirdPartyLoanNoticePaid : t.thirdPartyLoanNoticePending}
+            </div>
+            <div class="third-party-loan-grid">
+                <div>
+                    <span>${t.thirdPartyLoanNoticeLent}</span>
+                    <strong>${formatMoney(stats.lent)}</strong>
+                </div>
+                <div>
+                    <span>${t.thirdPartyLoanNoticePaidAmount}</span>
+                    <strong>${formatMoney(stats.paid)}</strong>
+                </div>
+                <div>
+                    <span>${t.thirdPartyLoanNoticeBalance}</span>
+                    <strong>${formatMoney(stats.balance)}</strong>
+                </div>
+            </div>
+            <div class="third-party-loan-last">
+                ${t.loansLastMove}: ${stats.lastDate || '-'}${stats.lastDesc ? ' · ' + stats.lastDesc : ''}
+            </div>
+        `;
+    }
+
+
+    function renderLoansSummary() {
+        const container = document.getElementById('loans-summary-list');
+        if (!container) return;
+
+        const t = translations[currentLang];
+        const loansMap = {};
+
+        db.forEach(item => {
+            if (item.type !== 'rec_up' && item.type !== 'rec_down') return;
+
+            const key = getLoanPartyKey(item);
+            if (!loansMap[key]) {
+                loansMap[key] = {
+                    ter: item.ter || (currentLang === 'es' ? 'Sin nombre' : 'No name'),
+                    nit: item.nit || '',
+                    lent: 0,
+                    paid: 0,
+                    balance: 0,
+                    lastDate: item.date || '',
+                    lastDesc: item.desc || ''
+                };
+            }
+
+            const amount = Number(item.amt) || 0;
+
+            if (item.type === 'rec_up') {
+                loansMap[key].lent += amount;
+                loansMap[key].balance += amount;
+            }
+
+            if (item.type === 'rec_down') {
+                loansMap[key].paid += amount;
+                loansMap[key].balance -= amount;
+            }
+
+            loansMap[key].lastDate = item.date || loansMap[key].lastDate;
+            loansMap[key].lastDesc = item.desc || loansMap[key].lastDesc;
+        });
+
+        const loans = Object.values(loansMap)
+            .sort((a, b) => Math.abs(b.balance) - Math.abs(a.balance));
+
+        if (!loans.length) {
+            container.innerHTML = `<div class="loans-empty">${t.loansEmpty}</div>`;
+            return;
+        }
+
+        container.innerHTML = loans.map(loan => {
+            const statusClass = loan.balance <= 0 ? 'paid' : 'pending';
+            const statusText = loan.balance <= 0
+                ? (currentLang === 'es' ? 'Pagado' : 'Paid')
+                : (currentLang === 'es' ? 'Pendiente' : 'Pending');
+
+            return `
+                <div class="loan-item ${statusClass}">
+                    <div class="loan-item-header">
+                        <div>
+                            <div class="loan-party-name">${loan.ter}</div>
+                            <div class="loan-party-id">${loan.nit || 'N/A'}</div>
+                        </div>
+                        <span class="loan-status">${statusText}</span>
+                    </div>
+
+                    <div class="loan-metrics">
+                        <div>
+                            <span>${t.loansTotalLent}</span>
+                            <strong>${formatMoney(loan.lent)}</strong>
+                        </div>
+                        <div>
+                            <span>${t.loansTotalPaid}</span>
+                            <strong>${formatMoney(loan.paid)}</strong>
+                        </div>
+                        <div>
+                            <span>${t.loansBalance}</span>
+                            <strong>${formatMoney(loan.balance)}</strong>
+                        </div>
+                    </div>
+
+                    <div class="loan-last">
+                        ${t.loansLastMove}: ${loan.lastDate || '-'}${loan.lastDesc ? ' · ' + loan.lastDesc : ''}
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
 
     function updateUI() {
         let i = 0;
         let g = 0;
         let d = 0;
+        let r = 0;
 
         db.forEach(item => {
             if (item.type == 'in') {
@@ -898,23 +1173,28 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
                 g += item.amt;
             } else if (item.type == 'deu_up') {
                 d += item.amt;
-
-                if (item.sumarIngreso) {
-                    i += item.amt;
-                }
             } else if (item.type == 'deu_down') {
                 d -= item.amt;
 
                 if (item.afectarSaldo) {
                     g += item.amt;
                 }
+            } else if (item.type == 'rec_up') {
+                r += item.amt;
+            } else if (item.type == 'rec_down') {
+                r -= item.amt;
             }
         });
 
         document.getElementById('res-in').innerText = formatMoney(i);
         document.getElementById('res-out').innerText = formatMoney(g);
         document.getElementById('res-deuda').innerText = formatMoney(d);
-        document.getElementById('res-net').innerText = formatMoney(i - g);
+        if (document.getElementById('res-receivable')) {
+            document.getElementById('res-receivable').innerText = formatMoney(r);
+        }
+        document.getElementById('res-net').innerText = formatMoney(i - g - d + r);
+        renderLoansSummary();
+        renderThirdPartyLoanNotice();
     }
 
     function getMonthKeyFromDate(date) {
@@ -1422,6 +1702,7 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
         toggleAbonoLogic();
         const hasOptionalData = Boolean((item.contact || '').trim() || (item.email || '').trim() || (item.address || '').trim());
         setAccordionState('add-optional-accordion', hasOptionalData);
+        renderThirdPartyLoanNotice();
         nav('scr-add');
         applyLang();
     }
@@ -1650,7 +1931,9 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             in: t.incomeName,
             out: t.expenseName,
             deu_up: t.debtUpName,
-            deu_down: t.debtDownName
+            deu_down: t.debtDownName,
+            rec_up: t.recUpName,
+            rec_down: t.recDownName
         };
 
         const formatDateForExcel = (entry) => {

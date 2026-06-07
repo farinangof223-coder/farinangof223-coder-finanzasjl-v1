@@ -160,6 +160,13 @@
             <div id="res-deuda" style="color:var(--warning); font-weight:bold;">$ 0</div>
         </div>
 
+        <div class="kpi-card" style="border-top-color:#7C3AED">
+            <div id="txt-kpi-rec">Por cobrar</div>
+            <div id="res-receivable" style="color:#7C3AED; font-weight:bold;">$ 0</div>
+        </div>
+    </div>
+
+    <div class="kpi-grid">
         <div class="kpi-card" style="border-top-color:var(--primary)">
             <div id="txt-kpi-net">Saldo Neto</div>
             <div id="res-net" style="color:var(--primary); font-weight:bold;">$ 0</div>
@@ -176,6 +183,21 @@
     <button id="txt-btn-excel" onclick="exportarExcelFinal()" class="btn btn-excel">
         ⭐ Descargar Reporte Profesional
     </button>
+
+    <div id="loans-accordion" class="card collapsible-card collapsed loans-card">
+        <button type="button" class="accordion-header" onclick="toggleAccordion('loans-accordion')" aria-expanded="false">
+            <span id="txt-loans-title" class="accordion-title">💸 Préstamos a terceros</span>
+            <span class="accordion-icon">⌄</span>
+        </button>
+
+        <div class="accordion-content">
+            <p id="txt-loans-help" class="loans-help">
+                Controla la plata que prestas a otras personas. Registra el préstamo como “Por cobrar (Aumentar +)” y cada abono como “Por cobrar (Disminuir -)”.
+            </p>
+
+            <div id="loans-summary-list"></div>
+        </div>
+    </div>
 </div>
 
 <!-- VISTA AGREGAR / EDITAR -->
@@ -185,13 +207,15 @@
 
         <div class="form-group">
             <label id="lbl-ter">Nombre / Razón social</label>
-            <input type="text" id="ter" placeholder="Ej: Cliente o empresa">
+            <input type="text" id="ter" placeholder="Ej: Cliente o empresa" oninput="renderThirdPartyLoanNotice()">
         </div>
 
         <div class="form-group">
             <label id="lbl-nit">NIT / CC</label>
-            <input type="text" id="nit" placeholder="Ej: 123456789">
+            <input type="text" id="nit" placeholder="Ej: 123456789" oninput="renderThirdPartyLoanNotice()">
         </div>
+
+        <div id="third-party-loan-notice" class="third-party-loan-notice" style="display:none;"></div>
 
         <div class="form-group">
             <label id="lbl-des">Concepto</label>
@@ -231,6 +255,19 @@
             </div>
         </div>
 
+        <div id="loan-helper-accordion" class="collapsible-card collapsed loan-helper-card">
+            <button type="button" class="accordion-header" onclick="toggleAccordion('loan-helper-accordion')" aria-expanded="false">
+                <span id="txt-loan-helper-title" class="accordion-title">💸 Registrar préstamo</span>
+                <span class="accordion-icon">⌄</span>
+            </button>
+
+            <div class="accordion-content">
+                <p id="txt-loan-helper-help" class="loans-help">
+                    Para prestar dinero, usa “Por cobrar (Aumentar +)”. Cuando recibas un pago o abono, usa “Por cobrar (Disminuir -)” con el mismo nombre o identificación del tercero.
+                </p>
+            </div>
+        </div>
+
         <div class="form-group">
             <label id="lbl-typ">Tipo</label>
             <select id="type" onchange="toggleAbonoLogic()">
@@ -238,6 +275,8 @@
                 <option value="out" id="opt-out">Gasto (-)</option>
                 <option value="deu_up" id="opt-deu-up">Deuda (Aumentar +)</option>
                 <option value="deu_down" id="opt-deu-down">Deuda (Disminuir -)</option>
+                <option value="rec_up" id="opt-rec-up">Por cobrar (Aumentar +)</option>
+                <option value="rec_down" id="opt-rec-down">Por cobrar (Disminuir -)</option>
             </select>
         </div>
 

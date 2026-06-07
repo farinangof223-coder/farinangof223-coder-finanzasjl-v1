@@ -1183,3 +1183,205 @@
             transform: rotate(180deg);
             background: #dcecff;
         }
+
+
+        /* =========================
+           PRÉSTAMOS A TERCEROS
+        ========================= */
+
+        .loans-card,
+        .loan-helper-card {
+            margin-top: 14px;
+            border-left: 5px solid #7C3AED;
+        }
+
+        .loan-helper-card {
+            margin: 6px 0 14px;
+            border: 1px solid #e5e7eb;
+            border-left: 5px solid #7C3AED;
+            border-radius: 12px;
+            background: #fafcff;
+        }
+
+        .loans-help {
+            font-size: 0.84rem;
+            color: #666;
+            line-height: 1.45;
+            margin-bottom: 14px;
+        }
+
+        .loans-empty {
+            padding: 12px;
+            border-radius: 10px;
+            background: #f3f4f6;
+            color: #666;
+            font-size: 0.88rem;
+            text-align: center;
+        }
+
+        .loan-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #ffffff;
+        }
+
+        .loan-item.pending {
+            border-left: 5px solid #7C3AED;
+        }
+
+        .loan-item.paid {
+            border-left: 5px solid #2ECC71;
+            opacity: 0.92;
+        }
+
+        .loan-item-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .loan-party-name {
+            font-weight: 800;
+            color: #111827;
+            font-size: 0.98rem;
+        }
+
+        .loan-party-id {
+            color: #6b7280;
+            font-size: 0.78rem;
+            margin-top: 2px;
+        }
+
+        .loan-status {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: #4c1d95;
+            background: #ede9fe;
+            padding: 5px 8px;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        .loan-item.paid .loan-status {
+            color: #065f46;
+            background: #d1fae5;
+        }
+
+        .loan-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .loan-metrics div {
+            background: #f9fafb;
+            border-radius: 10px;
+            padding: 8px;
+        }
+
+        .loan-metrics span {
+            display: block;
+            color: #6b7280;
+            font-size: 0.70rem;
+            margin-bottom: 3px;
+        }
+
+        .loan-metrics strong {
+            color: #111827;
+            font-size: 0.82rem;
+        }
+
+        .loan-last {
+            color: #6b7280;
+            font-size: 0.74rem;
+            line-height: 1.35;
+        }
+
+        @media (max-width: 420px) {
+            .loan-metrics {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        /* =========================
+           AVISO AUTOMÁTICO POR TERCERO
+        ========================= */
+
+        .third-party-loan-notice {
+            margin: 0 0 14px;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            background: #f9fafb;
+            font-size: 0.84rem;
+        }
+
+        .third-party-loan-notice.pending {
+            border-left: 5px solid #7C3AED;
+            background: #faf5ff;
+        }
+
+        .third-party-loan-notice.paid {
+            border-left: 5px solid #2ECC71;
+            background: #f0fdf4;
+        }
+
+        .third-party-loan-notice.neutral {
+            border-left: 5px solid #9ca3af;
+            background: #f9fafb;
+        }
+
+        .third-party-loan-title {
+            color: #111827;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .third-party-loan-message {
+            color: #4b5563;
+            line-height: 1.35;
+            margin-bottom: 9px;
+        }
+
+        .third-party-loan-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .third-party-loan-grid div {
+            background: rgba(255,255,255,0.75);
+            border-radius: 10px;
+            padding: 8px;
+        }
+
+        .third-party-loan-grid span {
+            display: block;
+            color: #6b7280;
+            font-size: 0.70rem;
+            margin-bottom: 3px;
+        }
+
+        .third-party-loan-grid strong {
+            color: #111827;
+            font-size: 0.82rem;
+        }
+
+        .third-party-loan-last {
+            color: #6b7280;
+            font-size: 0.74rem;
+            line-height: 1.35;
+        }
+
+        @media (max-width: 420px) {
+            .third-party-loan-grid {
+                grid-template-columns: 1fr;
+            }
+        }
