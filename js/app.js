@@ -408,7 +408,7 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             in: "Ingresos",
             out: "Gastos",
             deu: "Deudas",
-            rec: "Por cobrar",
+            rec: "Recibo",
             net: "Saldo Neto",
             excel: "⭐ Descargar Reporte Profesional",
             ter: "Nombre / Razón social",
@@ -425,8 +425,8 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             optOut: "Gasto (-)",
             optDeuUp: "Deuda (Aumentar +)",
             optDeuDown: "Deuda (Disminuir -)",
-            optRecUp: "Por cobrar (Aumentar +)",
-            optRecDown: "Por cobrar (Disminuir -)",
+            optRecUp: "Cartera por cobrar (Aumentar +)",
+            optRecDown: "Cartera por cobrar (Disminuir -)",
             sumar: "¿Sumar a los Ingresos Actuales?",
             afectar: "¿Descontar del Saldo Actual?",
             save: "✅ Guardar Registro",
@@ -471,8 +471,8 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             expenseName: "Gasto",
             debtUpName: "Deuda aumentada",
             debtDownName: "Deuda disminuida",
-            recUpName: "Por cobrar aumentado",
-            recDownName: "Por cobrar disminuido",
+            recUpName: "Cartera por cobrar aumentada",
+            recDownName: "Cartera por cobrar disminuida",
             reportTitle: "REPORTE GERENCIAL",
             generatedReport: "Fecha de impresión",
             excelPrintDate: "Mes del reporte Excel",
@@ -510,10 +510,10 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             backupImportConfirm: "Esto reemplazará los datos actuales de esta app por los datos del archivo importado. ¿Deseas continuar?",
             backupImportOk: "Datos importados correctamente. La app se actualizará ahora.",
             backupImportError: "No se pudo importar el archivo. Revisa que sea una copia de seguridad válida.",
-            loansTitle: "💸 Préstamos a terceros",
-            loansHelp: "Controla la plata que prestas a otras personas. Registra el préstamo como “Por cobrar (Aumentar +)” y cada abono como “Por cobrar (Disminuir -)”.",
+            loansTitle: "💸 Cartera por cobrar",
+            loansHelp: "Controla la plata que prestas a terceros. Registra el préstamo como “Cartera por cobrar (Aumentar +)” y cada abono como “Cartera por cobrar (Disminuir -)”.",
             loanHelperTitle: "💸 Registrar préstamo",
-            loanHelperHelp: "Para prestar dinero, usa “Por cobrar (Aumentar +)”. Cuando recibas un pago o abono, usa “Por cobrar (Disminuir -)” con el mismo nombre o identificación del tercero.",
+            loanHelperHelp: "Para prestar dinero, usa “Cartera por cobrar (Aumentar +)”. Cuando recibas un pago o abono, usa “Cartera por cobrar (Disminuir -)” con el mismo nombre o identificación del tercero.",
             loansEmpty: "No hay préstamos registrados.",
             loansTotalLent: "Prestado",
             loansTotalPaid: "Abonado",
@@ -522,10 +522,10 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             thirdPartyLoanNoticeTitle: "Estado del tercero",
             thirdPartyLoanNoticeNoRecords: "Este tercero no tiene préstamos registrados.",
             thirdPartyLoanNoticePaid: "Este tercero no tiene saldo pendiente. Último préstamo pagado.",
-            thirdPartyLoanNoticePending: "Este tercero tiene saldo pendiente por cobrar.",
+            thirdPartyLoanNoticePending: "Este tercero tiene saldo pendiente en cartera por cobrar.",
             thirdPartyLoanNoticeLent: "Prestado",
             thirdPartyLoanNoticePaidAmount: "Abonado",
-            thirdPartyLoanNoticeBalance: "Pendiente"
+            thirdPartyLoanNoticeBalance: "Saldo en cartera"
         },
         en: {
             title: "FINANZAS JL",
@@ -534,7 +534,7 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             in: "Incomes",
             out: "Expenses",
             deu: "Debts",
-            rec: "Receivable",
+            rec: "Receipt",
             net: "Balance",
             excel: "⭐ Download Professional Report",
             ter: "Name / Business name",
@@ -551,8 +551,8 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             optOut: "Expense (-)",
             optDeuUp: "Debt (Increase +)",
             optDeuDown: "Debt (Decrease -)",
-            optRecUp: "Receivable (Increase +)",
-            optRecDown: "Receivable (Decrease -)",
+            optRecUp: "Accounts receivable (Increase +)",
+            optRecDown: "Accounts receivable (Decrease -)",
             sumar: "Add to Current Incomes?",
             afectar: "Deduct from Current Balance?",
             save: "✅ Save Record",
@@ -597,8 +597,8 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             expenseName: "Expense",
             debtUpName: "Debt increased",
             debtDownName: "Debt decreased",
-            recUpName: "Receivable increased",
-            recDownName: "Receivable decreased",
+            recUpName: "Accounts receivable increased",
+            recDownName: "Accounts receivable decreased",
             reportTitle: "MANAGEMENT REPORT",
             generatedReport: "Print date",
             excelPrintDate: "Excel report month",
@@ -636,7 +636,7 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             backupImportConfirm: "This will replace the current data in this app with the imported file data. Do you want to continue?",
             backupImportOk: "Data imported successfully. The app will now refresh.",
             backupImportError: "The file could not be imported. Check that it is a valid backup.",
-            loansTitle: "💸 Third-party loans",
+            loansTitle: "💸 Accounts receivable",
             loansHelp: "Track money you lend to other people. Register the loan as “Receivable (Increase +)” and each payment as “Receivable (Decrease -)”.",
             loanHelperTitle: "💸 Register loan",
             loanHelperHelp: "To lend money, use “Receivable (Increase +)”. When you receive a payment, use “Receivable (Decrease -)” with the same third-party name or ID.",
@@ -751,7 +751,7 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
         document.getElementById('txt-kpi-in').innerText = t.in;
         document.getElementById('txt-kpi-out').innerText = t.out;
         document.getElementById('txt-kpi-deu').innerText = t.deu;
-        if (document.getElementById('txt-kpi-rec')) document.getElementById('txt-kpi-rec').innerText = t.rec;
+        if (document.getElementById('txt-kpi-receivableeivable')) document.getElementById('txt-kpi-receivableeivable').innerText = t.receivableKpi;
         document.getElementById('txt-kpi-net').innerText = t.net;
         document.getElementById('txt-btn-excel').innerText = t.excel;
         document.getElementById('lbl-excel-print-date').innerText = t.excelPrintDate;

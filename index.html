@@ -161,7 +161,7 @@
         </div>
 
         <div class="kpi-card" style="border-top-color:#7C3AED">
-            <div id="txt-kpi-rec">Por cobrar</div>
+            <div id="txt-kpi-receivable">Cartera por cobrar</div>
             <div id="res-receivable" style="color:#7C3AED; font-weight:bold;">$ 0</div>
         </div>
     </div>
@@ -186,13 +186,13 @@
 
     <div id="loans-accordion" class="card collapsible-card collapsed loans-card">
         <button type="button" class="accordion-header" onclick="toggleAccordion('loans-accordion')" aria-expanded="false">
-            <span id="txt-loans-title" class="accordion-title">💸 Préstamos a terceros</span>
+            <span id="txt-loans-title" class="accordion-title">💸 Cartera por cobrar</span>
             <span class="accordion-icon">⌄</span>
         </button>
 
         <div class="accordion-content">
             <p id="txt-loans-help" class="loans-help">
-                Controla la plata que prestas a otras personas. Registra el préstamo como “Por cobrar (Aumentar +)” y cada abono como “Por cobrar (Disminuir -)”.
+                Controla la plata que prestas a terceros. Registra el préstamo como “Cartera por cobrar (Aumentar +)” y cada abono como “Cartera por cobrar (Disminuir -)”.
             </p>
 
             <div id="loans-summary-list"></div>
@@ -263,7 +263,7 @@
 
             <div class="accordion-content">
                 <p id="txt-loan-helper-help" class="loans-help">
-                    Para prestar dinero, usa “Por cobrar (Aumentar +)”. Cuando recibas un pago o abono, usa “Por cobrar (Disminuir -)” con el mismo nombre o identificación del tercero.
+                    Para prestar dinero, usa “Cartera por cobrar (Aumentar +)”. Cuando recibas un pago o abono, usa “Cartera por cobrar (Disminuir -)” con el mismo nombre o identificación del tercero.
                 </p>
             </div>
         </div>
@@ -275,8 +275,8 @@
                 <option value="out" id="opt-out">Gasto (-)</option>
                 <option value="deu_up" id="opt-deu-up">Deuda (Aumentar +)</option>
                 <option value="deu_down" id="opt-deu-down">Deuda (Disminuir -)</option>
-                <option value="rec_up" id="opt-rec-up">Por cobrar (Aumentar +)</option>
-                <option value="rec_down" id="opt-rec-down">Por cobrar (Disminuir -)</option>
+                <option value="rec_up" id="opt-rec-up">Cartera por cobrar (Aumentar +)</option>
+                <option value="rec_down" id="opt-rec-down">Cartera por cobrar (Disminuir -)</option>
             </select>
         </div>
 
