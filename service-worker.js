@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'finanzas-jl-estable-v1';
+const CACHE_VERSION = 'finanzas-jl-selector-fix-v1';
 const STATIC_CACHE = `finanzas-jl-static-${CACHE_VERSION}`;
 
 const APP_SHELL = [

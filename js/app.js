@@ -1154,7 +1154,19 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
         if (id === 'cartera-scr-profile') renderCarteraProfile();
     }
 
-function nav(id, el) {
+
+    window.switchModule = switchModule;
+    window.openMainModule = openMainModule;
+    window.openCarteraModule = openCarteraModule;
+    window.carteraNav = carteraNav;
+    window.renderCarteraHome = renderCarteraHome;
+    window.renderCarteraHist = renderCarteraHist;
+    window.renderCarteraProfile = renderCarteraProfile;
+    window.saveCarteraRecord = saveCarteraRecord;
+    window.editCarteraRecord = editCarteraRecord;
+    window.deleteCarteraRecord = deleteCarteraRecord;
+
+    function nav(id, el) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
 
@@ -2486,4 +2498,4 @@ function nav(id, el) {
     renderCarteraHome();
     renderCarteraHist();
     renderCarteraProfile();
-    switchModule('selector');
+    if (typeof switchModule === 'function') switchModule('selector');

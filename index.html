@@ -9,6 +9,128 @@
     <link rel="icon" type="image/png" href="icons/icon-192.png">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
     <link rel="stylesheet" href="css/styles.css">
+
+<style id="module-selector-inline-style">
+    #module-selector-screen {
+        min-height: calc(100vh - 120px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 22px 16px 96px;
+        box-sizing: border-box;
+    }
+
+    #module-selector-screen .module-selector-card {
+        width: min(520px, 100%);
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        padding: 24px 18px;
+        border: 1px solid #e5e7eb;
+        box-sizing: border-box;
+    }
+
+    #module-selector-screen .module-selector-icon {
+        width: 62px;
+        height: 62px;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #eff6ff;
+        font-size: 1.8rem;
+        margin-bottom: 12px;
+    }
+
+    #module-selector-screen h2 {
+        color: #1F4E79;
+        margin: 0 0 8px;
+        font-size: 1.35rem;
+    }
+
+    #module-selector-screen p {
+        color: #6b7280;
+        line-height: 1.45;
+        font-size: 0.9rem;
+        margin: 0 0 16px;
+    }
+
+    #module-selector-screen .module-entry-grid {
+        display: grid;
+        gap: 12px;
+        margin-top: 18px;
+    }
+
+    #module-selector-screen .module-entry-btn {
+        width: 100%;
+        border: 1px solid #dbeafe;
+        background: #eff6ff;
+        border-radius: 16px;
+        padding: 16px;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        cursor: pointer;
+        font-family: inherit;
+    }
+
+    #module-selector-screen .module-entry-btn.secondary {
+        background: #faf5ff;
+        border-color: #e9d5ff;
+    }
+
+    #module-selector-screen .module-entry-btn strong {
+        font-size: 1rem;
+        color: #111827;
+        display: block;
+    }
+
+    #module-selector-screen .module-entry-btn small {
+        color: #6b7280;
+        line-height: 1.35;
+        display: block;
+        font-size: 0.82rem;
+    }
+
+    #module-selector-screen .module-entry-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 999px;
+        background: rgba(31,78,121,0.12);
+        color: #1F4E79;
+        font-weight: 800;
+        margin-bottom: 4px;
+    }
+
+    .module-switch-bar {
+        padding: 0 0 10px;
+    }
+
+    .module-switch-btn {
+        border: 1px solid #d1d5db;
+        background: #ffffff;
+        color: #374151;
+        padding: 10px 14px;
+        border-radius: 999px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    #main-module,
+    #cartera-module {
+        display: none;
+    }
+
+    #main-bottom-nav,
+    #cartera-bottom-nav {
+        display: none;
+    }
+</style>
+
 </head>
 
 <body>
@@ -592,6 +714,82 @@
 
 <script type="module" src="js/firebase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+<script id="module-selector-inline-script">
+(function () {
+    function showElement(id, displayValue) {
+        var el = document.getElementById(id);
+        if (el) el.style.display = displayValue;
+    }
+
+    function setMainActiveButton(buttonId) {
+        document.querySelectorAll('#main-bottom-nav .nav-item').forEach(function(btn) {
+            btn.classList.remove('active');
+        });
+        var btn = document.getElementById(buttonId);
+        if (btn) btn.classList.add('active');
+    }
+
+    function setCarteraActiveButton(buttonId) {
+        document.querySelectorAll('#cartera-bottom-nav .nav-item').forEach(function(btn) {
+            btn.classList.remove('active');
+        });
+        var btn = document.getElementById(buttonId);
+        if (btn) btn.classList.add('active');
+    }
+
+    window.switchModule = function(moduleName) {
+        showElement('module-selector-screen', moduleName === 'selector' ? 'flex' : 'none');
+        showElement('main-module', moduleName === 'main' ? 'block' : 'none');
+        showElement('cartera-module', moduleName === 'cartera' ? 'block' : 'none');
+        showElement('main-bottom-nav', moduleName === 'main' ? 'flex' : 'none');
+        showElement('cartera-bottom-nav', moduleName === 'cartera' ? 'flex' : 'none');
+
+        if (moduleName === 'main' && typeof window.updateUI === 'function') {
+            window.updateUI();
+        }
+
+        if (moduleName === 'cartera') {
+            if (typeof window.renderCarteraHome === 'function') window.renderCarteraHome();
+            if (typeof window.renderCarteraHist === 'function') window.renderCarteraHist();
+            if (typeof window.renderCarteraProfile === 'function') window.renderCarteraProfile();
+        }
+    };
+
+    window.openMainModule = function() {
+        window.switchModule('main');
+
+        if (typeof window.nav === 'function') {
+            var btn = document.getElementById('main-nav-home');
+            window.nav('scr-home', btn);
+        } else {
+            document.querySelectorAll('.screen').forEach(function(screen) {
+                screen.classList.remove('active');
+            });
+            var home = document.getElementById('scr-home');
+            if (home) home.classList.add('active');
+            setMainActiveButton('main-nav-home');
+        }
+    };
+
+    window.openCarteraModule = function() {
+        window.switchModule('cartera');
+
+        if (typeof window.carteraNav === 'function') {
+            var btn = document.getElementById('car-nav-home');
+            window.carteraNav('cartera-scr-home', btn);
+        } else {
+            document.querySelectorAll('.cartera-screen').forEach(function(screen) {
+                screen.classList.remove('active');
+            });
+            var home = document.getElementById('cartera-scr-home');
+            if (home) home.classList.add('active');
+            setCarteraActiveButton('car-nav-home');
+        }
+    };
+})();
+</script>
+
 <script defer src="js/app.js"></script>
 
 </body>
