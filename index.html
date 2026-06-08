@@ -185,15 +185,13 @@
 
         <div class="form-group">
             <label id="lbl-ter">Nombre / Razón social</label>
-            <input type="text" id="ter" placeholder="Ej: Cliente o empresa" oninput="renderThirdPartyLoanNotice()">
+            <input type="text" id="ter" placeholder="Ej: Cliente o empresa">
         </div>
 
         <div class="form-group">
             <label id="lbl-nit">NIT / CC</label>
-            <input type="text" id="nit" placeholder="Ej: 123456789" oninput="renderThirdPartyLoanNotice()">
+            <input type="text" id="nit" placeholder="Ej: 123456789">
         </div>
-
-        <div id="third-party-loan-notice" class="third-party-loan-notice" style="display:none;"></div>
 
         <div class="form-group">
             <label id="lbl-des">Concepto</label>
@@ -233,19 +231,6 @@
             </div>
         </div>
 
-        <div id="loan-helper-accordion" class="collapsible-card collapsed loan-helper-card">
-            <button type="button" class="accordion-header" onclick="toggleAccordion('loan-helper-accordion')" aria-expanded="false">
-                <span id="txt-loan-helper-title" class="accordion-title">💸 Registrar préstamo</span>
-                <span class="accordion-icon">⌄</span>
-            </button>
-
-            <div class="accordion-content">
-                <p id="txt-loan-helper-help" class="loans-help">
-                    Para prestar dinero, usa “Cartera por cobrar (Aumentar +)”. Cuando recibas un pago o abono, usa “Cartera por cobrar (Disminuir -)” con el mismo nombre o identificación del tercero.
-                </p>
-            </div>
-        </div>
-
         <div class="form-group">
             <label id="lbl-typ">Tipo</label>
             <select id="type" onchange="toggleAbonoLogic()">
@@ -253,8 +238,6 @@
                 <option value="out" id="opt-out">Gasto (-)</option>
                 <option value="deu_up" id="opt-deu-up">Deuda (Aumentar +)</option>
                 <option value="deu_down" id="opt-deu-down">Deuda (Disminuir -)</option>
-                <option value="rec_up" id="opt-rec-up">Cartera por cobrar (Aumentar +)</option>
-                <option value="rec_down" id="opt-rec-down">Cartera por cobrar (Disminuir -)</option>
             </select>
         </div>
 
@@ -286,35 +269,94 @@
 
 <!-- VISTA CARTERA -->
 <div id="scr-cartera" class="screen">
-    <div class="card cartera-header-card">
-        <h3 id="txt-cartera-title" style="color:var(--primary); margin-bottom:8px;">💸 Cartera por cobrar</h3>
-        <p id="txt-cartera-help" class="loans-help">
-            Controla de forma independiente la plata que prestas a terceros. Esta sección no afecta ingresos ni gastos.
-        </p>
+    <div id="cartera-view-home" class="cartera-view active">
+        <div class="card cartera-intro-card">
+            <h3 id="txt-cartera-title" style="color:var(--primary); margin-bottom:8px;">💼 Cartera</h3>
+            <p id="txt-cartera-subtitle" class="cartera-subtitle">Elige cómo deseas trabajar la cartera por cobrar.</p>
+        </div>
+        <div class="cartera-entry-grid">
+            <button type="button" class="cartera-entry-btn" onclick="openCarteraView('quick')">
+                <span class="cartera-entry-icon">⚡</span>
+                <strong id="txt-cartera-quick-title">Registro rápido</strong>
+                <small id="txt-cartera-quick-desc">Registrar préstamo o abono sin salir de cartera.</small>
+            </button>
+            <button type="button" class="cartera-entry-btn secondary" onclick="openCarteraView('manage')">
+                <span class="cartera-entry-icon">📂</span>
+                <strong id="txt-cartera-manage-title">Gestión de cartera</strong>
+                <small id="txt-cartera-manage-desc">Ver resumen, terceros y saldos pendientes.</small>
+            </button>
+        </div>
+    </div>
 
-        <div class="cartera-kpi-grid">
-            <div class="cartera-kpi-card">
-                <span id="txt-cartera-lent">Total prestado</span>
-                <strong id="cartera-total-lent">$ 0</strong>
+    <div id="cartera-view-quick" class="cartera-view" style="display:none;">
+        <div class="card cartera-section-card">
+            <div class="cartera-section-head">
+                <button type="button" class="btn btn-light cartera-back-btn" onclick="openCarteraView('home')">←</button>
+                <div>
+                    <h3 id="txt-cartera-quick-header" style="color:var(--primary); margin-bottom:4px;">⚡ Registro rápido</h3>
+                    <p id="txt-cartera-quick-help" class="cartera-section-help">Registra préstamos y abonos sin afectar ingresos ni gastos.</p>
+                </div>
             </div>
-            <div class="cartera-kpi-card">
-                <span id="txt-cartera-paid">Total abonado</span>
-                <strong id="cartera-total-paid">$ 0</strong>
+            <input type="hidden" id="cartera-edit-index" value="-1">
+            <div class="form-group">
+                <label id="lbl-cartera-ter">Nombre / Razón social</label>
+                <input type="text" id="cartera-ter" placeholder="Ej: Cliente o empresa">
             </div>
-            <div class="cartera-kpi-card principal">
-                <span id="txt-cartera-balance">Saldo pendiente</span>
-                <strong id="cartera-total-balance">$ 0</strong>
+            <div class="form-group">
+                <label id="lbl-cartera-nit">NIT / CC</label>
+                <input type="text" id="cartera-nit" placeholder="Ej: 123456789">
+            </div>
+            <div class="form-group">
+                <label id="lbl-cartera-desc">Concepto</label>
+                <input type="text" id="cartera-desc" placeholder="Ej: Préstamo inicial o abono parcial">
+            </div>
+            <div class="form-group">
+                <label id="lbl-cartera-amt">Monto</label>
+                <input type="number" id="cartera-amt">
+            </div>
+            <div class="form-group">
+                <label id="lbl-cartera-type">Tipo</label>
+                <select id="cartera-type">
+                    <option value="rec_up" id="opt-rec-up">Cartera (Préstamo +)</option>
+                    <option value="rec_down" id="opt-rec-down">Cartera (Abono -)</option>
+                </select>
+            </div>
+            <div class="cartera-quick-actions">
+                <button id="btn-cartera-save" type="button" onclick="saveCarteraData()" class="btn btn-primary">💾 Guardar movimiento</button>
+                <button id="btn-cartera-cancel" type="button" onclick="resetCarteraQuickForm(); openCarteraView('home');" class="btn btn-secondary">Cancelar</button>
             </div>
         </div>
     </div>
 
-    <div class="card loans-card cartera-list-card">
-        <h3 id="txt-cartera-detail-title" style="color:var(--primary); margin-bottom:10px;">Detalle por tercero</h3>
-        <div id="loans-summary-list"></div>
+    <div id="cartera-view-manage" class="cartera-view" style="display:none;">
+        <div class="card cartera-section-card">
+            <div class="cartera-section-head">
+                <button type="button" class="btn btn-light cartera-back-btn" onclick="openCarteraView('home')">←</button>
+                <div>
+                    <h3 id="txt-cartera-manage-header" style="color:var(--primary); margin-bottom:4px;">📂 Gestión de cartera</h3>
+                    <p id="txt-cartera-manage-help" class="cartera-section-help">Controla el estado de cada tercero y consulta su historial.</p>
+                </div>
+            </div>
+            <div class="cartera-summary-grid">
+                <div class="cartera-summary-card"><span id="txt-cartera-total-lent">Total prestado</span><strong id="cartera-total-lent">$ 0</strong></div>
+                <div class="cartera-summary-card"><span id="txt-cartera-total-paid">Total abonado</span><strong id="cartera-total-paid">$ 0</strong></div>
+                <div class="cartera-summary-card highlight"><span id="txt-cartera-total-balance">Saldo pendiente</span><strong id="cartera-total-balance">$ 0</strong></div>
+                <div class="cartera-summary-card"><span id="txt-cartera-total-people">Terceros</span><strong id="cartera-total-people">0</strong></div>
+            </div>
+            <div class="form-group" style="margin-top:14px; margin-bottom:10px;">
+                <label id="lbl-cartera-search">Buscar tercero</label>
+                <input type="text" id="cartera-search" oninput="renderCarteraManagement()" placeholder="Nombre o identificación">
+            </div>
+            <div class="cartera-manage-layout">
+                <div><div id="cartera-summary-list"></div></div>
+                <div id="cartera-detail-panel" class="cartera-detail-panel"></div>
+            </div>
+        </div>
     </div>
 </div>
 
 <!-- VISTA PERFIL / EMISOR -->
+
 <div id="scr-profile" class="screen">
 
     <div class="card auth-card">
@@ -494,9 +536,9 @@
     <button class="nav-item" onclick="nav('scr-hist', this)">
         📜<br><span id="txt-nav-hist">Historial</span>
     </button>
-    <button class="nav-item" onclick="nav('scr-cartera', this)">
-        <span>💸</span>
-        <small id="txt-nav-cartera">Cartera</small>
+
+    <button class="nav-item" id="nav-cartera-btn" onclick="nav('scr-cartera', this)">
+        💼<br><span id="txt-nav-cartera">Cartera</span>
     </button>
 
     <button class="nav-item" onclick="nav('scr-profile', this)">

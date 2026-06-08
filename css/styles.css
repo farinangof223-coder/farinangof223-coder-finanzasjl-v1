@@ -1185,255 +1185,44 @@
         }
 
 
-        /* =========================
-           PRÉSTAMOS A TERCEROS
-        ========================= */
-
-        .loans-card,
-        .loan-helper-card {
-            margin-top: 14px;
-            border-left: 5px solid #7C3AED;
-        }
-
-        .loan-helper-card {
-            margin: 6px 0 14px;
-            border: 1px solid #e5e7eb;
-            border-left: 5px solid #7C3AED;
-            border-radius: 12px;
-            background: #fafcff;
-        }
-
-        .loans-help {
-            font-size: 0.84rem;
-            color: #666;
-            line-height: 1.45;
-            margin-bottom: 14px;
-        }
-
-        .loans-empty {
-            padding: 12px;
-            border-radius: 10px;
-            background: #f3f4f6;
-            color: #666;
-            font-size: 0.88rem;
-            text-align: center;
-        }
-
-        .loan-item {
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 10px;
-            background: #ffffff;
-        }
-
-        .loan-item.pending {
-            border-left: 5px solid #7C3AED;
-        }
-
-        .loan-item.paid {
-            border-left: 5px solid #2ECC71;
-            opacity: 0.92;
-        }
-
-        .loan-item-header {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .loan-party-name {
-            font-weight: 800;
-            color: #111827;
-            font-size: 0.98rem;
-        }
-
-        .loan-party-id {
-            color: #6b7280;
-            font-size: 0.78rem;
-            margin-top: 2px;
-        }
-
-        .loan-status {
-            font-size: 0.72rem;
-            font-weight: 800;
-            color: #4c1d95;
-            background: #ede9fe;
-            padding: 5px 8px;
-            border-radius: 999px;
-            white-space: nowrap;
-        }
-
-        .loan-item.paid .loan-status {
-            color: #065f46;
-            background: #d1fae5;
-        }
-
-        .loan-metrics {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .loan-metrics div {
-            background: #f9fafb;
-            border-radius: 10px;
-            padding: 8px;
-        }
-
-        .loan-metrics span {
-            display: block;
-            color: #6b7280;
-            font-size: 0.70rem;
-            margin-bottom: 3px;
-        }
-
-        .loan-metrics strong {
-            color: #111827;
-            font-size: 0.82rem;
-        }
-
-        .loan-last {
-            color: #6b7280;
-            font-size: 0.74rem;
-            line-height: 1.35;
-        }
-
-        @media (max-width: 420px) {
-            .loan-metrics {
-                grid-template-columns: 1fr;
-            }
-        }
-
-
-        /* =========================
-           AVISO AUTOMÁTICO POR TERCERO
-        ========================= */
-
-        .third-party-loan-notice {
-            margin: 0 0 14px;
-            padding: 12px;
-            border-radius: 12px;
-            border: 1px solid #e5e7eb;
-            background: #f9fafb;
-            font-size: 0.84rem;
-        }
-
-        .third-party-loan-notice.pending {
-            border-left: 5px solid #7C3AED;
-            background: #faf5ff;
-        }
-
-        .third-party-loan-notice.paid {
-            border-left: 5px solid #2ECC71;
-            background: #f0fdf4;
-        }
-
-        .third-party-loan-notice.neutral {
-            border-left: 5px solid #9ca3af;
-            background: #f9fafb;
-        }
-
-        .third-party-loan-title {
-            color: #111827;
-            font-weight: 800;
-            margin-bottom: 4px;
-        }
-
-        .third-party-loan-message {
-            color: #4b5563;
-            line-height: 1.35;
-            margin-bottom: 9px;
-        }
-
-        .third-party-loan-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .third-party-loan-grid div {
-            background: rgba(255,255,255,0.75);
-            border-radius: 10px;
-            padding: 8px;
-        }
-
-        .third-party-loan-grid span {
-            display: block;
-            color: #6b7280;
-            font-size: 0.70rem;
-            margin-bottom: 3px;
-        }
-
-        .third-party-loan-grid strong {
-            color: #111827;
-            font-size: 0.82rem;
-        }
-
-        .third-party-loan-last {
-            color: #6b7280;
-            font-size: 0.74rem;
-            line-height: 1.35;
-        }
-
-        @media (max-width: 420px) {
-            .third-party-loan-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-
-        /* =========================
-           VENTANA CARTERA INDEPENDIENTE
-        ========================= */
-
-        .cartera-header-card {
-            border-left: 5px solid #7C3AED;
-        }
-
-        .cartera-kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 12px;
-        }
-
-        .cartera-kpi-card {
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 12px;
-        }
-
-        .cartera-kpi-card span {
-            display: block;
-            color: #6b7280;
-            font-size: 0.72rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .cartera-kpi-card strong {
-            color: #111827;
-            font-size: 1rem;
-            font-weight: 900;
-        }
-
-        .cartera-kpi-card.principal {
-            border-left: 5px solid #7C3AED;
-            background: #faf5ff;
-        }
-
-        .cartera-list-card {
-            margin-top: 12px;
-        }
-
-        @media (max-width: 520px) {
-            .cartera-kpi-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+/* CARTERA DOS AMBIENTES */
+.cartera-subtitle, .cartera-section-help { font-size:0.84rem; color:#666; line-height:1.4; }
+.cartera-entry-grid { display:grid; grid-template-columns:1fr; gap:12px; }
+.cartera-entry-btn { width:100%; border:1px solid #dbeafe; background:#eff6ff; border-radius:16px; padding:18px 16px; text-align:left; display:flex; flex-direction:column; gap:6px; cursor:pointer; }
+.cartera-entry-btn.secondary { background:#faf5ff; border-color:#e9d5ff; }
+.cartera-entry-icon { font-size:1.6rem; }
+.cartera-entry-btn strong { font-size:1rem; color:#111827; }
+.cartera-entry-btn small { color:#6b7280; line-height:1.35; }
+.cartera-section-card, .cartera-intro-card { border-left:5px solid var(--primary); }
+.cartera-section-head { display:flex; gap:10px; align-items:flex-start; margin-bottom:14px; }
+.cartera-back-btn { min-width:42px; padding:10px 12px; }
+.cartera-quick-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
+.cartera-summary-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+.cartera-summary-card { background:#f9fafb; border:1px solid #e5e7eb; border-radius:12px; padding:12px; }
+.cartera-summary-card.highlight { background:#eff6ff; border-color:#bfdbfe; }
+.cartera-summary-card span { display:block; color:#6b7280; font-size:0.75rem; margin-bottom:4px; }
+.cartera-summary-card strong { color:#111827; font-size:1rem; }
+.cartera-manage-layout { display:grid; grid-template-columns:1fr; gap:12px; }
+.cartera-person-card { border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#fff; cursor:pointer; margin-bottom:8px; }
+.cartera-person-card.active { border-color:var(--primary); box-shadow:0 0 0 2px rgba(31,78,121,0.08); }
+.cartera-person-top { display:flex; justify-content:space-between; gap:10px; margin-bottom:6px; }
+.cartera-person-name { font-weight:800; color:#111827; }
+.cartera-person-balance { font-weight:800; color:var(--primary); white-space:nowrap; }
+.cartera-person-meta, .cartera-person-last { color:#6b7280; font-size:0.79rem; line-height:1.35; }
+.cartera-detail-panel { border:1px solid #e5e7eb; border-radius:14px; padding:14px; background:#fcfcfd; min-height:160px; }
+.cartera-detail-empty { color:#6b7280; font-size:0.84rem; line-height:1.45; }
+.cartera-detail-header { display:flex; justify-content:space-between; gap:10px; align-items:flex-start; margin-bottom:10px; }
+.cartera-detail-header h4 { color:#111827; margin:0 0 4px; }
+.cartera-mini-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-bottom:12px; }
+.cartera-mini-card { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:10px; }
+.cartera-mini-card span { display:block; font-size:0.72rem; color:#6b7280; margin-bottom:3px; }
+.cartera-mini-card strong { font-size:0.92rem; color:#111827; }
+.cartera-detail-actions { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:12px; }
+.cartera-movements-title { font-size:0.82rem; font-weight:800; color:#374151; margin-bottom:8px; }
+.cartera-movement-item { border-top:1px solid #eef2f7; padding:8px 0; }
+.cartera-movement-item:first-child { border-top:0; padding-top:0; }
+.cartera-movement-item strong { color:#111827; }
+.cartera-movement-item small { color:#6b7280; display:block; margin-top:2px; }
+.cartera-empty-card { border:1px dashed #cbd5e1; border-radius:12px; padding:16px; color:#6b7280; text-align:center; font-size:0.84rem; background:#fff; }
+@media (min-width:920px){ .cartera-manage-layout { grid-template-columns:minmax(0,1fr) minmax(320px,.95fr); } }
+@media (max-width:560px){ .cartera-summary-grid, .cartera-mini-grid { grid-template-columns:1fr; } }

@@ -408,8 +408,6 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             in: "Ingresos",
             out: "Gastos",
             deu: "Deudas",
-            rec: "Recibo",
-            receivableKpi: "Cartera por cobrar",
             net: "Saldo Neto",
             excel: "⭐ Descargar Reporte Profesional",
             ter: "Nombre / Razón social",
@@ -426,8 +424,6 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             optOut: "Gasto (-)",
             optDeuUp: "Deuda (Aumentar +)",
             optDeuDown: "Deuda (Disminuir -)",
-            optRecUp: "Cartera por cobrar (Aumentar +)",
-            optRecDown: "Cartera por cobrar (Disminuir -)",
             sumar: "¿Sumar a los Ingresos Actuales?",
             afectar: "¿Descontar del Saldo Actual?",
             save: "✅ Guardar Registro",
@@ -435,9 +431,37 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             home: "Inicio",
             add: "Nuevo",
             hist: "Historial",
-            carteraNav: "Cartera",
+            cartera: "Cartera",
             rec: "Recibo",
             profile: "Perfil",
+            carteraTitle: "💼 Cartera",
+            carteraSubtitle: "Elige cómo deseas trabajar la cartera por cobrar.",
+            carteraQuickTitle: "Registro rápido",
+            carteraQuickDesc: "Registrar préstamo o abono sin salir de cartera.",
+            carteraManageTitle: "Gestión de cartera",
+            carteraManageDesc: "Ver resumen, terceros y saldos pendientes.",
+            carteraQuickHeader: "⚡ Registro rápido",
+            carteraQuickHelp: "Registra préstamos y abonos sin afectar ingresos ni gastos.",
+            carteraManageHeader: "📂 Gestión de cartera",
+            carteraManageHelp: "Controla el estado de cada tercero y consulta su historial.",
+            carteraSave: "💾 Guardar movimiento",
+            carteraCancel: "Cancelar",
+            optRecUp: "Cartera (Préstamo +)",
+            optRecDown: "Cartera (Abono -)",
+            receivableUpName: "Préstamo registrado",
+            receivableDownName: "Abono recibido",
+            carteraTotalLent: "Total prestado",
+            carteraTotalPaid: "Total abonado",
+            carteraTotalBalance: "Saldo pendiente",
+            carteraTotalPeople: "Terceros",
+            carteraSearch: "Buscar tercero",
+            carteraSearchPlaceholder: "Nombre o identificación",
+            carteraEmpty: "Aún no hay movimientos de cartera.",
+            carteraDetailEmpty: "Selecciona un tercero para ver su detalle.",
+            carteraMovements: "Últimos movimientos",
+            carteraRegisterLoan: "➕ Registrar préstamo",
+            carteraRegisterPayment: "➖ Registrar abono",
+            carteraNoConcept: "Sin concepto",
             profileTitle: "👤 Datos del emisor",
             profileHelp: "Estos datos aparecerán como emisor en los recibos generados por la app.",
             profileName: "Nombre / Razón social",
@@ -473,8 +497,6 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             expenseName: "Gasto",
             debtUpName: "Deuda aumentada",
             debtDownName: "Deuda disminuida",
-            recUpName: "Cartera por cobrar aumentada",
-            recDownName: "Cartera por cobrar disminuida",
             reportTitle: "REPORTE GERENCIAL",
             generatedReport: "Fecha de impresión",
             excelPrintDate: "Mes del reporte Excel",
@@ -511,29 +533,7 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             backupInvalid: "El archivo seleccionado no parece ser una copia válida de FINANZAS JL.",
             backupImportConfirm: "Esto reemplazará los datos actuales de esta app por los datos del archivo importado. ¿Deseas continuar?",
             backupImportOk: "Datos importados correctamente. La app se actualizará ahora.",
-            backupImportError: "No se pudo importar el archivo. Revisa que sea una copia de seguridad válida.",
-            loansTitle: "💸 Cartera por cobrar",
-            carteraTitle: "💸 Cartera por cobrar",
-            carteraHelp: "Controla de forma independiente la plata que prestas a terceros. Esta sección no afecta ingresos ni gastos.",
-            carteraDetailTitle: "Detalle por tercero",
-            carteraTotalLent: "Total prestado",
-            carteraTotalPaid: "Total abonado",
-            carteraTotalBalance: "Saldo pendiente",
-            loansHelp: "Controla la plata que prestas a terceros. Registra el préstamo como “Cartera por cobrar (Aumentar +)” y cada abono como “Cartera por cobrar (Disminuir -)”.",
-            loanHelperTitle: "💸 Registrar préstamo",
-            loanHelperHelp: "Para prestar dinero, usa “Cartera por cobrar (Aumentar +)”. Cuando recibas un pago o abono, usa “Cartera por cobrar (Disminuir -)” con el mismo nombre o identificación del tercero.",
-            loansEmpty: "No hay préstamos registrados.",
-            loansTotalLent: "Prestado",
-            loansTotalPaid: "Abonado",
-            loansBalance: "Pendiente",
-            loansLastMove: "Último movimiento",
-            thirdPartyLoanNoticeTitle: "Estado del tercero",
-            thirdPartyLoanNoticeNoRecords: "Este tercero no tiene préstamos registrados.",
-            thirdPartyLoanNoticePaid: "Este tercero no tiene saldo pendiente. Último préstamo pagado.",
-            thirdPartyLoanNoticePending: "Este tercero tiene saldo pendiente en cartera por cobrar.",
-            thirdPartyLoanNoticeLent: "Prestado",
-            thirdPartyLoanNoticePaidAmount: "Abonado",
-            thirdPartyLoanNoticeBalance: "Saldo en cartera"
+            backupImportError: "No se pudo importar el archivo. Revisa que sea una copia de seguridad válida."
         },
         en: {
             title: "FINANZAS JL",
@@ -542,8 +542,6 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             in: "Incomes",
             out: "Expenses",
             deu: "Debts",
-            rec: "Receipt",
-            receivableKpi: "Accounts receivable",
             net: "Balance",
             excel: "⭐ Download Professional Report",
             ter: "Name / Business name",
@@ -560,8 +558,6 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             optOut: "Expense (-)",
             optDeuUp: "Debt (Increase +)",
             optDeuDown: "Debt (Decrease -)",
-            optRecUp: "Accounts receivable (Increase +)",
-            optRecDown: "Accounts receivable (Decrease -)",
             sumar: "Add to Current Incomes?",
             afectar: "Deduct from Current Balance?",
             save: "✅ Save Record",
@@ -569,9 +565,37 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             home: "Home",
             add: "Add",
             hist: "History",
-            carteraNav: "Receivables",
+            cartera: "Receivables",
             rec: "Receipt",
             profile: "Profile",
+            carteraTitle: "💼 Receivables",
+            carteraSubtitle: "Choose how you want to work with accounts receivable.",
+            carteraQuickTitle: "Quick entry",
+            carteraQuickDesc: "Register loans or payments without leaving receivables.",
+            carteraManageTitle: "Receivables management",
+            carteraManageDesc: "View summary, third parties and pending balances.",
+            carteraQuickHeader: "⚡ Quick entry",
+            carteraQuickHelp: "Register loans and payments without affecting incomes or expenses.",
+            carteraManageHeader: "📂 Receivables management",
+            carteraManageHelp: "Track each third party and review their movement history.",
+            carteraSave: "💾 Save movement",
+            carteraCancel: "Cancel",
+            optRecUp: "Receivables (Loan +)",
+            optRecDown: "Receivables (Payment -)",
+            receivableUpName: "Loan recorded",
+            receivableDownName: "Payment received",
+            carteraTotalLent: "Total lent",
+            carteraTotalPaid: "Total paid",
+            carteraTotalBalance: "Pending balance",
+            carteraTotalPeople: "Third parties",
+            carteraSearch: "Search third party",
+            carteraSearchPlaceholder: "Name or ID",
+            carteraEmpty: "There are no receivables movements yet.",
+            carteraDetailEmpty: "Select a third party to see the detail.",
+            carteraMovements: "Latest movements",
+            carteraRegisterLoan: "➕ Register loan",
+            carteraRegisterPayment: "➖ Register payment",
+            carteraNoConcept: "No concept",
             profileTitle: "👤 Issuer information",
             profileHelp: "This information will appear as the issuer on receipts generated by the app.",
             profileName: "Name / Business name",
@@ -607,8 +631,6 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             expenseName: "Expense",
             debtUpName: "Debt increased",
             debtDownName: "Debt decreased",
-            recUpName: "Accounts receivable increased",
-            recDownName: "Accounts receivable decreased",
             reportTitle: "MANAGEMENT REPORT",
             generatedReport: "Print date",
             excelPrintDate: "Excel report month",
@@ -645,29 +667,7 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             backupInvalid: "The selected file does not seem to be a valid FINANZAS JL backup.",
             backupImportConfirm: "This will replace the current data in this app with the imported file data. Do you want to continue?",
             backupImportOk: "Data imported successfully. The app will now refresh.",
-            backupImportError: "The file could not be imported. Check that it is a valid backup.",
-            loansTitle: "💸 Accounts receivable",
-            carteraTitle: "💸 Accounts receivable",
-            carteraHelp: "Independently track money you lend to third parties. This section does not affect income or expenses.",
-            carteraDetailTitle: "Details by third party",
-            carteraTotalLent: "Total lent",
-            carteraTotalPaid: "Total paid",
-            carteraTotalBalance: "Pending balance",
-            loansHelp: "Track money you lend to other people. Register the loan as “Accounts receivable (Increase +)” and each payment as “Accounts receivable (Decrease -)”.",
-            loanHelperTitle: "💸 Register loan",
-            loanHelperHelp: "To lend money, use “Accounts receivable (Increase +)”. When you receive a payment, use “Accounts receivable (Decrease -)” with the same third-party name or ID.",
-            loansEmpty: "No loans registered.",
-            loansTotalLent: "Lent",
-            loansTotalPaid: "Paid",
-            loansBalance: "Pending",
-            loansLastMove: "Last transaction",
-            thirdPartyLoanNoticeTitle: "Third-party status",
-            thirdPartyLoanNoticeNoRecords: "This third party has no registered loans.",
-            thirdPartyLoanNoticePaid: "This third party has no pending balance. Last loan paid.",
-            thirdPartyLoanNoticePending: "This third party has a pending accounts receivable balance.",
-            thirdPartyLoanNoticeLent: "Lent",
-            thirdPartyLoanNoticePaidAmount: "Paid",
-            thirdPartyLoanNoticeBalance: "Receivable balance"
+            backupImportError: "The file could not be imported. Check that it is a valid backup."
         }
     };
 
@@ -750,8 +750,6 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
         localStorage.setItem('app_currency', currentCurrency);
         updateUI();
         renderHist();
-        renderLoansSummary();
-        renderThirdPartyLoanNotice();
 
         if (document.getElementById('scr-hist').classList.contains('active')) {
             renderHist();
@@ -769,7 +767,6 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
         document.getElementById('txt-kpi-in').innerText = t.in;
         document.getElementById('txt-kpi-out').innerText = t.out;
         document.getElementById('txt-kpi-deu').innerText = t.deu;
-        if (document.getElementById('txt-kpi-receivable')) document.getElementById('txt-kpi-receivable').innerText = t.receivableKpi;
         document.getElementById('txt-kpi-net').innerText = t.net;
         document.getElementById('txt-btn-excel').innerText = t.excel;
         document.getElementById('lbl-excel-print-date').innerText = t.excelPrintDate;
@@ -787,14 +784,12 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
         document.getElementById('opt-out').innerText = t.optOut;
         document.getElementById('opt-deu-up').innerText = t.optDeuUp;
         document.getElementById('opt-deu-down').innerText = t.optDeuDown;
-        if (document.getElementById('opt-rec-up')) document.getElementById('opt-rec-up').innerText = t.optRecUp;
-        if (document.getElementById('opt-rec-down')) document.getElementById('opt-rec-down').innerText = t.optRecDown;
         document.getElementById('lbl-sumar').innerText = t.sumar;
         document.getElementById('lbl-afectar').innerText = t.afectar;
         document.getElementById('txt-nav-home').innerText = t.home;
         document.getElementById('txt-nav-add').innerText = t.add;
         document.getElementById('txt-nav-hist').innerText = t.hist;
-        if (document.getElementById('txt-nav-cartera')) document.getElementById('txt-nav-cartera').innerText = t.carteraNav;
+        if (document.getElementById('txt-nav-cartera')) document.getElementById('txt-nav-cartera').innerText = t.cartera;
         document.getElementById('txt-nav-profile').innerText = t.profile;
         document.getElementById('lbl-currency').innerText = t.lblCur;
         document.getElementById('lang-label').innerText = currentLang.toUpperCase();
@@ -804,6 +799,31 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             document.getElementById('txt-install-text').innerText = t.installText;
             document.getElementById('install-btn').innerText = t.installButton;
             document.getElementById('txt-install-help').innerText = t.installHelp;
+        if (document.getElementById('txt-cartera-title')) document.getElementById('txt-cartera-title').innerText = t.carteraTitle;
+        if (document.getElementById('txt-cartera-subtitle')) document.getElementById('txt-cartera-subtitle').innerText = t.carteraSubtitle;
+        if (document.getElementById('txt-cartera-quick-title')) document.getElementById('txt-cartera-quick-title').innerText = t.carteraQuickTitle;
+        if (document.getElementById('txt-cartera-quick-desc')) document.getElementById('txt-cartera-quick-desc').innerText = t.carteraQuickDesc;
+        if (document.getElementById('txt-cartera-manage-title')) document.getElementById('txt-cartera-manage-title').innerText = t.carteraManageTitle;
+        if (document.getElementById('txt-cartera-manage-desc')) document.getElementById('txt-cartera-manage-desc').innerText = t.carteraManageDesc;
+        if (document.getElementById('txt-cartera-quick-header')) document.getElementById('txt-cartera-quick-header').innerText = t.carteraQuickHeader;
+        if (document.getElementById('txt-cartera-quick-help')) document.getElementById('txt-cartera-quick-help').innerText = t.carteraQuickHelp;
+        if (document.getElementById('lbl-cartera-ter')) document.getElementById('lbl-cartera-ter').innerText = t.ter;
+        if (document.getElementById('lbl-cartera-nit')) document.getElementById('lbl-cartera-nit').innerText = t.nit;
+        if (document.getElementById('lbl-cartera-desc')) document.getElementById('lbl-cartera-desc').innerText = t.des;
+        if (document.getElementById('lbl-cartera-amt')) document.getElementById('lbl-cartera-amt').innerText = t.amt;
+        if (document.getElementById('lbl-cartera-type')) document.getElementById('lbl-cartera-type').innerText = t.typ;
+        if (document.getElementById('opt-rec-up')) document.getElementById('opt-rec-up').innerText = t.optRecUp;
+        if (document.getElementById('opt-rec-down')) document.getElementById('opt-rec-down').innerText = t.optRecDown;
+        if (document.getElementById('btn-cartera-save')) document.getElementById('btn-cartera-save').innerText = t.carteraSave;
+        if (document.getElementById('btn-cartera-cancel')) document.getElementById('btn-cartera-cancel').innerText = t.carteraCancel;
+        if (document.getElementById('txt-cartera-manage-header')) document.getElementById('txt-cartera-manage-header').innerText = t.carteraManageHeader;
+        if (document.getElementById('txt-cartera-manage-help')) document.getElementById('txt-cartera-manage-help').innerText = t.carteraManageHelp;
+        if (document.getElementById('txt-cartera-total-lent')) document.getElementById('txt-cartera-total-lent').innerText = t.carteraTotalLent;
+        if (document.getElementById('txt-cartera-total-paid')) document.getElementById('txt-cartera-total-paid').innerText = t.carteraTotalPaid;
+        if (document.getElementById('txt-cartera-total-balance')) document.getElementById('txt-cartera-total-balance').innerText = t.carteraTotalBalance;
+        if (document.getElementById('txt-cartera-total-people')) document.getElementById('txt-cartera-total-people').innerText = t.carteraTotalPeople;
+        if (document.getElementById('lbl-cartera-search')) document.getElementById('lbl-cartera-search').innerText = t.carteraSearch;
+        if (document.getElementById('cartera-search')) document.getElementById('cartera-search').placeholder = t.carteraSearchPlaceholder;
         }
 
         if (document.getElementById('txt-profile-title')) {
@@ -826,33 +846,10 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
         }
 
 
-
-
-        if (document.getElementById('txt-cartera-title')) {
-            document.getElementById('txt-cartera-title').innerText = t.carteraTitle;
-            document.getElementById('txt-cartera-help').innerText = t.carteraHelp;
-            document.getElementById('txt-cartera-detail-title').innerText = t.carteraDetailTitle;
-            document.getElementById('txt-cartera-lent').innerText = t.carteraTotalLent;
-            document.getElementById('txt-cartera-paid').innerText = t.carteraTotalPaid;
-            document.getElementById('txt-cartera-balance').innerText = t.carteraTotalBalance;
-        }
-
-        if (document.getElementById('txt-loans-title')) {
-            document.getElementById('txt-loans-title').innerText = t.loansTitle;
-            document.getElementById('txt-loans-help').innerText = t.loansHelp;
-        }
-
-        if (document.getElementById('txt-loan-helper-title')) {
-            document.getElementById('txt-loan-helper-title').innerText = t.loanHelperTitle;
-            document.getElementById('txt-loan-helper-help').innerText = t.loanHelperHelp;
-        }
-
         document.getElementById('btn-save').innerText =
             document.getElementById('edit-index').value === "-1" ? t.save : t.update;
 
         updatePremiumStatusUI();
-        renderLoansSummary();
-        renderThirdPartyLoanNotice();
     }
 
 
@@ -885,7 +882,225 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
         }
     }
 
-    function toggleAbonoLogic() {
+    
+    function normalizeCarteraKey(ter, nit) {
+        return `${String(ter || '').trim().toLowerCase()}||${String(nit || '').trim().toLowerCase()}`;
+    }
+
+    let carteraSummaryCache = [];
+    let carteraSelectedKey = '';
+
+    function getCarteraEntries() {
+        return db.filter(item => item.type === 'rec_up' || item.type === 'rec_down');
+    }
+
+    function openCarteraView(view) {
+        ['home', 'quick', 'manage'].forEach(name => {
+            const section = document.getElementById(`cartera-view-${name}`);
+            if (section) {
+                section.style.display = name === view ? 'block' : 'none';
+                section.classList.toggle('active', name === view);
+            }
+        });
+
+        if (view === 'manage') {
+            renderCarteraManagement();
+        }
+    }
+
+    function resetCarteraQuickForm() {
+        ['cartera-ter', 'cartera-nit', 'cartera-desc', 'cartera-amt'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = '';
+        });
+        if (document.getElementById('cartera-type')) document.getElementById('cartera-type').value = 'rec_up';
+        if (document.getElementById('cartera-edit-index')) document.getElementById('cartera-edit-index').value = '-1';
+    }
+
+    function fillCarteraQuickForm(item, index = -1) {
+        document.getElementById('cartera-ter').value = item.ter || '';
+        document.getElementById('cartera-nit').value = item.nit || '';
+        document.getElementById('cartera-desc').value = item.desc || '';
+        document.getElementById('cartera-amt').value = item.amt || '';
+        document.getElementById('cartera-type').value = item.type || 'rec_up';
+        document.getElementById('cartera-edit-index').value = String(index);
+    }
+
+    function prepareCarteraQuickFromSummary(key, type) {
+        const summary = carteraSummaryCache.find(item => item.key === key);
+        if (!summary) return;
+        openCarteraView('quick');
+        fillCarteraQuickForm({ ter: summary.ter, nit: summary.nit, desc: '', amt: '', type: type || 'rec_up' }, -1);
+    }
+
+    function saveCarteraData() {
+        const idx = document.getElementById('cartera-edit-index').value;
+        const entry = {
+            ter: document.getElementById('cartera-ter').value.trim(),
+            nit: document.getElementById('cartera-nit').value.trim() || 'N/A',
+            contact: '',
+            email: '',
+            address: '',
+            desc: document.getElementById('cartera-desc').value.trim() || translations[currentLang].carteraNoConcept,
+            amt: parseFloat(document.getElementById('cartera-amt').value),
+            type: document.getElementById('cartera-type').value,
+            afectarSaldo: false,
+            sumarIngreso: false,
+            date: idx === '-1' ? formatLocalDateTime(new Date()) : db[idx].date,
+            monthKey: idx === '-1' ? getMonthKeyFromDate(new Date()) : (db[idx].monthKey || getMonthKeyFromEntry(db[idx])),
+            receiptNumber: idx === '-1' ? generateReceiptNumber(new Date()) : (db[idx].receiptNumber || generateReceiptNumber(parseEntryDate(db[idx])))
+        };
+
+        if (!entry.ter || isNaN(entry.amt)) {
+            alert(currentLang === 'es' ? 'Datos incompletos' : 'Incomplete data');
+            return;
+        }
+
+        if (idx === '-1') {
+            db.push(entry);
+            selectedReceiptIndex = db.length - 1;
+        } else {
+            db[Number(idx)] = entry;
+            selectedReceiptIndex = Number(idx);
+        }
+
+        localStorage.setItem('selected_receipt_index', selectedReceiptIndex);
+        localStorage.setItem('freddy_db_v11', JSON.stringify(db));
+        resetCarteraQuickForm();
+        renderHist();
+        renderCarteraManagement();
+        updateUI();
+        openCarteraView('manage');
+    }
+
+    function buildCarteraSummary() {
+        const grouped = {};
+
+        getCarteraEntries().forEach((item, originalIndex) => {
+            const key = normalizeCarteraKey(item.ter, item.nit);
+            if (!grouped[key]) {
+                grouped[key] = {
+                    key,
+                    ter: item.ter || '',
+                    nit: item.nit || 'N/A',
+                    lent: 0,
+                    paid: 0,
+                    movements: []
+                };
+            }
+
+            const amount = Number(item.amt || 0);
+            if (item.type === 'rec_up') grouped[key].lent += amount;
+            if (item.type === 'rec_down') grouped[key].paid += amount;
+            grouped[key].movements.push({ item, originalIndex });
+        });
+
+        return Object.values(grouped).map(group => {
+            group.balance = group.lent - group.paid;
+            group.movements = group.movements.sort((a, b) => parseEntryDate(b.item) - parseEntryDate(a.item));
+            return group;
+        }).sort((a, b) => Math.abs(b.balance) - Math.abs(a.balance));
+    }
+
+    function renderCarteraDetail(key) {
+        const panel = document.getElementById('cartera-detail-panel');
+        const t = translations[currentLang];
+        if (!panel) return;
+
+        if (!key) {
+            panel.innerHTML = `<div class="cartera-detail-empty">${t.carteraDetailEmpty}</div>`;
+            return;
+        }
+
+        const summary = carteraSummaryCache.find(item => item.key === key);
+        if (!summary) {
+            panel.innerHTML = `<div class="cartera-detail-empty">${t.carteraDetailEmpty}</div>`;
+            return;
+        }
+
+        carteraSelectedKey = key;
+        const escapedKey = summary.key.replace(/'/g, "\\'");
+
+        const movementsHtml = summary.movements.slice(0, 8).map(row => {
+            const receipt = getReceiptTypeData(row.item.type);
+            return `
+                <div class="cartera-movement-item">
+                    <strong>${receipt.tipoTexto} · ${formatMoney(row.item.amt)}</strong>
+                    <small>${row.item.date}</small>
+                    <small>${row.item.desc || t.carteraNoConcept}</small>
+                </div>
+            `;
+        }).join('');
+
+        panel.innerHTML = `
+            <div class="cartera-detail-header">
+                <div>
+                    <h4>${summary.ter}</h4>
+                    <div class="cartera-person-meta">${summary.nit || 'N/A'}</div>
+                </div>
+                <div class="cartera-person-balance">${formatMoney(summary.balance)}</div>
+            </div>
+            <div class="cartera-mini-grid">
+                <div class="cartera-mini-card"><span>${t.carteraTotalLent}</span><strong>${formatMoney(summary.lent)}</strong></div>
+                <div class="cartera-mini-card"><span>${t.carteraTotalPaid}</span><strong>${formatMoney(summary.paid)}</strong></div>
+                <div class="cartera-mini-card"><span>${t.carteraTotalBalance}</span><strong>${formatMoney(summary.balance)}</strong></div>
+            </div>
+            <div class="cartera-detail-actions">
+                <button type="button" class="btn btn-primary" onclick="prepareCarteraQuickFromSummary('${escapedKey}', 'rec_up')">${t.carteraRegisterLoan}</button>
+                <button type="button" class="btn btn-secondary" onclick="prepareCarteraQuickFromSummary('${escapedKey}', 'rec_down')">${t.carteraRegisterPayment}</button>
+            </div>
+            <div class="cartera-movements-title">${t.carteraMovements}</div>
+            ${movementsHtml || `<div class="cartera-detail-empty">${t.empty}</div>`}
+        `;
+    }
+
+    function renderCarteraManagement() {
+        const list = document.getElementById('cartera-summary-list');
+        const t = translations[currentLang];
+        if (!list) return;
+
+        carteraSummaryCache = buildCarteraSummary();
+        const searchValue = (document.getElementById('cartera-search') ? document.getElementById('cartera-search').value : '').trim().toLowerCase();
+        const filtered = carteraSummaryCache.filter(item => !searchValue || item.ter.toLowerCase().includes(searchValue) || String(item.nit || '').toLowerCase().includes(searchValue));
+
+        document.getElementById('cartera-total-lent').innerText = formatMoney(carteraSummaryCache.reduce((acc, item) => acc + item.lent, 0));
+        document.getElementById('cartera-total-paid').innerText = formatMoney(carteraSummaryCache.reduce((acc, item) => acc + item.paid, 0));
+        document.getElementById('cartera-total-balance').innerText = formatMoney(carteraSummaryCache.reduce((acc, item) => acc + item.balance, 0));
+        document.getElementById('cartera-total-people').innerText = String(carteraSummaryCache.length);
+
+        if (!filtered.length) {
+            list.innerHTML = `<div class="cartera-empty-card">${t.carteraEmpty}</div>`;
+            renderCarteraDetail('');
+            return;
+        }
+
+        if (!carteraSelectedKey || !filtered.some(item => item.key === carteraSelectedKey)) {
+            carteraSelectedKey = filtered[0].key;
+        }
+
+        list.innerHTML = filtered.map(item => {
+            const keyEscaped = item.key.replace(/'/g, "\\'");
+            return `
+                <div class="cartera-person-card ${item.key === carteraSelectedKey ? 'active' : ''}" onclick="selectCarteraPerson('${keyEscaped}')">
+                    <div class="cartera-person-top">
+                        <div class="cartera-person-name">${item.ter}</div>
+                        <div class="cartera-person-balance">${formatMoney(item.balance)}</div>
+                    </div>
+                    <div class="cartera-person-meta">${item.nit || 'N/A'}</div>
+                    <div class="cartera-person-last">${t.carteraTotalLent}: ${formatMoney(item.lent)} · ${t.carteraTotalPaid}: ${formatMoney(item.paid)}</div>
+                </div>
+            `;
+        }).join('');
+
+        renderCarteraDetail(carteraSelectedKey);
+    }
+
+    function selectCarteraPerson(key) {
+        carteraSelectedKey = key;
+        renderCarteraManagement();
+    }
+
+function toggleAbonoLogic() {
         const type = document.getElementById('type').value;
 
         document.getElementById('deuda-up-logic').style.display =
@@ -914,7 +1129,7 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
         }
 
         if (id === 'scr-cartera') {
-            renderLoansSummary();
+            renderCarteraManagement();
         }
 
         updateUI();
@@ -974,247 +1189,13 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
 
         toggleAbonoLogic();
         setAccordionState('add-optional-accordion', false);
-        renderThirdPartyLoanNotice();
         applyLang();
     }
-
-
-    function getLoanPartyKey(item) {
-        const nit = String(item.nit || '').trim();
-        const ter = String(item.ter || '').trim();
-
-        if (nit && nit !== 'N/A') {
-            return `id:${nit.toLowerCase()}`;
-        }
-
-        return `name:${ter.toLowerCase() || 'sin_nombre'}`;
-    }
-
-
-    function normalizePartyValue(value) {
-        return String(value || '').trim().toLowerCase();
-    }
-
-    function getLoanStatsForCurrentForm() {
-        const terInput = document.getElementById('ter');
-        const nitInput = document.getElementById('nit');
-        const terValue = normalizePartyValue(terInput ? terInput.value : '');
-        const nitValue = normalizePartyValue(nitInput ? nitInput.value : '');
-
-        if (!terValue && !nitValue) {
-            return null;
-        }
-
-        const stats = {
-            ter: terInput ? terInput.value.trim() : '',
-            nit: nitInput ? nitInput.value.trim() : '',
-            lent: 0,
-            paid: 0,
-            balance: 0,
-            count: 0,
-            lastDate: '',
-            lastDesc: ''
-        };
-
-        db.forEach(item => {
-            if (item.type !== 'rec_up' && item.type !== 'rec_down') return;
-
-            const itemNit = normalizePartyValue(item.nit);
-            const itemTer = normalizePartyValue(item.ter);
-
-            const sameByNit = nitValue && itemNit && itemNit !== 'n/a' && itemNit === nitValue;
-            const sameByName = !nitValue && terValue && itemTer === terValue;
-
-            if (!sameByNit && !sameByName) return;
-
-            const amount = Number(item.amt) || 0;
-
-            if (item.type === 'rec_up') {
-                stats.lent += amount;
-                stats.balance += amount;
-            }
-
-            if (item.type === 'rec_down') {
-                stats.paid += amount;
-                stats.balance -= amount;
-            }
-
-            stats.count += 1;
-            stats.lastDate = item.date || stats.lastDate;
-            stats.lastDesc = item.desc || stats.lastDesc;
-        });
-
-        return stats;
-    }
-
-    function renderThirdPartyLoanNotice() {
-        const notice = document.getElementById('third-party-loan-notice');
-        if (!notice) return;
-
-        const t = translations[currentLang];
-        const stats = getLoanStatsForCurrentForm();
-
-        if (!stats) {
-            notice.style.display = 'none';
-            notice.innerHTML = '';
-            return;
-        }
-
-        const hasTypedValue = Boolean(normalizePartyValue(stats.nit) || normalizePartyValue(stats.ter));
-
-        if (!hasTypedValue) {
-            notice.style.display = 'none';
-            notice.innerHTML = '';
-            return;
-        }
-
-        notice.style.display = 'block';
-
-        if (!stats.count) {
-            notice.className = 'third-party-loan-notice neutral';
-            notice.innerHTML = `
-                <div class="third-party-loan-title">💸 ${t.thirdPartyLoanNoticeTitle}</div>
-                <div class="third-party-loan-message">${t.thirdPartyLoanNoticeNoRecords}</div>
-            `;
-            return;
-        }
-
-        const isPaid = stats.balance <= 0;
-        notice.className = `third-party-loan-notice ${isPaid ? 'paid' : 'pending'}`;
-        notice.innerHTML = `
-            <div class="third-party-loan-title">💸 ${t.thirdPartyLoanNoticeTitle}</div>
-            <div class="third-party-loan-message">
-                ${isPaid ? t.thirdPartyLoanNoticePaid : t.thirdPartyLoanNoticePending}
-            </div>
-            <div class="third-party-loan-grid">
-                <div>
-                    <span>${t.thirdPartyLoanNoticeLent}</span>
-                    <strong>${formatMoney(stats.lent)}</strong>
-                </div>
-                <div>
-                    <span>${t.thirdPartyLoanNoticePaidAmount}</span>
-                    <strong>${formatMoney(stats.paid)}</strong>
-                </div>
-                <div>
-                    <span>${t.thirdPartyLoanNoticeBalance}</span>
-                    <strong>${formatMoney(stats.balance)}</strong>
-                </div>
-            </div>
-            <div class="third-party-loan-last">
-                ${t.loansLastMove}: ${stats.lastDate || '-'}${stats.lastDesc ? ' · ' + stats.lastDesc : ''}
-            </div>
-        `;
-    }
-
-
-    function renderLoansSummary() {
-        const container = document.getElementById('loans-summary-list');
-        if (!container) return;
-
-        const t = translations[currentLang];
-        const loansMap = {};
-
-        db.forEach(item => {
-            if (item.type !== 'rec_up' && item.type !== 'rec_down') return;
-
-            const key = getLoanPartyKey(item);
-            if (!loansMap[key]) {
-                loansMap[key] = {
-                    ter: item.ter || (currentLang === 'es' ? 'Sin nombre' : 'No name'),
-                    nit: item.nit || '',
-                    lent: 0,
-                    paid: 0,
-                    balance: 0,
-                    lastDate: item.date || '',
-                    lastDesc: item.desc || ''
-                };
-            }
-
-            const amount = Number(item.amt) || 0;
-
-            if (item.type === 'rec_up') {
-                loansMap[key].lent += amount;
-                loansMap[key].balance += amount;
-            }
-
-            if (item.type === 'rec_down') {
-                loansMap[key].paid += amount;
-                loansMap[key].balance -= amount;
-            }
-
-            loansMap[key].lastDate = item.date || loansMap[key].lastDate;
-            loansMap[key].lastDesc = item.desc || loansMap[key].lastDesc;
-        });
-
-        const loans = Object.values(loansMap)
-            .sort((a, b) => Math.abs(b.balance) - Math.abs(a.balance));
-
-        const carteraTotalLent = loans.reduce((sum, loan) => sum + loan.lent, 0);
-        const carteraTotalPaid = loans.reduce((sum, loan) => sum + loan.paid, 0);
-        const carteraTotalBalance = loans.reduce((sum, loan) => sum + loan.balance, 0);
-
-        if (document.getElementById('cartera-total-lent')) {
-            document.getElementById('cartera-total-lent').innerText = formatMoney(carteraTotalLent);
-            document.getElementById('cartera-total-paid').innerText = formatMoney(carteraTotalPaid);
-            document.getElementById('cartera-total-balance').innerText = formatMoney(carteraTotalBalance);
-        }
-
-        if (!loans.length) {
-            if (document.getElementById('cartera-total-lent')) {
-                document.getElementById('cartera-total-lent').innerText = formatMoney(0);
-                document.getElementById('cartera-total-paid').innerText = formatMoney(0);
-                document.getElementById('cartera-total-balance').innerText = formatMoney(0);
-            }
-
-            container.innerHTML = `<div class="loans-empty">${t.loansEmpty}</div>`;
-            return;
-        }
-
-        container.innerHTML = loans.map(loan => {
-            const statusClass = loan.balance <= 0 ? 'paid' : 'pending';
-            const statusText = loan.balance <= 0
-                ? (currentLang === 'es' ? 'Pagado' : 'Paid')
-                : (currentLang === 'es' ? 'Pendiente' : 'Pending');
-
-            return `
-                <div class="loan-item ${statusClass}">
-                    <div class="loan-item-header">
-                        <div>
-                            <div class="loan-party-name">${loan.ter}</div>
-                            <div class="loan-party-id">${loan.nit || 'N/A'}</div>
-                        </div>
-                        <span class="loan-status">${statusText}</span>
-                    </div>
-
-                    <div class="loan-metrics">
-                        <div>
-                            <span>${t.loansTotalLent}</span>
-                            <strong>${formatMoney(loan.lent)}</strong>
-                        </div>
-                        <div>
-                            <span>${t.loansTotalPaid}</span>
-                            <strong>${formatMoney(loan.paid)}</strong>
-                        </div>
-                        <div>
-                            <span>${t.loansBalance}</span>
-                            <strong>${formatMoney(loan.balance)}</strong>
-                        </div>
-                    </div>
-
-                    <div class="loan-last">
-                        ${t.loansLastMove}: ${loan.lastDate || '-'}${loan.lastDesc ? ' · ' + loan.lastDesc : ''}
-                    </div>
-                </div>
-            `;
-        }).join('');
-    }
-
 
     function updateUI() {
         let i = 0;
         let g = 0;
         let d = 0;
-        let r = 0;
 
         db.forEach(item => {
             if (item.type == 'in') {
@@ -1223,28 +1204,23 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
                 g += item.amt;
             } else if (item.type == 'deu_up') {
                 d += item.amt;
+
+                if (item.sumarIngreso) {
+                    i += item.amt;
+                }
             } else if (item.type == 'deu_down') {
                 d -= item.amt;
 
                 if (item.afectarSaldo) {
                     g += item.amt;
                 }
-            } else if (item.type == 'rec_up') {
-                r += item.amt;
-            } else if (item.type == 'rec_down') {
-                r -= item.amt;
             }
         });
 
         document.getElementById('res-in').innerText = formatMoney(i);
         document.getElementById('res-out').innerText = formatMoney(g);
         document.getElementById('res-deuda').innerText = formatMoney(d);
-        if (document.getElementById('res-receivable')) {
-            document.getElementById('res-receivable').innerText = formatMoney(r);
-        }
-        document.getElementById('res-net').innerText = formatMoney(i - g - d);
-        renderLoansSummary();
-        renderThirdPartyLoanNotice();
+        document.getElementById('res-net').innerText = formatMoney(i - g);
     }
 
     function getMonthKeyFromDate(date) {
@@ -1524,7 +1500,9 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             ['in', t.in],
             ['out', t.out],
             ['deu_up', t.optDeuUp],
-            ['deu_down', t.optDeuDown]
+            ['deu_down', t.optDeuDown],
+            ['rec_up', t.optRecUp],
+            ['rec_down', t.optRecDown]
         ];
 
         return options.map(([value, label]) => `
@@ -1737,6 +1715,14 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
     function editItem(index) {
         const item = db[index];
 
+        if (item.type === 'rec_up' || item.type === 'rec_down') {
+            const carteraBtn = document.getElementById('nav-cartera-btn');
+            nav('scr-cartera', carteraBtn || null);
+            openCarteraView('quick');
+            fillCarteraQuickForm(item, index);
+            return;
+        }
+
         document.getElementById('ter').value = item.ter;
         document.getElementById('nit').value = item.nit || '';
         if (document.getElementById('ter-contact')) document.getElementById('ter-contact').value = item.contact || '';
@@ -1752,7 +1738,6 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
         toggleAbonoLogic();
         const hasOptionalData = Boolean((item.contact || '').trim() || (item.email || '').trim() || (item.address || '').trim());
         setAccordionState('add-optional-accordion', hasOptionalData);
-        renderThirdPartyLoanNotice();
         nav('scr-add');
         applyLang();
     }
@@ -1786,6 +1771,14 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
 
         if (type === 'deu_down') {
             return { tipoTexto: t.optDeuDown, badgeClass: "badge-deu", movimientoTexto: t.debtDownName };
+        }
+
+        if (type === 'rec_up') {
+            return { tipoTexto: t.optRecUp, badgeClass: "badge-in", movimientoTexto: t.receivableUpName };
+        }
+
+        if (type === 'rec_down') {
+            return { tipoTexto: t.optRecDown, badgeClass: "badge-out", movimientoTexto: t.receivableDownName };
         }
 
         return { tipoTexto: t.optIn, badgeClass: "badge-in", movimientoTexto: t.incomeName };
@@ -1981,9 +1974,7 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             in: t.incomeName,
             out: t.expenseName,
             deu_up: t.debtUpName,
-            deu_down: t.debtDownName,
-            rec_up: t.recUpName,
-            rec_down: t.recDownName
+            deu_down: t.debtDownName
         };
 
         const formatDateForExcel = (entry) => {
