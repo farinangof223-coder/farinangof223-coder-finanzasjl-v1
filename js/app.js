@@ -1,5 +1,7 @@
 // FINANZAS JL V2 - lógica principal de la app
 let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
+    let carteraDb = JSON.parse(localStorage.getItem('finanzasjl_cartera_v1')) || [];
+    let currentModule = 'selector';
     let currentLang = localStorage.getItem('app_lang') || 'es';
     let currentCurrency = localStorage.getItem('app_currency') || 'COP';
     let selectedReceiptIndex = Number(localStorage.getItem('selected_receipt_index'));
@@ -431,37 +433,37 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             home: "Inicio",
             add: "Nuevo",
             hist: "Historial",
-            cartera: "Cartera",
             rec: "Recibo",
             profile: "Perfil",
-            carteraTitle: "💼 Cartera",
-            carteraSubtitle: "Elige cómo deseas trabajar la cartera por cobrar.",
-            carteraQuickTitle: "Registro rápido",
-            carteraQuickDesc: "Registrar préstamo o abono sin salir de cartera.",
-            carteraManageTitle: "Gestión de cartera",
-            carteraManageDesc: "Ver resumen, terceros y saldos pendientes.",
-            carteraQuickHeader: "⚡ Registro rápido",
-            carteraQuickHelp: "Registra préstamos y abonos sin afectar ingresos ni gastos.",
-            carteraManageHeader: "📂 Gestión de cartera",
-            carteraManageHelp: "Controla el estado de cada tercero y consulta su historial.",
-            carteraSave: "💾 Guardar movimiento",
-            carteraCancel: "Cancelar",
-            optRecUp: "Cartera (Préstamo +)",
-            optRecDown: "Cartera (Abono -)",
-            receivableUpName: "Préstamo registrado",
-            receivableDownName: "Abono recibido",
-            carteraTotalLent: "Total prestado",
-            carteraTotalPaid: "Total abonado",
-            carteraTotalBalance: "Saldo pendiente",
-            carteraTotalPeople: "Terceros",
-            carteraSearch: "Buscar tercero",
-            carteraSearchPlaceholder: "Nombre o identificación",
-            carteraEmpty: "Aún no hay movimientos de cartera.",
-            carteraDetailEmpty: "Selecciona un tercero para ver su detalle.",
-            carteraMovements: "Últimos movimientos",
-            carteraRegisterLoan: "➕ Registrar préstamo",
-            carteraRegisterPayment: "➖ Registrar abono",
-            carteraNoConcept: "Sin concepto",
+            selectorTitle: "Selecciona un módulo",
+            selectorHelp: "Al abrir la app, elige si quieres entrar al módulo principal o al módulo de cartera.",
+            selectorMainTitle: "Módulo principal",
+            selectorMainDesc: "Accede a Inicio, Nuevo, Historial y Perfil del sistema actual.",
+            selectorCarteraTitle: "Módulo cartera",
+            selectorCarteraDesc: "Accede a Inicio, Nuevo, Historial y Perfil solo para cartera.",
+            changeModule: "Cambiar módulo",
+            carHomeTitle: "💼 Inicio cartera",
+            carHomeHelp: "Resumen rápido del dinero prestado y recuperado.",
+            carKpiLent: "Prestado",
+            carKpiPaid: "Abonado",
+            carKpiBalance: "Pendiente",
+            carKpiPeople: "Terceros",
+            carSummaryListTitle: "Resumen por tercero",
+            carProfileTitle: "👤 Perfil cartera",
+            carProfileHelp: "Consulta saldos por tercero y usa este espacio para ir ajustando el módulo de cartera.",
+            carSearch: "Buscar tercero",
+            carSearchPlaceholder: "Nombre o identificación",
+            carLoan: "Cartera (Préstamo +)",
+            carPayment: "Cartera (Abono -)",
+            carSave: "💾 Guardar movimiento",
+            carNoData: "Aún no hay movimientos de cartera.",
+            carTotalLent: "Total prestado",
+            carTotalPaid: "Total abonado",
+            carTotalBalance: "Saldo pendiente",
+            carLastDate: "Último movimiento",
+            carEdit: "Editar",
+            carDelete: "Eliminar",
+            carDeleteConfirm: "¿Eliminar movimiento de cartera?",
             profileTitle: "👤 Datos del emisor",
             profileHelp: "Estos datos aparecerán como emisor en los recibos generados por la app.",
             profileName: "Nombre / Razón social",
@@ -565,37 +567,37 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             home: "Home",
             add: "Add",
             hist: "History",
-            cartera: "Receivables",
             rec: "Receipt",
             profile: "Profile",
-            carteraTitle: "💼 Receivables",
-            carteraSubtitle: "Choose how you want to work with accounts receivable.",
-            carteraQuickTitle: "Quick entry",
-            carteraQuickDesc: "Register loans or payments without leaving receivables.",
-            carteraManageTitle: "Receivables management",
-            carteraManageDesc: "View summary, third parties and pending balances.",
-            carteraQuickHeader: "⚡ Quick entry",
-            carteraQuickHelp: "Register loans and payments without affecting incomes or expenses.",
-            carteraManageHeader: "📂 Receivables management",
-            carteraManageHelp: "Track each third party and review their movement history.",
-            carteraSave: "💾 Save movement",
-            carteraCancel: "Cancel",
-            optRecUp: "Receivables (Loan +)",
-            optRecDown: "Receivables (Payment -)",
-            receivableUpName: "Loan recorded",
-            receivableDownName: "Payment received",
-            carteraTotalLent: "Total lent",
-            carteraTotalPaid: "Total paid",
-            carteraTotalBalance: "Pending balance",
-            carteraTotalPeople: "Third parties",
-            carteraSearch: "Search third party",
-            carteraSearchPlaceholder: "Name or ID",
-            carteraEmpty: "There are no receivables movements yet.",
-            carteraDetailEmpty: "Select a third party to see the detail.",
-            carteraMovements: "Latest movements",
-            carteraRegisterLoan: "➕ Register loan",
-            carteraRegisterPayment: "➖ Register payment",
-            carteraNoConcept: "No concept",
+            selectorTitle: "Choose a module",
+            selectorHelp: "When opening the app, choose whether you want the main module or the receivables module.",
+            selectorMainTitle: "Main module",
+            selectorMainDesc: "Access Home, Add, History and Profile from the current system.",
+            selectorCarteraTitle: "Receivables module",
+            selectorCarteraDesc: "Access Home, Add, History and Profile only for receivables.",
+            changeModule: "Change module",
+            carHomeTitle: "💼 Receivables home",
+            carHomeHelp: "Quick summary of money lent and recovered.",
+            carKpiLent: "Lent",
+            carKpiPaid: "Paid",
+            carKpiBalance: "Pending",
+            carKpiPeople: "Third parties",
+            carSummaryListTitle: "Summary by third party",
+            carProfileTitle: "👤 Receivables profile",
+            carProfileHelp: "Check balances by third party and use this area to keep adjusting the receivables module.",
+            carSearch: "Search third party",
+            carSearchPlaceholder: "Name or ID",
+            carLoan: "Receivables (Loan +)",
+            carPayment: "Receivables (Payment -)",
+            carSave: "💾 Save movement",
+            carNoData: "There are no receivables movements yet.",
+            carTotalLent: "Total lent",
+            carTotalPaid: "Total paid",
+            carTotalBalance: "Pending balance",
+            carLastDate: "Last movement",
+            carEdit: "Edit",
+            carDelete: "Delete",
+            carDeleteConfirm: "Delete receivables movement?",
             profileTitle: "👤 Issuer information",
             profileHelp: "This information will appear as the issuer on receipts generated by the app.",
             profileName: "Name / Business name",
@@ -789,7 +791,6 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
         document.getElementById('txt-nav-home').innerText = t.home;
         document.getElementById('txt-nav-add').innerText = t.add;
         document.getElementById('txt-nav-hist').innerText = t.hist;
-        if (document.getElementById('txt-nav-cartera')) document.getElementById('txt-nav-cartera').innerText = t.cartera;
         document.getElementById('txt-nav-profile').innerText = t.profile;
         document.getElementById('lbl-currency').innerText = t.lblCur;
         document.getElementById('lang-label').innerText = currentLang.toUpperCase();
@@ -799,31 +800,38 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
             document.getElementById('txt-install-text').innerText = t.installText;
             document.getElementById('install-btn').innerText = t.installButton;
             document.getElementById('txt-install-help').innerText = t.installHelp;
-        if (document.getElementById('txt-cartera-title')) document.getElementById('txt-cartera-title').innerText = t.carteraTitle;
-        if (document.getElementById('txt-cartera-subtitle')) document.getElementById('txt-cartera-subtitle').innerText = t.carteraSubtitle;
-        if (document.getElementById('txt-cartera-quick-title')) document.getElementById('txt-cartera-quick-title').innerText = t.carteraQuickTitle;
-        if (document.getElementById('txt-cartera-quick-desc')) document.getElementById('txt-cartera-quick-desc').innerText = t.carteraQuickDesc;
-        if (document.getElementById('txt-cartera-manage-title')) document.getElementById('txt-cartera-manage-title').innerText = t.carteraManageTitle;
-        if (document.getElementById('txt-cartera-manage-desc')) document.getElementById('txt-cartera-manage-desc').innerText = t.carteraManageDesc;
-        if (document.getElementById('txt-cartera-quick-header')) document.getElementById('txt-cartera-quick-header').innerText = t.carteraQuickHeader;
-        if (document.getElementById('txt-cartera-quick-help')) document.getElementById('txt-cartera-quick-help').innerText = t.carteraQuickHelp;
-        if (document.getElementById('lbl-cartera-ter')) document.getElementById('lbl-cartera-ter').innerText = t.ter;
-        if (document.getElementById('lbl-cartera-nit')) document.getElementById('lbl-cartera-nit').innerText = t.nit;
-        if (document.getElementById('lbl-cartera-desc')) document.getElementById('lbl-cartera-desc').innerText = t.des;
-        if (document.getElementById('lbl-cartera-amt')) document.getElementById('lbl-cartera-amt').innerText = t.amt;
-        if (document.getElementById('lbl-cartera-type')) document.getElementById('lbl-cartera-type').innerText = t.typ;
-        if (document.getElementById('opt-rec-up')) document.getElementById('opt-rec-up').innerText = t.optRecUp;
-        if (document.getElementById('opt-rec-down')) document.getElementById('opt-rec-down').innerText = t.optRecDown;
-        if (document.getElementById('btn-cartera-save')) document.getElementById('btn-cartera-save').innerText = t.carteraSave;
-        if (document.getElementById('btn-cartera-cancel')) document.getElementById('btn-cartera-cancel').innerText = t.carteraCancel;
-        if (document.getElementById('txt-cartera-manage-header')) document.getElementById('txt-cartera-manage-header').innerText = t.carteraManageHeader;
-        if (document.getElementById('txt-cartera-manage-help')) document.getElementById('txt-cartera-manage-help').innerText = t.carteraManageHelp;
-        if (document.getElementById('txt-cartera-total-lent')) document.getElementById('txt-cartera-total-lent').innerText = t.carteraTotalLent;
-        if (document.getElementById('txt-cartera-total-paid')) document.getElementById('txt-cartera-total-paid').innerText = t.carteraTotalPaid;
-        if (document.getElementById('txt-cartera-total-balance')) document.getElementById('txt-cartera-total-balance').innerText = t.carteraTotalBalance;
-        if (document.getElementById('txt-cartera-total-people')) document.getElementById('txt-cartera-total-people').innerText = t.carteraTotalPeople;
-        if (document.getElementById('lbl-cartera-search')) document.getElementById('lbl-cartera-search').innerText = t.carteraSearch;
-        if (document.getElementById('cartera-search')) document.getElementById('cartera-search').placeholder = t.carteraSearchPlaceholder;
+
+        if (document.getElementById('txt-selector-title')) document.getElementById('txt-selector-title').innerText = t.selectorTitle;
+        if (document.getElementById('txt-selector-help')) document.getElementById('txt-selector-help').innerText = t.selectorHelp;
+        if (document.getElementById('txt-selector-main-title')) document.getElementById('txt-selector-main-title').innerText = t.selectorMainTitle;
+        if (document.getElementById('txt-selector-main-desc')) document.getElementById('txt-selector-main-desc').innerText = t.selectorMainDesc;
+        if (document.getElementById('txt-selector-cartera-title')) document.getElementById('txt-selector-cartera-title').innerText = t.selectorCarteraTitle;
+        if (document.getElementById('txt-selector-cartera-desc')) document.getElementById('txt-selector-cartera-desc').innerText = t.selectorCarteraDesc;
+        if (document.getElementById('txt-change-module-main')) document.getElementById('txt-change-module-main').innerText = t.changeModule;
+        if (document.getElementById('txt-change-module-cartera')) document.getElementById('txt-change-module-cartera').innerText = t.changeModule;
+        if (document.getElementById('txt-cartera-home-title')) document.getElementById('txt-cartera-home-title').innerText = t.carHomeTitle;
+        if (document.getElementById('txt-cartera-home-help')) document.getElementById('txt-cartera-home-help').innerText = t.carHomeHelp;
+        if (document.getElementById('txt-car-kpi-lent')) document.getElementById('txt-car-kpi-lent').innerText = t.carKpiLent;
+        if (document.getElementById('txt-car-kpi-paid')) document.getElementById('txt-car-kpi-paid').innerText = t.carKpiPaid;
+        if (document.getElementById('txt-car-kpi-balance')) document.getElementById('txt-car-kpi-balance').innerText = t.carKpiBalance;
+        if (document.getElementById('txt-car-kpi-people')) document.getElementById('txt-car-kpi-people').innerText = t.carKpiPeople;
+        if (document.getElementById('txt-cartera-home-list-title')) document.getElementById('txt-cartera-home-list-title').innerText = t.carSummaryListTitle;
+        if (document.getElementById('txt-cartera-profile-title')) document.getElementById('txt-cartera-profile-title').innerText = t.carProfileTitle;
+        if (document.getElementById('txt-cartera-profile-help')) document.getElementById('txt-cartera-profile-help').innerText = t.carProfileHelp;
+        if (document.getElementById('lbl-car-search')) document.getElementById('lbl-car-search').innerText = t.carSearch;
+        if (document.getElementById('cartera-search')) document.getElementById('cartera-search').placeholder = t.carSearchPlaceholder;
+        if (document.getElementById('lbl-car-ter')) document.getElementById('lbl-car-ter').innerText = t.ter;
+        if (document.getElementById('lbl-car-nit')) document.getElementById('lbl-car-nit').innerText = t.nit;
+        if (document.getElementById('lbl-car-desc')) document.getElementById('lbl-car-desc').innerText = t.des;
+        if (document.getElementById('lbl-car-amt')) document.getElementById('lbl-car-amt').innerText = t.amt;
+        if (document.getElementById('lbl-car-type')) document.getElementById('lbl-car-type').innerText = t.typ;
+        if (document.getElementById('opt-car-loan')) document.getElementById('opt-car-loan').innerText = t.carLoan;
+        if (document.getElementById('opt-car-payment')) document.getElementById('opt-car-payment').innerText = t.carPayment;
+        if (document.getElementById('btn-car-save')) document.getElementById('btn-car-save').innerText = t.carSave;
+        if (document.getElementById('txt-car-nav-home')) document.getElementById('txt-car-nav-home').innerText = t.home;
+        if (document.getElementById('txt-car-nav-add')) document.getElementById('txt-car-nav-add').innerText = t.add;
+        if (document.getElementById('txt-car-nav-hist')) document.getElementById('txt-car-nav-hist').innerText = t.hist;
+        if (document.getElementById('txt-car-nav-profile')) document.getElementById('txt-car-nav-profile').innerText = t.profile;
         }
 
         if (document.getElementById('txt-profile-title')) {
@@ -882,225 +890,7 @@ let db = JSON.parse(localStorage.getItem('freddy_db_v11')) || [];
         }
     }
 
-    
-    function normalizeCarteraKey(ter, nit) {
-        return `${String(ter || '').trim().toLowerCase()}||${String(nit || '').trim().toLowerCase()}`;
-    }
-
-    let carteraSummaryCache = [];
-    let carteraSelectedKey = '';
-
-    function getCarteraEntries() {
-        return db.filter(item => item.type === 'rec_up' || item.type === 'rec_down');
-    }
-
-    function openCarteraView(view) {
-        ['home', 'quick', 'manage'].forEach(name => {
-            const section = document.getElementById(`cartera-view-${name}`);
-            if (section) {
-                section.style.display = name === view ? 'block' : 'none';
-                section.classList.toggle('active', name === view);
-            }
-        });
-
-        if (view === 'manage') {
-            renderCarteraManagement();
-        }
-    }
-
-    function resetCarteraQuickForm() {
-        ['cartera-ter', 'cartera-nit', 'cartera-desc', 'cartera-amt'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.value = '';
-        });
-        if (document.getElementById('cartera-type')) document.getElementById('cartera-type').value = 'rec_up';
-        if (document.getElementById('cartera-edit-index')) document.getElementById('cartera-edit-index').value = '-1';
-    }
-
-    function fillCarteraQuickForm(item, index = -1) {
-        document.getElementById('cartera-ter').value = item.ter || '';
-        document.getElementById('cartera-nit').value = item.nit || '';
-        document.getElementById('cartera-desc').value = item.desc || '';
-        document.getElementById('cartera-amt').value = item.amt || '';
-        document.getElementById('cartera-type').value = item.type || 'rec_up';
-        document.getElementById('cartera-edit-index').value = String(index);
-    }
-
-    function prepareCarteraQuickFromSummary(key, type) {
-        const summary = carteraSummaryCache.find(item => item.key === key);
-        if (!summary) return;
-        openCarteraView('quick');
-        fillCarteraQuickForm({ ter: summary.ter, nit: summary.nit, desc: '', amt: '', type: type || 'rec_up' }, -1);
-    }
-
-    function saveCarteraData() {
-        const idx = document.getElementById('cartera-edit-index').value;
-        const entry = {
-            ter: document.getElementById('cartera-ter').value.trim(),
-            nit: document.getElementById('cartera-nit').value.trim() || 'N/A',
-            contact: '',
-            email: '',
-            address: '',
-            desc: document.getElementById('cartera-desc').value.trim() || translations[currentLang].carteraNoConcept,
-            amt: parseFloat(document.getElementById('cartera-amt').value),
-            type: document.getElementById('cartera-type').value,
-            afectarSaldo: false,
-            sumarIngreso: false,
-            date: idx === '-1' ? formatLocalDateTime(new Date()) : db[idx].date,
-            monthKey: idx === '-1' ? getMonthKeyFromDate(new Date()) : (db[idx].monthKey || getMonthKeyFromEntry(db[idx])),
-            receiptNumber: idx === '-1' ? generateReceiptNumber(new Date()) : (db[idx].receiptNumber || generateReceiptNumber(parseEntryDate(db[idx])))
-        };
-
-        if (!entry.ter || isNaN(entry.amt)) {
-            alert(currentLang === 'es' ? 'Datos incompletos' : 'Incomplete data');
-            return;
-        }
-
-        if (idx === '-1') {
-            db.push(entry);
-            selectedReceiptIndex = db.length - 1;
-        } else {
-            db[Number(idx)] = entry;
-            selectedReceiptIndex = Number(idx);
-        }
-
-        localStorage.setItem('selected_receipt_index', selectedReceiptIndex);
-        localStorage.setItem('freddy_db_v11', JSON.stringify(db));
-        resetCarteraQuickForm();
-        renderHist();
-        renderCarteraManagement();
-        updateUI();
-        openCarteraView('manage');
-    }
-
-    function buildCarteraSummary() {
-        const grouped = {};
-
-        getCarteraEntries().forEach((item, originalIndex) => {
-            const key = normalizeCarteraKey(item.ter, item.nit);
-            if (!grouped[key]) {
-                grouped[key] = {
-                    key,
-                    ter: item.ter || '',
-                    nit: item.nit || 'N/A',
-                    lent: 0,
-                    paid: 0,
-                    movements: []
-                };
-            }
-
-            const amount = Number(item.amt || 0);
-            if (item.type === 'rec_up') grouped[key].lent += amount;
-            if (item.type === 'rec_down') grouped[key].paid += amount;
-            grouped[key].movements.push({ item, originalIndex });
-        });
-
-        return Object.values(grouped).map(group => {
-            group.balance = group.lent - group.paid;
-            group.movements = group.movements.sort((a, b) => parseEntryDate(b.item) - parseEntryDate(a.item));
-            return group;
-        }).sort((a, b) => Math.abs(b.balance) - Math.abs(a.balance));
-    }
-
-    function renderCarteraDetail(key) {
-        const panel = document.getElementById('cartera-detail-panel');
-        const t = translations[currentLang];
-        if (!panel) return;
-
-        if (!key) {
-            panel.innerHTML = `<div class="cartera-detail-empty">${t.carteraDetailEmpty}</div>`;
-            return;
-        }
-
-        const summary = carteraSummaryCache.find(item => item.key === key);
-        if (!summary) {
-            panel.innerHTML = `<div class="cartera-detail-empty">${t.carteraDetailEmpty}</div>`;
-            return;
-        }
-
-        carteraSelectedKey = key;
-        const escapedKey = summary.key.replace(/'/g, "\\'");
-
-        const movementsHtml = summary.movements.slice(0, 8).map(row => {
-            const receipt = getReceiptTypeData(row.item.type);
-            return `
-                <div class="cartera-movement-item">
-                    <strong>${receipt.tipoTexto} · ${formatMoney(row.item.amt)}</strong>
-                    <small>${row.item.date}</small>
-                    <small>${row.item.desc || t.carteraNoConcept}</small>
-                </div>
-            `;
-        }).join('');
-
-        panel.innerHTML = `
-            <div class="cartera-detail-header">
-                <div>
-                    <h4>${summary.ter}</h4>
-                    <div class="cartera-person-meta">${summary.nit || 'N/A'}</div>
-                </div>
-                <div class="cartera-person-balance">${formatMoney(summary.balance)}</div>
-            </div>
-            <div class="cartera-mini-grid">
-                <div class="cartera-mini-card"><span>${t.carteraTotalLent}</span><strong>${formatMoney(summary.lent)}</strong></div>
-                <div class="cartera-mini-card"><span>${t.carteraTotalPaid}</span><strong>${formatMoney(summary.paid)}</strong></div>
-                <div class="cartera-mini-card"><span>${t.carteraTotalBalance}</span><strong>${formatMoney(summary.balance)}</strong></div>
-            </div>
-            <div class="cartera-detail-actions">
-                <button type="button" class="btn btn-primary" onclick="prepareCarteraQuickFromSummary('${escapedKey}', 'rec_up')">${t.carteraRegisterLoan}</button>
-                <button type="button" class="btn btn-secondary" onclick="prepareCarteraQuickFromSummary('${escapedKey}', 'rec_down')">${t.carteraRegisterPayment}</button>
-            </div>
-            <div class="cartera-movements-title">${t.carteraMovements}</div>
-            ${movementsHtml || `<div class="cartera-detail-empty">${t.empty}</div>`}
-        `;
-    }
-
-    function renderCarteraManagement() {
-        const list = document.getElementById('cartera-summary-list');
-        const t = translations[currentLang];
-        if (!list) return;
-
-        carteraSummaryCache = buildCarteraSummary();
-        const searchValue = (document.getElementById('cartera-search') ? document.getElementById('cartera-search').value : '').trim().toLowerCase();
-        const filtered = carteraSummaryCache.filter(item => !searchValue || item.ter.toLowerCase().includes(searchValue) || String(item.nit || '').toLowerCase().includes(searchValue));
-
-        document.getElementById('cartera-total-lent').innerText = formatMoney(carteraSummaryCache.reduce((acc, item) => acc + item.lent, 0));
-        document.getElementById('cartera-total-paid').innerText = formatMoney(carteraSummaryCache.reduce((acc, item) => acc + item.paid, 0));
-        document.getElementById('cartera-total-balance').innerText = formatMoney(carteraSummaryCache.reduce((acc, item) => acc + item.balance, 0));
-        document.getElementById('cartera-total-people').innerText = String(carteraSummaryCache.length);
-
-        if (!filtered.length) {
-            list.innerHTML = `<div class="cartera-empty-card">${t.carteraEmpty}</div>`;
-            renderCarteraDetail('');
-            return;
-        }
-
-        if (!carteraSelectedKey || !filtered.some(item => item.key === carteraSelectedKey)) {
-            carteraSelectedKey = filtered[0].key;
-        }
-
-        list.innerHTML = filtered.map(item => {
-            const keyEscaped = item.key.replace(/'/g, "\\'");
-            return `
-                <div class="cartera-person-card ${item.key === carteraSelectedKey ? 'active' : ''}" onclick="selectCarteraPerson('${keyEscaped}')">
-                    <div class="cartera-person-top">
-                        <div class="cartera-person-name">${item.ter}</div>
-                        <div class="cartera-person-balance">${formatMoney(item.balance)}</div>
-                    </div>
-                    <div class="cartera-person-meta">${item.nit || 'N/A'}</div>
-                    <div class="cartera-person-last">${t.carteraTotalLent}: ${formatMoney(item.lent)} · ${t.carteraTotalPaid}: ${formatMoney(item.paid)}</div>
-                </div>
-            `;
-        }).join('');
-
-        renderCarteraDetail(carteraSelectedKey);
-    }
-
-    function selectCarteraPerson(key) {
-        carteraSelectedKey = key;
-        renderCarteraManagement();
-    }
-
-function toggleAbonoLogic() {
+    function toggleAbonoLogic() {
         const type = document.getElementById('type').value;
 
         document.getElementById('deuda-up-logic').style.display =
@@ -1110,7 +900,261 @@ function toggleAbonoLogic() {
             type === 'deu_down' ? 'flex' : 'none';
     }
 
-    function nav(id, el) {
+    
+    function switchModule(moduleName) {
+        currentModule = moduleName;
+
+        const selector = document.getElementById('module-selector-screen');
+        const mainModule = document.getElementById('main-module');
+        const carteraModule = document.getElementById('cartera-module');
+        const mainNav = document.getElementById('main-bottom-nav');
+        const carteraNavBar = document.getElementById('cartera-bottom-nav');
+
+        if (selector) selector.style.display = moduleName === 'selector' ? 'flex' : 'none';
+        if (mainModule) mainModule.style.display = moduleName === 'main' ? 'block' : 'none';
+        if (carteraModule) carteraModule.style.display = moduleName === 'cartera' ? 'block' : 'none';
+        if (mainNav) mainNav.style.display = moduleName === 'main' ? 'flex' : 'none';
+        if (carteraNavBar) carteraNavBar.style.display = moduleName === 'cartera' ? 'flex' : 'none';
+
+        if (moduleName === 'main') {
+            updateUI();
+        }
+
+        if (moduleName === 'cartera') {
+            renderCarteraHome();
+            renderCarteraHist();
+            renderCarteraProfile();
+        }
+    }
+
+    function openMainModule() {
+        switchModule('main');
+        const btn = document.getElementById('main-nav-home');
+        if (btn) nav('scr-home', btn);
+    }
+
+    function openCarteraModule() {
+        switchModule('cartera');
+        const btn = document.getElementById('car-nav-home');
+        if (btn) carteraNav('cartera-scr-home', btn);
+    }
+
+    function normalizeCarteraKey(ter, nit) {
+        return `${String(ter || '').trim().toLowerCase()}||${String(nit || '').trim().toLowerCase()}`;
+    }
+
+    function saveCarteraStorage() {
+        localStorage.setItem('finanzasjl_cartera_v1', JSON.stringify(carteraDb));
+    }
+
+    function getCarteraSummary() {
+        const grouped = {};
+
+        carteraDb.forEach((item, index) => {
+            const key = normalizeCarteraKey(item.ter, item.nit);
+            if (!grouped[key]) {
+                grouped[key] = {
+                    ter: item.ter || '',
+                    nit: item.nit || 'N/A',
+                    totalLent: 0,
+                    totalPaid: 0,
+                    lastDate: item.date || '',
+                    items: []
+                };
+            }
+
+            if (item.type === 'loan') grouped[key].totalLent += Number(item.amt || 0);
+            if (item.type === 'payment') grouped[key].totalPaid += Number(item.amt || 0);
+            grouped[key].items.push({ item, index });
+            grouped[key].lastDate = item.date || grouped[key].lastDate;
+        });
+
+        return Object.values(grouped).map(row => ({
+            ...row,
+            balance: row.totalLent - row.totalPaid,
+            items: row.items.sort((a, b) => parseEntryDate(b.item) - parseEntryDate(a.item))
+        })).sort((a, b) => Math.abs(b.balance) - Math.abs(a.balance));
+    }
+
+    function renderCarteraHome() {
+        const summary = getCarteraSummary();
+        const list = document.getElementById('cartera-home-summary');
+        const t = translations[currentLang];
+        if (!list) return;
+
+        const totalLent = summary.reduce((acc, row) => acc + row.totalLent, 0);
+        const totalPaid = summary.reduce((acc, row) => acc + row.totalPaid, 0);
+        const balance = summary.reduce((acc, row) => acc + row.balance, 0);
+
+        document.getElementById('car-kpi-lent').innerText = formatMoney(totalLent);
+        document.getElementById('car-kpi-paid').innerText = formatMoney(totalPaid);
+        document.getElementById('car-kpi-balance').innerText = formatMoney(balance);
+        document.getElementById('car-kpi-people').innerText = String(summary.length);
+
+        if (!summary.length) {
+            list.innerHTML = `<div class="cartera-empty-text">${t.carNoData}</div>`;
+            return;
+        }
+
+        list.innerHTML = summary.slice(0, 8).map(row => `
+            <div class="cartera-person-card">
+                <div class="cartera-person-top">
+                    <div class="cartera-person-name">${row.ter}</div>
+                    <div class="cartera-person-balance">${formatMoney(row.balance)}</div>
+                </div>
+                <div class="cartera-person-meta">${row.nit || 'N/A'}</div>
+                <div class="cartera-person-extra">${t.carTotalLent}: ${formatMoney(row.totalLent)} · ${t.carTotalPaid}: ${formatMoney(row.totalPaid)}</div>
+                <div class="cartera-person-extra">${t.carLastDate}: ${row.items[0]?.item?.date || '-'}</div>
+            </div>
+        `).join('');
+    }
+
+    function resetCarteraForm() {
+        document.getElementById('cartera-edit-index').value = '-1';
+        document.getElementById('cartera-ter').value = '';
+        document.getElementById('cartera-nit').value = '';
+        document.getElementById('cartera-desc').value = '';
+        document.getElementById('cartera-amt').value = '';
+        document.getElementById('cartera-type').value = 'loan';
+    }
+
+    function saveCarteraRecord() {
+        const idx = document.getElementById('cartera-edit-index').value;
+        const entry = {
+            ter: document.getElementById('cartera-ter').value.trim(),
+            nit: document.getElementById('cartera-nit').value.trim() || 'N/A',
+            desc: document.getElementById('cartera-desc').value.trim() || 'Sin concepto',
+            amt: parseFloat(document.getElementById('cartera-amt').value),
+            type: document.getElementById('cartera-type').value,
+            date: idx === '-1' ? formatLocalDateTime(new Date()) : carteraDb[Number(idx)].date
+        };
+
+        if (!entry.ter || isNaN(entry.amt)) {
+            alert(currentLang === 'es' ? 'Datos incompletos' : 'Incomplete data');
+            return;
+        }
+
+        if (idx === '-1') {
+            carteraDb.push(entry);
+        } else {
+            carteraDb[Number(idx)] = entry;
+        }
+
+        saveCarteraStorage();
+        resetCarteraForm();
+        renderCarteraHome();
+        renderCarteraHist();
+        renderCarteraProfile();
+        const btn = document.getElementById('car-nav-hist');
+        if (btn) carteraNav('cartera-scr-hist', btn);
+    }
+
+    function editCarteraRecord(index) {
+        const item = carteraDb[index];
+        if (!item) return;
+
+        document.getElementById('cartera-edit-index').value = String(index);
+        document.getElementById('cartera-ter').value = item.ter || '';
+        document.getElementById('cartera-nit').value = item.nit || '';
+        document.getElementById('cartera-desc').value = item.desc || '';
+        document.getElementById('cartera-amt').value = item.amt || '';
+        document.getElementById('cartera-type').value = item.type || 'loan';
+
+        openCarteraModule();
+        const btn = document.getElementById('car-nav-add');
+        if (btn) carteraNav('cartera-scr-add', btn);
+    }
+
+    function deleteCarteraRecord(index) {
+        const t = translations[currentLang];
+        if (!confirm(t.carDeleteConfirm)) return;
+        carteraDb.splice(index, 1);
+        saveCarteraStorage();
+        renderCarteraHome();
+        renderCarteraHist();
+        renderCarteraProfile();
+    }
+
+    function renderCarteraHist() {
+        const list = document.getElementById('cartera-hist-list');
+        const t = translations[currentLang];
+        if (!list) return;
+
+        if (!carteraDb.length) {
+            list.innerHTML = `<div class="card"><div class="cartera-empty-text">${t.carNoData}</div></div>`;
+            return;
+        }
+
+        const sorted = carteraDb.map((item, index) => ({ item, index }))
+            .sort((a, b) => parseEntryDate(b.item) - parseEntryDate(a.item));
+
+        list.innerHTML = sorted.map(row => {
+            const typeText = row.item.type === 'loan' ? t.carLoan : t.carPayment;
+            return `
+                <div class="card" style="margin-bottom:12px;">
+                    <div class="cartera-person-top">
+                        <div>
+                            <div class="cartera-person-name">${row.item.ter}</div>
+                            <div class="cartera-person-meta">${row.item.nit || 'N/A'}</div>
+                        </div>
+                        <div class="cartera-person-balance">${formatMoney(row.item.amt)}</div>
+                    </div>
+                    <div class="cartera-person-extra">${typeText}</div>
+                    <div class="cartera-person-extra">${row.item.desc || '-'}</div>
+                    <div class="cartera-person-extra">${row.item.date || '-'}</div>
+                    <div class="cartera-actions-row">
+                        <button type="button" class="btn btn-secondary" onclick="editCarteraRecord(${row.index})">${t.carEdit}</button>
+                        <button type="button" class="btn btn-secondary" onclick="deleteCarteraRecord(${row.index})">${t.carDelete}</button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function renderCarteraProfile() {
+        const list = document.getElementById('cartera-profile-list');
+        const search = document.getElementById('cartera-search');
+        const t = translations[currentLang];
+        if (!list) return;
+
+        const term = (search ? search.value : '').trim().toLowerCase();
+        const summary = getCarteraSummary().filter(row => !term || row.ter.toLowerCase().includes(term) || String(row.nit || '').toLowerCase().includes(term));
+
+        if (!summary.length) {
+            list.innerHTML = `<div class="cartera-empty-text">${t.carNoData}</div>`;
+            return;
+        }
+
+        list.innerHTML = summary.map(row => `
+            <div class="cartera-person-card">
+                <div class="cartera-person-top">
+                    <div>
+                        <div class="cartera-person-name">${row.ter}</div>
+                        <div class="cartera-person-meta">${row.nit || 'N/A'}</div>
+                    </div>
+                    <div class="cartera-person-balance">${formatMoney(row.balance)}</div>
+                </div>
+                <div class="cartera-person-extra">${t.carTotalLent}: ${formatMoney(row.totalLent)}</div>
+                <div class="cartera-person-extra">${t.carTotalPaid}: ${formatMoney(row.totalPaid)}</div>
+                <div class="cartera-person-extra">${t.carLastDate}: ${row.items[0]?.item?.date || '-'}</div>
+            </div>
+        `).join('');
+    }
+
+    function carteraNav(id, el) {
+        document.querySelectorAll('.cartera-screen').forEach(screen => screen.classList.remove('active'));
+        const target = document.getElementById(id);
+        if (target) target.classList.add('active');
+
+        document.querySelectorAll('#cartera-bottom-nav .nav-item').forEach(btn => btn.classList.remove('active'));
+        if (el) el.classList.add('active');
+
+        if (id === 'cartera-scr-home') renderCarteraHome();
+        if (id === 'cartera-scr-hist') renderCarteraHist();
+        if (id === 'cartera-scr-profile') renderCarteraProfile();
+    }
+
+function nav(id, el) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
 
@@ -1126,10 +1170,6 @@ function toggleAbonoLogic() {
 
         if (id === 'scr-profile') {
             loadProfileForm();
-        }
-
-        if (id === 'scr-cartera') {
-            renderCarteraManagement();
         }
 
         updateUI();
@@ -1500,9 +1540,7 @@ function toggleAbonoLogic() {
             ['in', t.in],
             ['out', t.out],
             ['deu_up', t.optDeuUp],
-            ['deu_down', t.optDeuDown],
-            ['rec_up', t.optRecUp],
-            ['rec_down', t.optRecDown]
+            ['deu_down', t.optDeuDown]
         ];
 
         return options.map(([value, label]) => `
@@ -1715,14 +1753,6 @@ function toggleAbonoLogic() {
     function editItem(index) {
         const item = db[index];
 
-        if (item.type === 'rec_up' || item.type === 'rec_down') {
-            const carteraBtn = document.getElementById('nav-cartera-btn');
-            nav('scr-cartera', carteraBtn || null);
-            openCarteraView('quick');
-            fillCarteraQuickForm(item, index);
-            return;
-        }
-
         document.getElementById('ter').value = item.ter;
         document.getElementById('nit').value = item.nit || '';
         if (document.getElementById('ter-contact')) document.getElementById('ter-contact').value = item.contact || '';
@@ -1771,14 +1801,6 @@ function toggleAbonoLogic() {
 
         if (type === 'deu_down') {
             return { tipoTexto: t.optDeuDown, badgeClass: "badge-deu", movimientoTexto: t.debtDownName };
-        }
-
-        if (type === 'rec_up') {
-            return { tipoTexto: t.optRecUp, badgeClass: "badge-in", movimientoTexto: t.receivableUpName };
-        }
-
-        if (type === 'rec_down') {
-            return { tipoTexto: t.optRecDown, badgeClass: "badge-out", movimientoTexto: t.receivableDownName };
         }
 
         return { tipoTexto: t.optIn, badgeClass: "badge-in", movimientoTexto: t.incomeName };
@@ -2461,3 +2483,7 @@ function toggleAbonoLogic() {
     applyLang();
     updateUI();
     loadProfileForm();
+    renderCarteraHome();
+    renderCarteraHist();
+    renderCarteraProfile();
+    switchModule('selector');

@@ -1185,44 +1185,139 @@
         }
 
 
-/* CARTERA DOS AMBIENTES */
-.cartera-subtitle, .cartera-section-help { font-size:0.84rem; color:#666; line-height:1.4; }
-.cartera-entry-grid { display:grid; grid-template-columns:1fr; gap:12px; }
-.cartera-entry-btn { width:100%; border:1px solid #dbeafe; background:#eff6ff; border-radius:16px; padding:18px 16px; text-align:left; display:flex; flex-direction:column; gap:6px; cursor:pointer; }
-.cartera-entry-btn.secondary { background:#faf5ff; border-color:#e9d5ff; }
-.cartera-entry-icon { font-size:1.6rem; }
-.cartera-entry-btn strong { font-size:1rem; color:#111827; }
-.cartera-entry-btn small { color:#6b7280; line-height:1.35; }
-.cartera-section-card, .cartera-intro-card { border-left:5px solid var(--primary); }
-.cartera-section-head { display:flex; gap:10px; align-items:flex-start; margin-bottom:14px; }
-.cartera-back-btn { min-width:42px; padding:10px 12px; }
-.cartera-quick-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
-.cartera-summary-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
-.cartera-summary-card { background:#f9fafb; border:1px solid #e5e7eb; border-radius:12px; padding:12px; }
-.cartera-summary-card.highlight { background:#eff6ff; border-color:#bfdbfe; }
-.cartera-summary-card span { display:block; color:#6b7280; font-size:0.75rem; margin-bottom:4px; }
-.cartera-summary-card strong { color:#111827; font-size:1rem; }
-.cartera-manage-layout { display:grid; grid-template-columns:1fr; gap:12px; }
-.cartera-person-card { border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#fff; cursor:pointer; margin-bottom:8px; }
-.cartera-person-card.active { border-color:var(--primary); box-shadow:0 0 0 2px rgba(31,78,121,0.08); }
-.cartera-person-top { display:flex; justify-content:space-between; gap:10px; margin-bottom:6px; }
-.cartera-person-name { font-weight:800; color:#111827; }
-.cartera-person-balance { font-weight:800; color:var(--primary); white-space:nowrap; }
-.cartera-person-meta, .cartera-person-last { color:#6b7280; font-size:0.79rem; line-height:1.35; }
-.cartera-detail-panel { border:1px solid #e5e7eb; border-radius:14px; padding:14px; background:#fcfcfd; min-height:160px; }
-.cartera-detail-empty { color:#6b7280; font-size:0.84rem; line-height:1.45; }
-.cartera-detail-header { display:flex; justify-content:space-between; gap:10px; align-items:flex-start; margin-bottom:10px; }
-.cartera-detail-header h4 { color:#111827; margin:0 0 4px; }
-.cartera-mini-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-bottom:12px; }
-.cartera-mini-card { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:10px; }
-.cartera-mini-card span { display:block; font-size:0.72rem; color:#6b7280; margin-bottom:3px; }
-.cartera-mini-card strong { font-size:0.92rem; color:#111827; }
-.cartera-detail-actions { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:12px; }
-.cartera-movements-title { font-size:0.82rem; font-weight:800; color:#374151; margin-bottom:8px; }
-.cartera-movement-item { border-top:1px solid #eef2f7; padding:8px 0; }
-.cartera-movement-item:first-child { border-top:0; padding-top:0; }
-.cartera-movement-item strong { color:#111827; }
-.cartera-movement-item small { color:#6b7280; display:block; margin-top:2px; }
-.cartera-empty-card { border:1px dashed #cbd5e1; border-radius:12px; padding:16px; color:#6b7280; text-align:center; font-size:0.84rem; background:#fff; }
-@media (min-width:920px){ .cartera-manage-layout { grid-template-columns:minmax(0,1fr) minmax(320px,.95fr); } }
-@media (max-width:560px){ .cartera-summary-grid, .cartera-mini-grid { grid-template-columns:1fr; } }
+/* =========================
+   SELECTOR DE MÓDULOS
+========================= */
+.module-selector-screen {
+    min-height: calc(100vh - 88px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px 0 92px;
+}
+.module-selector-card {
+    width: 100%;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    padding: 22px 18px;
+    border: 1px solid #e5e7eb;
+}
+.module-selector-icon {
+    width: 62px;
+    height: 62px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eff6ff;
+    font-size: 1.8rem;
+    margin-bottom: 12px;
+}
+.module-selector-card h2 {
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+.module-help-text,
+.module-selector-card p {
+    color: #6b7280;
+    line-height: 1.45;
+    font-size: 0.88rem;
+}
+.module-entry-grid {
+    display: grid;
+    gap: 12px;
+    margin-top: 18px;
+}
+.module-entry-btn {
+    width: 100%;
+    border: 1px solid #dbeafe;
+    background: #eff6ff;
+    border-radius: 16px;
+    padding: 16px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.module-entry-btn.secondary {
+    background: #faf5ff;
+    border-color: #e9d5ff;
+}
+.module-entry-btn strong {
+    font-size: 1rem;
+    color: #111827;
+}
+.module-entry-btn small {
+    color: #6b7280;
+    line-height: 1.35;
+}
+.module-entry-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background: rgba(31,78,121,0.12);
+    color: var(--primary);
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+.module-switch-bar {
+    padding: 0 0 10px;
+}
+.module-switch-btn {
+    border: 1px solid #d1d5db;
+    background: #fff;
+    color: #374151;
+    padding: 10px 14px;
+    border-radius: 999px;
+    font-weight: 700;
+}
+
+/* =========================
+   MÓDULO CARTERA
+========================= */
+.cartera-screen { display:none; }
+.cartera-screen.active { display:block; }
+.cartera-hero-card { border-left: 5px solid var(--primary); }
+.cartera-person-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 12px;
+    margin-bottom: 10px;
+}
+.cartera-person-top {
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+.cartera-person-name {
+    font-weight: 800;
+    color: #111827;
+}
+.cartera-person-balance {
+    font-weight: 800;
+    color: var(--primary);
+    white-space: nowrap;
+}
+.cartera-person-meta,
+.cartera-person-extra,
+.cartera-empty-text {
+    color: #6b7280;
+    font-size: 0.82rem;
+    line-height: 1.38;
+}
+.cartera-actions-row {
+    display:flex;
+    gap:8px;
+    margin-top:10px;
+}
+.section-title-row h3 {
+    color: var(--primary);
+    margin-bottom: 10px;
+}

@@ -110,6 +110,34 @@
     </div>
 </div>
 
+
+<div id="module-selector-screen" class="module-selector-screen">
+    <div class="module-selector-card">
+        <div class="module-selector-icon">🚀</div>
+        <h2 id="txt-selector-title">Selecciona un módulo</h2>
+        <p id="txt-selector-help">Al abrir la app, elige si quieres entrar al módulo principal o al módulo de cartera.</p>
+
+        <div class="module-entry-grid">
+            <button type="button" class="module-entry-btn" onclick="openMainModule()">
+                <span class="module-entry-badge">1</span>
+                <strong id="txt-selector-main-title">Módulo principal</strong>
+                <small id="txt-selector-main-desc">Accede a Inicio, Nuevo, Historial y Perfil del sistema actual.</small>
+            </button>
+
+            <button type="button" class="module-entry-btn secondary" onclick="openCarteraModule()">
+                <span class="module-entry-badge">2</span>
+                <strong id="txt-selector-cartera-title">Módulo cartera</strong>
+                <small id="txt-selector-cartera-desc">Accede a Inicio, Nuevo, Historial y Perfil solo para cartera.</small>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="main-module" style="display:none;">
+    <div class="module-switch-bar">
+        <button type="button" class="module-switch-btn" onclick="switchModule('selector')">← <span id="txt-change-module-main">Cambiar módulo</span></button>
+    </div>
+
 <!-- VISTA INICIO -->
 <div id="scr-home" class="screen active">
     <div id="premium-status-card" class="premium-bubble">
@@ -266,97 +294,7 @@
     <div id="hist-list"></div>
 </div>
 
-
-<!-- VISTA CARTERA -->
-<div id="scr-cartera" class="screen">
-    <div id="cartera-view-home" class="cartera-view active">
-        <div class="card cartera-intro-card">
-            <h3 id="txt-cartera-title" style="color:var(--primary); margin-bottom:8px;">💼 Cartera</h3>
-            <p id="txt-cartera-subtitle" class="cartera-subtitle">Elige cómo deseas trabajar la cartera por cobrar.</p>
-        </div>
-        <div class="cartera-entry-grid">
-            <button type="button" class="cartera-entry-btn" onclick="openCarteraView('quick')">
-                <span class="cartera-entry-icon">⚡</span>
-                <strong id="txt-cartera-quick-title">Registro rápido</strong>
-                <small id="txt-cartera-quick-desc">Registrar préstamo o abono sin salir de cartera.</small>
-            </button>
-            <button type="button" class="cartera-entry-btn secondary" onclick="openCarteraView('manage')">
-                <span class="cartera-entry-icon">📂</span>
-                <strong id="txt-cartera-manage-title">Gestión de cartera</strong>
-                <small id="txt-cartera-manage-desc">Ver resumen, terceros y saldos pendientes.</small>
-            </button>
-        </div>
-    </div>
-
-    <div id="cartera-view-quick" class="cartera-view" style="display:none;">
-        <div class="card cartera-section-card">
-            <div class="cartera-section-head">
-                <button type="button" class="btn btn-light cartera-back-btn" onclick="openCarteraView('home')">←</button>
-                <div>
-                    <h3 id="txt-cartera-quick-header" style="color:var(--primary); margin-bottom:4px;">⚡ Registro rápido</h3>
-                    <p id="txt-cartera-quick-help" class="cartera-section-help">Registra préstamos y abonos sin afectar ingresos ni gastos.</p>
-                </div>
-            </div>
-            <input type="hidden" id="cartera-edit-index" value="-1">
-            <div class="form-group">
-                <label id="lbl-cartera-ter">Nombre / Razón social</label>
-                <input type="text" id="cartera-ter" placeholder="Ej: Cliente o empresa">
-            </div>
-            <div class="form-group">
-                <label id="lbl-cartera-nit">NIT / CC</label>
-                <input type="text" id="cartera-nit" placeholder="Ej: 123456789">
-            </div>
-            <div class="form-group">
-                <label id="lbl-cartera-desc">Concepto</label>
-                <input type="text" id="cartera-desc" placeholder="Ej: Préstamo inicial o abono parcial">
-            </div>
-            <div class="form-group">
-                <label id="lbl-cartera-amt">Monto</label>
-                <input type="number" id="cartera-amt">
-            </div>
-            <div class="form-group">
-                <label id="lbl-cartera-type">Tipo</label>
-                <select id="cartera-type">
-                    <option value="rec_up" id="opt-rec-up">Cartera (Préstamo +)</option>
-                    <option value="rec_down" id="opt-rec-down">Cartera (Abono -)</option>
-                </select>
-            </div>
-            <div class="cartera-quick-actions">
-                <button id="btn-cartera-save" type="button" onclick="saveCarteraData()" class="btn btn-primary">💾 Guardar movimiento</button>
-                <button id="btn-cartera-cancel" type="button" onclick="resetCarteraQuickForm(); openCarteraView('home');" class="btn btn-secondary">Cancelar</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="cartera-view-manage" class="cartera-view" style="display:none;">
-        <div class="card cartera-section-card">
-            <div class="cartera-section-head">
-                <button type="button" class="btn btn-light cartera-back-btn" onclick="openCarteraView('home')">←</button>
-                <div>
-                    <h3 id="txt-cartera-manage-header" style="color:var(--primary); margin-bottom:4px;">📂 Gestión de cartera</h3>
-                    <p id="txt-cartera-manage-help" class="cartera-section-help">Controla el estado de cada tercero y consulta su historial.</p>
-                </div>
-            </div>
-            <div class="cartera-summary-grid">
-                <div class="cartera-summary-card"><span id="txt-cartera-total-lent">Total prestado</span><strong id="cartera-total-lent">$ 0</strong></div>
-                <div class="cartera-summary-card"><span id="txt-cartera-total-paid">Total abonado</span><strong id="cartera-total-paid">$ 0</strong></div>
-                <div class="cartera-summary-card highlight"><span id="txt-cartera-total-balance">Saldo pendiente</span><strong id="cartera-total-balance">$ 0</strong></div>
-                <div class="cartera-summary-card"><span id="txt-cartera-total-people">Terceros</span><strong id="cartera-total-people">0</strong></div>
-            </div>
-            <div class="form-group" style="margin-top:14px; margin-bottom:10px;">
-                <label id="lbl-cartera-search">Buscar tercero</label>
-                <input type="text" id="cartera-search" oninput="renderCarteraManagement()" placeholder="Nombre o identificación">
-            </div>
-            <div class="cartera-manage-layout">
-                <div><div id="cartera-summary-list"></div></div>
-                <div id="cartera-detail-panel" class="cartera-detail-panel"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- VISTA PERFIL / EMISOR -->
-
 <div id="scr-profile" class="screen">
 
     <div class="card auth-card">
@@ -524,25 +462,130 @@
 </div>
 
 <!-- NAVEGACIÓN INFERIOR -->
-<nav class="bottom-nav">
-    <button class="nav-item active" onclick="nav('scr-home', this)">
+</div>
+
+<nav class="bottom-nav" id="main-bottom-nav" style="display:none;">
+    <button class="nav-item active" id="main-nav-home" onclick="nav('scr-home', this)">
         🏠<br><span id="txt-nav-home">Inicio</span>
     </button>
 
-    <button class="nav-item" onclick="nav('scr-add', this)">
+    <button class="nav-item" id="main-nav-add" onclick="nav('scr-add', this)">
         ➕<br><span id="txt-nav-add">Nuevo</span>
     </button>
 
-    <button class="nav-item" onclick="nav('scr-hist', this)">
+    <button class="nav-item" id="main-nav-hist" onclick="nav('scr-hist', this)">
         📜<br><span id="txt-nav-hist">Historial</span>
     </button>
 
-    <button class="nav-item" id="nav-cartera-btn" onclick="nav('scr-cartera', this)">
-        💼<br><span id="txt-nav-cartera">Cartera</span>
+    <button class="nav-item" id="main-nav-profile" onclick="nav('scr-profile', this)">
+        👤<br><span id="txt-nav-profile">Perfil</span>
+    </button>
+</nav>
+
+<div id="cartera-module" style="display:none;">
+    <div class="module-switch-bar">
+        <button type="button" class="module-switch-btn" onclick="switchModule('selector')">← <span id="txt-change-module-cartera">Cambiar módulo</span></button>
+    </div>
+
+    <div id="cartera-scr-home" class="cartera-screen active">
+        <div class="card cartera-hero-card">
+            <h3 id="txt-cartera-home-title" style="color:var(--primary); margin-bottom:6px;">💼 Inicio cartera</h3>
+            <p id="txt-cartera-home-help" class="module-help-text">Resumen rápido del dinero prestado y recuperado.</p>
+        </div>
+        <div class="kpi-grid">
+            <div class="kpi-card" style="border-top-color:var(--accent)">
+                <div id="txt-car-kpi-lent">Prestado</div>
+                <div id="car-kpi-lent" style="color:var(--accent); font-weight:bold;">$ 0</div>
+            </div>
+            <div class="kpi-card" style="border-top-color:#16a34a">
+                <div id="txt-car-kpi-paid">Abonado</div>
+                <div id="car-kpi-paid" style="color:#16a34a; font-weight:bold;">$ 0</div>
+            </div>
+            <div class="kpi-card" style="border-top-color:#f59e0b">
+                <div id="txt-car-kpi-balance">Pendiente</div>
+                <div id="car-kpi-balance" style="color:#f59e0b; font-weight:bold;">$ 0</div>
+            </div>
+            <div class="kpi-card" style="border-top-color:var(--primary)">
+                <div id="txt-car-kpi-people">Terceros</div>
+                <div id="car-kpi-people" style="color:var(--primary); font-weight:bold;">0</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="section-title-row">
+                <h3 id="txt-cartera-home-list-title">Resumen por tercero</h3>
+            </div>
+            <div id="cartera-home-summary"></div>
+        </div>
+    </div>
+
+    <div id="cartera-scr-add" class="cartera-screen">
+        <div class="card">
+            <input type="hidden" id="cartera-edit-index" value="-1">
+
+            <div class="form-group">
+                <label id="lbl-car-ter">Nombre / Razón social</label>
+                <input type="text" id="cartera-ter" placeholder="Ej: Cliente o empresa">
+            </div>
+
+            <div class="form-group">
+                <label id="lbl-car-nit">NIT / CC</label>
+                <input type="text" id="cartera-nit" placeholder="Ej: 123456789">
+            </div>
+
+            <div class="form-group">
+                <label id="lbl-car-desc">Concepto</label>
+                <input type="text" id="cartera-desc" placeholder="Ej: Préstamo inicial o abono parcial">
+            </div>
+
+            <div class="form-group">
+                <label id="lbl-car-amt">Monto</label>
+                <input type="number" id="cartera-amt">
+            </div>
+
+            <div class="form-group">
+                <label id="lbl-car-type">Tipo</label>
+                <select id="cartera-type">
+                    <option value="loan" id="opt-car-loan">Cartera (Préstamo +)</option>
+                    <option value="payment" id="opt-car-payment">Cartera (Abono -)</option>
+                </select>
+            </div>
+
+            <button id="btn-car-save" onclick="saveCarteraRecord()" class="btn btn-primary">💾 Guardar movimiento</button>
+        </div>
+    </div>
+
+    <div id="cartera-scr-hist" class="cartera-screen">
+        <div id="cartera-hist-list"></div>
+    </div>
+
+    <div id="cartera-scr-profile" class="cartera-screen">
+        <div class="card">
+            <h3 id="txt-cartera-profile-title" style="color:var(--primary); margin-bottom:6px;">👤 Perfil cartera</h3>
+            <p id="txt-cartera-profile-help" class="module-help-text">Consulta saldos por tercero y usa este espacio para ir ajustando el módulo de cartera.</p>
+            <div class="form-group" style="margin-top:12px; margin-bottom:10px;">
+                <label id="lbl-car-search">Buscar tercero</label>
+                <input type="text" id="cartera-search" oninput="renderCarteraProfile()" placeholder="Nombre o identificación">
+            </div>
+            <div id="cartera-profile-list"></div>
+        </div>
+    </div>
+</div>
+
+<nav class="bottom-nav" id="cartera-bottom-nav" style="display:none;">
+    <button class="nav-item active" id="car-nav-home" onclick="carteraNav('cartera-scr-home', this)">
+        🏠<br><span id="txt-car-nav-home">Inicio</span>
     </button>
 
-    <button class="nav-item" onclick="nav('scr-profile', this)">
-        👤<br><span id="txt-nav-profile">Perfil</span>
+    <button class="nav-item" id="car-nav-add" onclick="carteraNav('cartera-scr-add', this)">
+        ➕<br><span id="txt-car-nav-add">Nuevo</span>
+    </button>
+
+    <button class="nav-item" id="car-nav-hist" onclick="carteraNav('cartera-scr-hist', this)">
+        📜<br><span id="txt-car-nav-hist">Historial</span>
+    </button>
+
+    <button class="nav-item" id="car-nav-profile" onclick="carteraNav('cartera-scr-profile', this)">
+        👤<br><span id="txt-car-nav-profile">Perfil</span>
     </button>
 </nav>
 
